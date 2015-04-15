@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DetalleVentaListForm">
+        <p:fieldset legend="Punta de Venta">
+            <p:dataTable id="datalist" 
+                         var="item"
+                         value="#{detalleVentaManagedBean.tablaDetalleVentaLista}" 
+                         paginator="true" 
+                         rows="5"  
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"  
+                         rowsPerPageTemplate="5,10,15" 
+                         lazy="true"
+                         resizableColumns="true"  
+                         selectionMode="single"
+                         selection="#{detalleVentaManagedBean.selected}"
+                         rowKey="#{item.idDetalleVenta}" 
+                         paginatorPosition="bottom">
+
+                <!--                <p:ajax event="rowSelect"   update="createButton editButton deleteButton viewButton"/>
+                                <p:ajax event="rowUnselect" update="createButton editButton deleteButton viewButton"/>-->
+                <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Producto"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProducto.nombreProducto}"/>
+                </p:column>
+                <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Cantidad"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cantidadDetalleVenta}"/>
+                </p:column>
+
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{detalleVentaManagedBean.toCreateDetalle}"/>                        
+<!--                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{crudbundle.Edit}" update="@(#DetalleCompraAlimentoEditForm)" oncomplete="DetalleCompraAlimentoEditDialog.show()" disabled="#{empty detalleCompraAlimentoManagedBean.selected}"/>
+                        <p:commandButton id="deleteButton"  icon="ui-icon-trash"  value="#{crudbundle.Delete}" actionListener="#{detalleCompraAlimentoManagedBean.delete}" update=":growl,datalist" disabled="#{empty detalleCompraAlimentoManagedBean.selected}"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{crudbundle.View}" update="@(#DetalleCompraAlimentoViewForm)" oncomplete="DetalleCompraAlimentoViewDialog.show()" disabled="#{empty detalleCompraAlimentoManagedBean.selected}"/>-->
+
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+
+
+        </p:fieldset>
+    </h:form>
+</ui:composition>

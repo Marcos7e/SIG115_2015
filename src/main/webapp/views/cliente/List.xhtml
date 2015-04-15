@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ClienteListForm">
+        <p:fieldset legend="cliente">
+            <p:dataTable id="datalist" 
+                         var="item"
+                         value="#{descuentosManagedBean.items}" 
+                         paginator="true" 
+                         rows="5"  
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"  
+                         rowsPerPageTemplate="5,10,15" 
+                         lazy="true"
+                         resizableColumns="true"  
+                         selectionMode="single"
+                         selection="#{descuentosManagedBean.selected}"
+                         rowKey="#{item.idDescuento}" 
+                         paginatorPosition="bottom"> 
+ 
+                
+                
+
+                <p:ajax event="rowSelect"   update="createButton editButton deleteButton "/>
+                <p:ajax event="rowUnselect" update="createButton editButton deleteButton "/>
+
+                <p:column sortBy="#{item.nombreClienteCompVenta}" filterBy="#{item.nombreClienteCompVenta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{crudbundle.ListClienteTitle_nombreClienteCompVenta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreClienteCompVenta}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.direccionCliente}" filterBy="#{item.direccionCliente}">
+                    <f:facet name="header">
+                        <h:outputText value="#{crudbundle.ListClienteTitle_direccionCliente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.direccionCliente}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoCliente}" filterBy="#{item.tipoCliente}">
+                    <f:facet name="header">
+                        <h:outputText value="#{crudbundle.ListClienteTitle_tipoCliente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoCliente}"/>
+                </p:column>
+
+
+
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{clienteManagedBean.toCreateCliente}" update="@(#CategoriasCreateForm)" oncomplete="CategoriasCreateDialog.show()"/>
+                        <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{categoriasManagedBean.prepareCreate}" update="@(#CategoriasCreateForm)" oncomplete="CategoriasCreateDialog.show()"/>
+
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{crudbundle.Edit}" update="@(#ClienteEditForm)" oncomplete="ClienteEditDialog.show()" disabled="#{empty clienteManagedBean.selected}"/>
+                        <p:commandButton id="deleteButton"  icon="ui-icon-trash"  value="#{crudbundle.Delete}" actionListener="#{clienteManagedBean.delete}" update=":growl,datalist" disabled="#{empty clienteManagedBean.selected}"/>
+                     
+                    </div>
+                </f:facet>
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+</ui:composition>

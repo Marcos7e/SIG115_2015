@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProductoListForm">
+
+        <p:panel header="Lista de productos en inventario">
+            <p:fieldset legend="productos">
+
+
+                <p:dataTable id="datalist"
+                             var="item"
+                             value="#{productoManagedBean.lazyItems}"
+                             paginator="true"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             lazy="true"
+                             resizableColumns="true"  
+                             selectionMode="single"
+                             selection="#{productoManagedBean.selected}"
+                             rowKey="#{item.idProducto}"
+                             paginatorPosition="bottom">
+
+                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton editButton deleteButton viewButton"/>
+
+                    <p:column sortBy="#{item.idProducto}" filterBy="#{item.idProducto}">
+                        <f:facet name="header">
+                            <h:outputText value="Numero de registro del producto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idProducto}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.nombreProducto}" filterBy="#{item.nombreProducto}">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre del producto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreProducto}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.descripcionProducto}" filterBy="#{item.descripcionProducto}">
+                        <f:facet name="header">
+                            <h:outputText value="Descripcion"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descripcionProducto}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.activoProducto}" filterBy="#{item.activoProducto}">
+                        <f:facet name="header">
+                            <h:outputText value="Producto activo"/>
+                        </f:facet>
+                        <h:selectBooleanCheckbox id="activoProducto" value="#{item.activoProducto}" title="#{crudbundle.EditProductoTitle_activoProducto}" required="true" requiredMessage="#{crudbundle.EditProductoRequiredMessage_activoProducto}" disabled="true"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.precioProducto}" filterBy="#{item.precioProducto}">
+                        <f:facet name="header">
+                            <h:outputText value="Precio de venta del producto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.precioProducto}"/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <div class="footer-section">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{crudbundle.Create}" actionListener="#{productoManagedBean.prepareCreate}" update="@(#ProductoCreateForm)" oncomplete="ProductoCreateDialog.show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{crudbundle.View}" update="@(#ProductoViewForm)" oncomplete="ProductoViewDialog.show()" disabled="#{empty productoManagedBean.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{crudbundle.Edit}" update="@(#ProductoEditForm)" oncomplete="ProductoEditDialog.show()" disabled="#{empty productoManagedBean.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{crudbundle.Delete}" actionListener="#{productoManagedBean.delete}" update=":growl,datalist" disabled="#{empty productoManagedBean.selected}">
+                                <p:confirm header="#{crudbundle.ConfirmationHeader}" message="#{crudbundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                            </p:commandButton>
+                        </div>
+                    </f:facet> 
+
+
+                </p:dataTable>
+            </p:fieldset>
+        </p:panel>
+    </h:form>
+
+</ui:composition>
