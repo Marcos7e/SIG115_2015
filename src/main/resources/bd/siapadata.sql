@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-04-2015 a las 06:50:46
+-- Tiempo de generación: 11-05-2015 a las 23:25:38
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `siapa`
+-- Base de datos: `dimesa`
 --
 
 -- --------------------------------------------------------
@@ -37,11 +37,6 @@ CREATE TABLE IF NOT EXISTS `ss_historico_claves` (
   KEY `FK_FK_SS_HIST_CLAVES_USUARIOS` (`ID_USUARIO`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contiene las claves que ha cambiado el usuario para controla';
 
---
--- Truncar tablas antes de insertar `ss_historico_claves`
---
-
-TRUNCATE TABLE `ss_historico_claves`;
 -- --------------------------------------------------------
 
 --
@@ -61,23 +56,19 @@ CREATE TABLE IF NOT EXISTS `ss_menus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contiene los diferentes menus de las aplicaciones';
 
 --
--- Truncar tablas antes de insertar `ss_menus`
---
-
-TRUNCATE TABLE `ss_menus`;
---
 -- Volcado de datos para la tabla `ss_menus`
 --
 
 INSERT INTO `ss_menus` (`ID_MENU`, `SS__ID_MENU`, `NOMBRE_MENU`, `USUARIO_REGISTRO`, `FECHA_REGISTRO`, `USUARIO_ULTIMAMODIFICACION`, `FECHA_ULTIMAMODIFICACION`) VALUES
-('1', NULL, 'Ventas', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('2', NULL, 'Clientes', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('3', NULL, 'Administrar Producto', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('4', NULL, 'Jaulas', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('5', NULL, 'Alimento', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('6', NULL, 'Reportes', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('7', NULL, 'Configuracion', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('8', NULL, 'Producto', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL);
+('1', NULL, 'Salidas1', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('2', NULL, 'Salidas2', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('3', NULL, 'Salidas3', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('4', NULL, 'Salidas4', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('5', NULL, 'Salidas5', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('6', NULL, 'Salidas6', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('7', NULL, 'Salidas7', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('8', NULL, 'Salidas8', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('9', NULL, 'Saldias9', 'desarrollo', '2015-05-09 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -92,11 +83,6 @@ CREATE TABLE IF NOT EXISTS `ss_menus_opciones` (
   KEY `FK_FK_SS_OPCIONES_MENUS` (`ID_OPCION`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contiene la relacion n:n entre menus y opciones (de menú).';
 
---
--- Truncar tablas antes de insertar `ss_menus_opciones`
---
-
-TRUNCATE TABLE `ss_menus_opciones`;
 --
 -- Volcado de datos para la tabla `ss_menus_opciones`
 --
@@ -137,30 +123,25 @@ CREATE TABLE IF NOT EXISTS `ss_opciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contiene las diferentes opciones de los menús de las aplicac';
 
 --
--- Truncar tablas antes de insertar `ss_opciones`
---
-
-TRUNCATE TABLE `ss_opciones`;
---
 -- Volcado de datos para la tabla `ss_opciones`
 --
 
 INSERT INTO `ss_opciones` (`ID_OPCION`, `NOMBRE_OPCION`, `URL`, `VISIBLE`, `USUARIO_REGISTRO`, `FECHA_REGISTRO`, `USUARIO_ULTIMAMODIFICACION`, `FECHA_ULTIMAMODIFICACION`, `IMAGEN_OPCION`) VALUES
 ('1', 'Home', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('2', 'Gestion de Ventas', 'http://localhost:8084/siapa/views/detalleVenta/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('3', 'Ingresar Cliente', '/siapa/views/cliente/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('4', 'Gestion de Clientes', '/siapa/views/cliente/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('5', 'Ingreso Peces Muertos', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('6', 'Ingreso de Muestreo', '/siapa/views/persona/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('7', 'Ingreso Alimento a Jaula', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('8', 'Gestion de Compra de Peces', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('9', 'Movimiento Entre Jaulas', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('10', 'Gestion de Jaulas', '/siapa/views/jaula/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('11', 'Gestion de Alimento', '/siapa/views/alimento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('12', 'Compra de Alimento', '/siapa/views/detalleCompraAlimento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('13', 'Tipo de Producto', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('14', 'Ingresar Alimento', '/siapa/views/alimento/index.xhtml', 'S', 'desarrollo', '2014-11-01 00:00:00', NULL, NULL, NULL),
-('15', 'Ingresar Proveedor', '/siapa/views/proveedor/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL);
+('2', 'pantalla1', 'http://localhost:8084/siapa/views/detalleVenta/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('3', 'pantalla2', '/siapa/views/cliente/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('4', 'pantalla3', '/siapa/views/cliente/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('5', 'pantalla4', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('6', 'pantalla5', '/siapa/views/persona/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('7', 'pantalla6', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('8', 'pantalla7', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('9', 'pantalla8', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('10', 'pantalla9', '/siapa/views/jaula/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('11', 'pantalla10', '/siapa/views/alimento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('12', 'pantalla11', '/siapa/views/detalleCompraAlimento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('13', 'pantalla12', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('14', 'pantalla13', '/siapa/views/alimento/index.xhtml', 'S', 'desarrollo', '2014-11-01 00:00:00', NULL, NULL, NULL),
+('15', 'pantalla14', '/siapa/views/proveedor/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -181,11 +162,6 @@ CREATE TABLE IF NOT EXISTS `ss_roles` (
   KEY `AK_UK_SS_ROLES_CODIGO_ROL` (`CODIGO_ROL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contiene los diferentes niveles de acceso que un usuario pue';
 
---
--- Truncar tablas antes de insertar `ss_roles`
---
-
-TRUNCATE TABLE `ss_roles`;
 --
 -- Volcado de datos para la tabla `ss_roles`
 --
@@ -212,11 +188,6 @@ CREATE TABLE IF NOT EXISTS `ss_roles_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contiene la relacion n:n entre roles y menus';
 
 --
--- Truncar tablas antes de insertar `ss_roles_menu`
---
-
-TRUNCATE TABLE `ss_roles_menu`;
---
 -- Volcado de datos para la tabla `ss_roles_menu`
 --
 
@@ -234,7 +205,14 @@ INSERT INTO `ss_roles_menu` (`ID_MENU`, `ID_ROL`) VALUES
 ('1', '3'),
 ('8', '3'),
 ('3', '4'),
+('1', '5'),
+('2', '5'),
+('3', '5'),
+('4', '5'),
+('6', '5'),
 ('7', '5'),
+('8', '5'),
+('9', '5'),
 ('2', '6'),
 ('6', '6');
 
@@ -252,11 +230,6 @@ CREATE TABLE IF NOT EXISTS `ss_roles_opciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Truncar tablas antes de insertar `ss_roles_opciones`
---
-
-TRUNCATE TABLE `ss_roles_opciones`;
---
 -- Volcado de datos para la tabla `ss_roles_opciones`
 --
 
@@ -269,23 +242,30 @@ INSERT INTO `ss_roles_opciones` (`ID_ROL`, `ID_OPCION`) VALUES
 ('6', '1'),
 ('2', '2'),
 ('3', '2'),
+('5', '2'),
 ('2', '3'),
 ('3', '3'),
+('5', '3'),
 ('2', '4'),
+('5', '4'),
 ('6', '4'),
 ('4', '5'),
+('5', '5'),
 ('1', '6'),
 ('4', '7'),
 ('1', '8'),
 ('2', '8'),
 ('1', '9'),
+('5', '9'),
 ('1', '10'),
 ('2', '10'),
 ('1', '11'),
 ('1', '12'),
 ('3', '13'),
 ('1', '14'),
-('2', '15');
+('5', '14'),
+('2', '15'),
+('5', '15');
 
 -- --------------------------------------------------------
 
@@ -300,11 +280,6 @@ CREATE TABLE IF NOT EXISTS `ss_roles_usuarios` (
   KEY `FK_SS_ROLES_USUARIOS2` (`ID_USUARIO`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contiene la relación n:n entre roles y usuarios';
 
---
--- Truncar tablas antes de insertar `ss_roles_usuarios`
---
-
-TRUNCATE TABLE `ss_roles_usuarios`;
 --
 -- Volcado de datos para la tabla `ss_roles_usuarios`
 --
@@ -346,11 +321,6 @@ CREATE TABLE IF NOT EXISTS `ss_usuarios` (
   PRIMARY KEY (`ID_USUARIO`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Truncar tablas antes de insertar `ss_usuarios`
---
-
-TRUNCATE TABLE `ss_usuarios`;
 --
 -- Volcado de datos para la tabla `ss_usuarios`
 --
