@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-05-2015 a las 23:25:38
+-- Tiempo de generación: 03-06-2015 a las 04:46:22
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -19,6 +19,85 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `dimesa`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `costo_equipo`
+--
+
+CREATE TABLE IF NOT EXISTS `costo_equipo` (
+  `Id_costo_equipo` int(11) NOT NULL,
+  `costo` float DEFAULT NULL,
+  PRIMARY KEY (`Id_costo_equipo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empleado`
+--
+
+CREATE TABLE IF NOT EXISTS `empleado` (
+  `IdEmpleado` varchar(3) COLLATE utf8_bin NOT NULL,
+  `NombreEmpleado` varchar(50) COLLATE utf8_bin NOT NULL,
+  `ApellidoEmpleado` varchar(50) COLLATE utf8_bin NOT NULL,
+  `Cargo` varchar(40) COLLATE utf8_bin NOT NULL,
+  `Costo_hora` float NOT NULL,
+  PRIMARY KEY (`IdEmpleado`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `equipo`
+--
+
+CREATE TABLE IF NOT EXISTS `equipo` (
+  `Pla_dimesa` varchar(10) COLLATE utf8_bin NOT NULL,
+  `Num_serie` varchar(20) COLLATE utf8_bin NOT NULL,
+  `Marca_equipo` varchar(20) COLLATE utf8_bin NOT NULL,
+  `Modelo_equipo` varchar(20) COLLATE utf8_bin NOT NULL,
+  `Nomb_equipo` varchar(20) COLLATE utf8_bin NOT NULL,
+  `Observ_eq` varchar(60) COLLATE utf8_bin NOT NULL,
+  `Empresa_responsable` varchar(60) COLLATE utf8_bin NOT NULL,
+  `Imagen` longblob,
+  `fecha_registro` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`Pla_dimesa`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `evento`
+--
+
+CREATE TABLE IF NOT EXISTS `evento` (
+  `num_dimesa` varchar(10) COLLATE utf8_bin NOT NULL,
+  `Pla_dimesa` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `Id_costo_equipo` int(11) DEFAULT NULL,
+  `Tbl_equipo_pla_dimesa` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `Servicio` int(11) DEFAULT NULL,
+  `Fecha_inicio` date DEFAULT NULL,
+  `Fecha_fin` date DEFAULT NULL,
+  `Unidad` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `Falla` varchar(105) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`num_dimesa`),
+  KEY `FK_RELATIONSHIP_1` (`Pla_dimesa`),
+  KEY `FK_TIENE_UN_COSTO` (`Id_costo_equipo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `servicio`
+--
+
+CREATE TABLE IF NOT EXISTS `servicio` (
+  `id_servicios` varchar(4) COLLATE utf8_bin NOT NULL,
+  `nombre` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id_servicios`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -333,9 +412,31 @@ INSERT INTO `ss_usuarios` (`ID_USUARIO`, `CODIGO_USUARIO`, `NOMBRE_USUARIO`, `TE
 ('5', 'ADM', 'Administrador del Sistema', '78421829', 'siapa@gmail.com', 'Administrador del Sistema', NULL, 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('6', 'ASC', 'Asociado', '78421829', 'siapa@gmail.com', 'Asociado', NULL, 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `supervisor`
+--
+
+CREATE TABLE IF NOT EXISTS `supervisor` (
+  `Id_supervisor` varchar(4) COLLATE utf8_bin NOT NULL,
+  `IdEmpleado` varchar(3) COLLATE utf8_bin DEFAULT NULL,
+  `nombre` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `apellido` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`Id_supervisor`),
+  KEY `FK_PUEDE_SER2` (`IdEmpleado`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `evento`
+--
+ALTER TABLE `evento`
+  ADD CONSTRAINT `FK_RELATIONSHIP_1` FOREIGN KEY (`Pla_dimesa`) REFERENCES `equipo` (`Pla_dimesa`),
+  ADD CONSTRAINT `FK_TIENE_UN_COSTO` FOREIGN KEY (`Id_costo_equipo`) REFERENCES `costo_equipo` (`Id_costo_equipo`);
 
 --
 -- Filtros para la tabla `ss_historico_claves`
@@ -376,6 +477,12 @@ ALTER TABLE `ss_roles_opciones`
 ALTER TABLE `ss_roles_usuarios`
   ADD CONSTRAINT `FK_SS_ROLES_USUARIOS` FOREIGN KEY (`ID_ROL`) REFERENCES `ss_roles` (`ID_ROL`),
   ADD CONSTRAINT `FK_SS_ROLES_USUARIOS2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `ss_usuarios` (`ID_USUARIO`);
+
+--
+-- Filtros para la tabla `supervisor`
+--
+ALTER TABLE `supervisor`
+  ADD CONSTRAINT `FK_PUEDE_SER2` FOREIGN KEY (`IdEmpleado`) REFERENCES `empleado` (`IdEmpleado`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
