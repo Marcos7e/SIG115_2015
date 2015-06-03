@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,12 +32,18 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Evento.findAll", query = "SELECT e FROM Evento e")})
 public class Evento implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "num_dimesa", nullable = false, length = 10)
-    private String numDimesa;
+//    @Id
+//    @Basic(optional = false)
+//    @NotNull
+//    @Size(min = 1, max = 10)
+//    @Column(name = "num_dimesa", nullable = false, length = 10)
+//    private String numDimesa;
+    
+     @Id
+    @GeneratedValue
+    @Column(name = "num_dimesa", nullable = true)
+    private Integer numDimesa;
+    
     @Size(max = 10)
     @Column(name = "Tbl_equipo_pla_dimesa", length = 10)
     private String tblequipopladimesa;
@@ -64,15 +71,15 @@ public class Evento implements Serializable {
     public Evento() {
     }
 
-    public Evento(String numDimesa) {
+    public Evento(Integer numDimesa) {
         this.numDimesa = numDimesa;
     }
 
-    public String getNumDimesa() {
+    public Integer getNumDimesa() {
         return numDimesa;
     }
 
-    public void setNumDimesa(String numDimesa) {
+    public void setNumDimesa(Integer numDimesa) {
         this.numDimesa = numDimesa;
     }
 

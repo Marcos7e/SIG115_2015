@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -28,12 +29,13 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Empleado.findAll", query = "SELECT e FROM Empleado e")})
 public class Empleado implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "IdEmpleado", nullable = false, length = 3)
-    private String idEmpleado;
+    @GeneratedValue
+    @Column(name = "IdEmpleado", nullable = true)
+    private Integer idEmpleado;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -59,11 +61,11 @@ public class Empleado implements Serializable {
     public Empleado() {
     }
 
-    public Empleado(String idEmpleado) {
+    public Empleado(Integer idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
 
-    public Empleado(String idEmpleado, String nombreEmpleado, String apellidoEmpleado, String cargo, float costohora) {
+    public Empleado(Integer idEmpleado, String nombreEmpleado, String apellidoEmpleado, String cargo, float costohora) {
         this.idEmpleado = idEmpleado;
         this.nombreEmpleado = nombreEmpleado;
         this.apellidoEmpleado = apellidoEmpleado;
@@ -71,11 +73,11 @@ public class Empleado implements Serializable {
         this.costohora = costohora;
     }
 
-    public String getIdEmpleado() {
+    public Integer getIdEmpleado() {
         return idEmpleado;
     }
 
-    public void setIdEmpleado(String idEmpleado) {
+    public void setIdEmpleado(Integer idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
 

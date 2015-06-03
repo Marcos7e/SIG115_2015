@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,13 +28,20 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Supervisor.findAll", query = "SELECT s FROM Supervisor s")})
 public class Supervisor implements Serializable {
+
     private static final long serialVersionUID = 1L;
+//    @Id
+//    @Basic(optional = false)
+//    @NotNull
+//    @Size(min = 1, max = 4)
+//    @Column(name = "Id_supervisor", nullable = false, length = 4)
+//    private String idsupervisor;
+
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 4)
-    @Column(name = "Id_supervisor", nullable = false, length = 4)
-    private String idsupervisor;
+    @GeneratedValue
+    @Column(name = "Id_supervisor", nullable = true)
+    private Integer idsupervisor;
+    
     @Size(max = 45)
     @Column(name = "nombre", length = 45)
     private String nombre;
@@ -47,15 +55,15 @@ public class Supervisor implements Serializable {
     public Supervisor() {
     }
 
-    public Supervisor(String idsupervisor) {
+    public Supervisor(Integer idsupervisor) {
         this.idsupervisor = idsupervisor;
     }
 
-    public String getIdsupervisor() {
+    public Integer getIdsupervisor() {
         return idsupervisor;
     }
 
-    public void setIdsupervisor(String idsupervisor) {
+    public void setIdsupervisor(Integer idsupervisor) {
         this.idsupervisor = idsupervisor;
     }
 
@@ -107,5 +115,5 @@ public class Supervisor implements Serializable {
     public String toString() {
         return "com.dimesa.model.Supervisor[ idsupervisor=" + idsupervisor + " ]";
     }
-    
+
 }

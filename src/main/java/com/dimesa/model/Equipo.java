@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
@@ -31,13 +32,16 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Equipo.findAll", query = "SELECT e FROM Equipo e")})
 public class Equipo implements Serializable {
+    @Lob
+    @Column(name = "Imagen")
+    private byte[] imagen;
     private static final long serialVersionUID = 1L;
+
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "Pla_dimesa", nullable = false, length = 10)
-    private String pladimesa;
+    @GeneratedValue
+    @Column(name = "Pla_dimesa", nullable = true)
+    private Integer pladimesa;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -68,9 +72,6 @@ public class Equipo implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "Empresa_responsable", nullable = false, length = 60)
     private String empresaresponsable;
-    @Lob
-    @Column(name = "Imagen")
-    private byte[] imagen;
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
@@ -80,11 +81,11 @@ public class Equipo implements Serializable {
     public Equipo() {
     }
 
-    public Equipo(String pladimesa) {
+    public Equipo(Integer pladimesa) {
         this.pladimesa = pladimesa;
     }
 
-    public Equipo(String pladimesa, String numserie, String marcaequipo, String modeloequipo, String nombequipo, String observeq, String empresaresponsable) {
+    public Equipo(Integer pladimesa, String numserie, String marcaequipo, String modeloequipo, String nombequipo, String observeq, String empresaresponsable) {
         this.pladimesa = pladimesa;
         this.numserie = numserie;
         this.marcaequipo = marcaequipo;
@@ -94,11 +95,11 @@ public class Equipo implements Serializable {
         this.empresaresponsable = empresaresponsable;
     }
 
-    public String getPladimesa() {
+    public Integer getPladimesa() {
         return pladimesa;
     }
 
-    public void setPladimesa(String pladimesa) {
+    public void setPladimesa(Integer pladimesa) {
         this.pladimesa = pladimesa;
     }
 
@@ -150,13 +151,6 @@ public class Equipo implements Serializable {
         this.empresaresponsable = empresaresponsable;
     }
 
-    public byte[] getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
-    }
 
     public Date getFechaRegistro() {
         return fechaRegistro;
@@ -197,6 +191,14 @@ public class Equipo implements Serializable {
     @Override
     public String toString() {
         return "com.dimesa.model.Equipo[ pladimesa=" + pladimesa + " ]";
+    }
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
     }
     
 }

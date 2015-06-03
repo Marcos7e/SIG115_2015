@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,12 +27,14 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "CostoEquipo.findAll", query = "SELECT c FROM CostoEquipo c")})
 public class CostoEquipo implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Id_costo_equipo", nullable = false)
+    @GeneratedValue
+    @Column(name = "Id_costo_equipo", nullable = true)
     private Integer idcostoequipo;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "costo", precision = 12)
     private Float costo;
@@ -93,5 +96,5 @@ public class CostoEquipo implements Serializable {
     public String toString() {
         return "com.dimesa.model.CostoEquipo[ idcostoequipo=" + idcostoequipo + " ]";
     }
-    
+
 }

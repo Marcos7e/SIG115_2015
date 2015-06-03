@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-06-2015 a las 04:46:22
+-- Tiempo de generación: 03-06-2015 a las 06:33:49
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -27,10 +27,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `costo_equipo` (
-  `Id_costo_equipo` int(11) NOT NULL,
+  `Id_costo_equipo` int(11) NOT NULL AUTO_INCREMENT,
   `costo` float DEFAULT NULL,
   PRIMARY KEY (`Id_costo_equipo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -39,13 +39,13 @@ CREATE TABLE IF NOT EXISTS `costo_equipo` (
 --
 
 CREATE TABLE IF NOT EXISTS `empleado` (
-  `IdEmpleado` varchar(3) COLLATE utf8_bin NOT NULL,
+  `IdEmpleado` int(11) NOT NULL AUTO_INCREMENT,
   `NombreEmpleado` varchar(50) COLLATE utf8_bin NOT NULL,
   `ApellidoEmpleado` varchar(50) COLLATE utf8_bin NOT NULL,
   `Cargo` varchar(40) COLLATE utf8_bin NOT NULL,
   `Costo_hora` float NOT NULL,
   PRIMARY KEY (`IdEmpleado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `empleado` (
 --
 
 CREATE TABLE IF NOT EXISTS `equipo` (
-  `Pla_dimesa` varchar(10) COLLATE utf8_bin NOT NULL,
+  `Pla_dimesa` int(11) NOT NULL AUTO_INCREMENT,
   `Num_serie` varchar(20) COLLATE utf8_bin NOT NULL,
   `Marca_equipo` varchar(20) COLLATE utf8_bin NOT NULL,
   `Modelo_equipo` varchar(20) COLLATE utf8_bin NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `equipo` (
   `Imagen` longblob,
   `fecha_registro` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`Pla_dimesa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS `equipo` (
 --
 
 CREATE TABLE IF NOT EXISTS `evento` (
-  `num_dimesa` varchar(10) COLLATE utf8_bin NOT NULL,
-  `Pla_dimesa` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `num_dimesa` int(11) NOT NULL AUTO_INCREMENT,
+  `Pla_dimesa` int(11) DEFAULT NULL,
   `Id_costo_equipo` int(11) DEFAULT NULL,
   `Tbl_equipo_pla_dimesa` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `Servicio` int(11) DEFAULT NULL,
@@ -83,9 +83,9 @@ CREATE TABLE IF NOT EXISTS `evento` (
   `Unidad` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `Falla` varchar(105) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`num_dimesa`),
-  KEY `FK_RELATIONSHIP_1` (`Pla_dimesa`),
-  KEY `FK_TIENE_UN_COSTO` (`Id_costo_equipo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  KEY `FK_TIENE_UN_COSTO` (`Id_costo_equipo`),
+  KEY `FK_PLA_DIMESA` (`Pla_dimesa`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -94,10 +94,10 @@ CREATE TABLE IF NOT EXISTS `evento` (
 --
 
 CREATE TABLE IF NOT EXISTS `servicio` (
-  `id_servicios` varchar(4) COLLATE utf8_bin NOT NULL,
+  `id_servicios` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id_servicios`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -419,13 +419,13 @@ INSERT INTO `ss_usuarios` (`ID_USUARIO`, `CODIGO_USUARIO`, `NOMBRE_USUARIO`, `TE
 --
 
 CREATE TABLE IF NOT EXISTS `supervisor` (
-  `Id_supervisor` varchar(4) COLLATE utf8_bin NOT NULL,
-  `IdEmpleado` varchar(3) COLLATE utf8_bin DEFAULT NULL,
+  `Id_supervisor` int(11) NOT NULL AUTO_INCREMENT,
+  `IdEmpleado` int(11) DEFAULT NULL,
   `nombre` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `apellido` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`Id_supervisor`),
   KEY `FK_PUEDE_SER2` (`IdEmpleado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 --
 -- Restricciones para tablas volcadas
@@ -435,7 +435,7 @@ CREATE TABLE IF NOT EXISTS `supervisor` (
 -- Filtros para la tabla `evento`
 --
 ALTER TABLE `evento`
-  ADD CONSTRAINT `FK_RELATIONSHIP_1` FOREIGN KEY (`Pla_dimesa`) REFERENCES `equipo` (`Pla_dimesa`),
+  ADD CONSTRAINT `FK_PLA_DIMESA` FOREIGN KEY (`Pla_dimesa`) REFERENCES `equipo` (`Pla_dimesa`),
   ADD CONSTRAINT `FK_TIENE_UN_COSTO` FOREIGN KEY (`Id_costo_equipo`) REFERENCES `costo_equipo` (`Id_costo_equipo`);
 
 --
