@@ -1,4 +1,4 @@
-package com.dimesas.managedbean;
+//package com.dimesas.managedbean;
 
 ///*
 // * To change this license header, choose License Headers in Project Properties.

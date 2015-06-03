@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:composite="http://java.sun.com/jsf/composite"
+                >
+
+
+    <h:form id="form">
+        <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
+        
+           <h:outputLabel for="fechaActual" value="Fecha de Emision :" />
+           <h:outputLabel for="user" value="Usuario :" />
+           <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_encarrilamiento" />
+          
+        
+        <p:growl id="msgs" showDetail="true" />
+
+        <h:panelGrid columns="2" cellpadding="5">
+
+            <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
+            <p:calendar id="fhInicial" value="#{calendarView.date3}"  pattern="dd-MM-yyyy" showOn="button" />
+            <p:outputLabel for="fhFin" value="Fecha Final:" />
+            <p:calendar id="fhFin" value="#{calendarView.date3}" pattern="dd-MM-yyyy" showOn="button" />
+
+
+
+
+
+        </h:panelGrid>
+
+        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+            <p:selectBooleanCheckbox value="#{selectBooleanView.value1}" />
+            <h:outputText value="Incluir Tasa de Reparaciones Exitosas " />
+            <p:selectBooleanCheckbox value="#{selectBooleanView.value1}" />
+            <h:outputText value="Incluir Gastos por Reparacion " />
+            <p:selectBooleanCheckbox value="#{selectBooleanView.value1}" />
+            <h:outputText value="Incluir Tiempo de Reparacion Total " />
+            <p:selectBooleanCheckbox value="#{selectBooleanView.value1}" />
+            <h:outputText value="Incluir Gastos por Depreciacion " />
+
+        </h:panelGrid>
+
+
+        <p:commandButton value="Submit" update="msgs" actionListener="#{calendarView.click}" icon="ui-icon-check" />
+
+        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+            <p:panelGrid id="display" columns="2" columnClasses="label,value">
+
+                <h:outputText value="Button:" />
+                <h:outputText value="#{calendarView.date3}">
+                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                </h:outputText>
+
+
+<!--                <p:dialog header="Values" modal="true" resizable="false" showEffect="fade" widgetVar="dlg">
+                    <h:panelGrid columns="1" id="display">
+                        <h:outputText value="Value 1: #{selectBooleanView.value1}" />
+                        <h:outputText value="Value 2: #{selectBooleanView.value2}" />
+                    </h:panelGrid>
+                </p:dialog>-->
+
+            </p:panelGrid>
+        </p:dialog>
+    </h:form>
+
+</ui:composition>
