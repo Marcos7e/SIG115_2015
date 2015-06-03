@@ -5,7 +5,8 @@
  */
 package com.dimesa.service;
 
-import com.dimesa.dao.EmpleadoDao;
+
+import com.dimesa.dao.EquipoDao;
 import com.dimesa.dao.generic.GenericDao;
 import com.dimesa.model.Equipo;
 import com.dimesa.service.generic.GenericService;
@@ -17,17 +18,18 @@ import org.springframework.stereotype.Service;
  *
  * @author HDEZ
  */
-@Service(value = "equipoService")
-public class EquipoService extends GenericService<Equipo, Integer> {
+
+@Service(value="equipoService")
+public class EquipoService extends GenericService<Equipo, Integer>{
 
     @Autowired
-    private EmpleadoDao empleadoDao;
+    private EquipoDao equipoDao;
 
   
 
     @Override
     public GenericDao<Equipo, Integer> getDao() {
-        return null;
+        return equipoDao;
        
     }
 

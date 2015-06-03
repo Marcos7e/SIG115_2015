@@ -6,6 +6,7 @@
 package com.dimesa.service;
 
 import com.dimesa.dao.ServicioDao;
+import com.dimesa.dao.SupervisorDao;
 import com.dimesa.dao.generic.GenericDao;
 import com.dimesa.model.Supervisor;
 import com.dimesa.service.generic.GenericService;
@@ -20,10 +21,10 @@ import org.springframework.stereotype.Service;
 public class SupervisorService extends GenericService<Supervisor, Integer>{
 
     @Autowired
-    private ServicioDao servicieDao;
+    private SupervisorDao supervisorDao;
     @Override
     public GenericDao<Supervisor, Integer> getDao() {
-      return null;
+      return supervisorDao;
     }
     
 }
