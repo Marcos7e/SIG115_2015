@@ -31,6 +31,11 @@ public class IndiceDeEncarrilamientoManagedBean {
     private boolean value3;
     private boolean value4;
 
+<<<<<<< HEAD
+=======
+
+    
+>>>>>>> origin/master
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
