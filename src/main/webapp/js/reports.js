@@ -11,3 +11,5 @@ var print = function(xhr, status, args) {
     PrintDialog.show();
     return false;
 };
+
+        

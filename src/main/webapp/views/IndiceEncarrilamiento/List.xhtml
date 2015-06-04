@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:composite="http://java.sun.com/jsf/composite"
-                >
+
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <h:form id="form">
@@ -16,7 +18,7 @@
 
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
-                    <h:outputLabel for="fechaActual" value="Fecha de Emision :" />
+                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{indiceDeEncarrilamientoManagedBean.date3}"  />
                 </p:column>
                 <p:column>
                     <span>&nbsp;</span>
@@ -35,9 +37,10 @@
             <h:panelGrid columns="2" cellpadding="5">
 
                 <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
-                <p:calendar id="fhInicial" value="#{indiceDeEncarrilamientoManagedBean.date1}"  pattern="dd-MM-yyyy" showOn="button" />
-                <p:outputLabel for="fhFin" value="Fecha Final:" />
-                <p:calendar id="fhFin" value="#{indiceDeEncarrilamientoManagedBean.date2}" pattern="dd-MM-yyyy" showOn="button" />
+                <p:calendar id="fhInicial" value="#{indiceDeEncarrilamientoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
+
+                <p:outputLabel for="fhFin"  value="Fecha Final:" />
+                <p:calendar id="fhFin" value="#{indiceDeEncarrilamientoManagedBean.date2}"  pattern="dd-MM-yyyy" />
 
             </h:panelGrid>
             <br/> <br/>
@@ -48,44 +51,34 @@
                     <h:outputText value="Incluir Tasa de Reparaciones Exitosas " />
                 </p:column>
                 <p:column>
-                    <p:selectBooleanCheckbox value="#{indiceDeEncarrilamientoManagedBean.value1}" />
+                    <p:selectBooleanCheckbox value="#{indiceDeEncarrilamientoManagedBean.value2}" />
                     <h:outputText value="Incluir Gastos por Reparacion " />
                 </p:column>
                 <p:column>
-                    <p:selectBooleanCheckbox value="#{indiceDeEncarrilamientoManagedBean.value1}" />
+                    <p:selectBooleanCheckbox value="#{indiceDeEncarrilamientoManagedBean.value3}" />
                     <h:outputText value="Incluir Tiempo de Reparacion Total " />
                 </p:column>
                 <p:column>
-                    <p:selectBooleanCheckbox value="#{indiceDeEncarrilamientoManagedBean.value1}" />
+                    <p:selectBooleanCheckbox value="#{indiceDeEncarrilamientoManagedBean.value4}" />
                     <h:outputText value="Incluir Gastos por Depreciacion " />
                 </p:column>
+
             </h:panelGrid>
 
             <br/><br/>
-              <p:commandButton value="Submit" update="msgs" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" icon="ui-icon-check" />
+            <p:commandButton value="Aceptar" update="msgs" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" icon="ui-icon-check"  />
             <br/><br/>
-            <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
-                <p:panelGrid id="display" columns="2" columnClasses="label,value">
 
-                    <h:outputText value="Fecha Inicial:" />
-                    <h:outputText value="#{indiceDeEncarrilamientoManagedBean.date3}">
-                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                    </h:outputText>
-                    <h:outputText value="Fecha Final:" />
-                    <h:outputText value="#{indiceDeEncarrilamientoManagedBean.date3}">
-                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                    </h:outputText>
-
-                    <h:panelGrid columns="1" id="display">
-                        <h:outputText value="Value 1: #{indiceDeEncarrilamientoManagedBean.value1}" />
-                        <h:outputText value="Value 2: #{indiceDeEncarrilamientoManagedBean.value2}" />
-                        <h:outputText value="Value 3: #{indiceDeEncarrilamientoManagedBean.value3}" />
-                        <h:outputText value="Value 4: #{indiceDeEncarrilamientoManagedBean.value4}" />
-                    </h:panelGrid>
-
-                </p:panelGrid>
-            </p:dialog>
         </div>
+
+        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+            <p:panelGrid id="display" columns="2" columnClasses="label,value">
+                <h:outputText value="Event:" />
+                <h:outputText value="#{indiceDeEncarrilamientoManagedBean.date2}">
+                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                </h:outputText>
+            </p:panelGrid>
+        </p:dialog>
     </h:form>
 
 </ui:composition>

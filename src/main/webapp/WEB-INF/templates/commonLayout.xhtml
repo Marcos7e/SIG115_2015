@@ -10,6 +10,7 @@
 
 
     <h:head>
+        
         <ui:insert name="title">
             <title>DIMESA</title>
         </ui:insert>
@@ -18,9 +19,11 @@
             <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/css/style.css" />
         </f:facet> 
         <f:facet name="last">
+            
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/bootstrap.js"></script>
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/reports.js"></script>
             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/pfcrud.js"></script>
+             <script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/js/funciones.js"></script>
         </f:facet>
         <script type="text/javascript">
             var ctx = '#{facesContext.externalContext.requestContextPath}';
@@ -53,7 +56,7 @@
                         <div class="menu">
                             <ul>
                                 <li><a href="#{facesContext.externalContext.requestContextPath}/views/index.xhtml">Inicio</a></li>
-                                <li><a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Cerrar Sesión</a></li>
+                                <li><a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Cerrar SesiÃ³n</a></li>
                             </ul>
                         </div>                                		
                     </div>
@@ -112,7 +115,7 @@
 
                 <div class="center_line">
                      <h5>Direccion DIMESA.
-                    <br/>Teléfono: 2354-XXXX.</h5>
+                    <br/>TelÃ©fono: 2354-XXXX.</h5>
                 </div>
 
             </p:layoutUnit>  
