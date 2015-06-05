@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-06-2015 a las 06:33:49
+-- Tiempo de generación: 06-06-2015 a las 00:14:30
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -139,15 +139,17 @@ CREATE TABLE IF NOT EXISTS `ss_menus` (
 --
 
 INSERT INTO `ss_menus` (`ID_MENU`, `SS__ID_MENU`, `NOMBRE_MENU`, `USUARIO_REGISTRO`, `FECHA_REGISTRO`, `USUARIO_ULTIMAMODIFICACION`, `FECHA_ULTIMAMODIFICACION`) VALUES
-('1', NULL, 'Salidas1', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('2', NULL, 'Salidas2', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('3', NULL, 'Salidas3', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('4', NULL, 'Salidas4', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('5', NULL, 'Salidas5', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('6', NULL, 'Salidas6', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('7', NULL, 'Salidas7', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('8', NULL, 'Salidas8', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('9', NULL, 'Saldias9', 'desarrollo', '2015-05-09 00:00:00', NULL, NULL);
+('1', NULL, 'Indice Encarrilamiento', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('2', NULL, 'Gastos por Reparación ', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('3', NULL, 'Gastos por Depreciación', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('4', NULL, 'Vida Útil', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('5', NULL, 'Comparativo de Gastos', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('6', NULL, 'Tasa de Éxito/Fallo', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('7', NULL, 'Historial', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('8', NULL, 'Proyección Tecnico/Tiempo ', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('9', NULL, 'Reparación vrs Tiempo', 'desarrollo', '2015-05-09 00:00:00', NULL, NULL),
+('10', NULL, 'Mantenimientos', 'desarrollo', '2015-06-05 00:00:00', NULL, NULL),
+('11', NULL, 'Exportaciones', 'desarrollo', '2015-06-05 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -168,19 +170,16 @@ CREATE TABLE IF NOT EXISTS `ss_menus_opciones` (
 
 INSERT INTO `ss_menus_opciones` (`ID_MENU`, `ID_OPCION`) VALUES
 ('1', '2'),
-('1', '3'),
-('2', '4'),
-('3', '5'),
-('3', '6'),
-('3', '7'),
-('3', '8'),
-('3', '9'),
-('4', '10'),
-('5', '11'),
-('5', '12'),
-('8', '13'),
-('8', '14'),
-('2', '15');
+('2', '3'),
+('3', '4'),
+('4', '5'),
+('5', '6'),
+('6', '7'),
+('7', '8'),
+('8', '9'),
+('9', '10'),
+('10', '11'),
+('11', '12');
 
 -- --------------------------------------------------------
 
@@ -207,17 +206,17 @@ CREATE TABLE IF NOT EXISTS `ss_opciones` (
 
 INSERT INTO `ss_opciones` (`ID_OPCION`, `NOMBRE_OPCION`, `URL`, `VISIBLE`, `USUARIO_REGISTRO`, `FECHA_REGISTRO`, `USUARIO_ULTIMAMODIFICACION`, `FECHA_ULTIMAMODIFICACION`, `IMAGEN_OPCION`) VALUES
 ('1', 'Home', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('2', 'pantalla1', 'http://localhost:8084/siapa/views/detalleVenta/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('3', 'pantalla2', '/siapa/views/cliente/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('4', 'pantalla3', '/siapa/views/cliente/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('5', 'pantalla4', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('6', 'pantalla5', '/siapa/views/persona/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('7', 'pantalla6', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('8', 'pantalla7', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('9', 'pantalla8', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('10', 'pantalla9', '/siapa/views/jaula/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('11', 'pantalla10', '/siapa/views/alimento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('12', 'pantalla11', '/siapa/views/detalleCompraAlimento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('2', 'Índice de encarrilamiento empresarial', '/dimesa/views/IndiceEncarrilamiento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('3', 'Índice/Promedio de Gasto por Reparación de equipo por Area', '/dimesa/views/IndicePromedioGastoPorReparacion/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('4', 'Índice/Promedio de Gasto por Depreciación de equipo por Area', '/siapa/views/cliente/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('5', 'Comparativo de Tiempo de Vida Util entre los Equipos', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('6', 'Comparativo de Gastos en Reparación entre Equipos en un Periodos ', '/siapa/views/persona/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('7', 'Tasa de Exito/Fallo en Reparaciones', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('8', 'Resumen de Reparación Efectuada por Técnicos no Subcontratados', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('9', 'Proyección Tecnico/Tiempo Requerido para Dolventar un Inconveniente', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('10', 'Proyección de Efectividad de Reparación vrs Tiempo', '/siapa/views/jaula/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('11', 'Proyección y Programación de Mantenimientos Preventivos', '/siapa/views/alimento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('12', 'Exportación de Procesos de Proyección y Tazas a Formato Matriz', '/siapa/views/detalleCompraAlimento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('13', 'pantalla12', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('14', 'pantalla13', '/siapa/views/alimento/index.xhtml', 'S', 'desarrollo', '2014-11-01 00:00:00', NULL, NULL, NULL),
 ('15', 'pantalla14', '/siapa/views/proveedor/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL);
@@ -288,10 +287,13 @@ INSERT INTO `ss_roles_menu` (`ID_MENU`, `ID_ROL`) VALUES
 ('2', '5'),
 ('3', '5'),
 ('4', '5'),
+('5', '5'),
 ('6', '5'),
 ('7', '5'),
 ('8', '5'),
 ('9', '5'),
+('10', '5'),
+('11', '5'),
 ('2', '6'),
 ('6', '6');
 
