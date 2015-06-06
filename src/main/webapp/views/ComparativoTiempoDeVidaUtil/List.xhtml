@@ -9,43 +9,29 @@
                 xmlns:composite="http://java.sun.com/jsf/composite"
 
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h1> Indice/Promedio de Gasto por Reparacion de Equipo por Area dentro de la Institucion</h1>
 
-
+    <h1>Comparativo de Tiempo de Vida Util Entre los Diferentes Equipos</h1>
     <h:form id="form">
-
-
         <div align="center" style="border: 1px black solid">
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
 
 
-
-
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
-                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{comparativoDeTiempoVidaUtilManagedBean.date3}"  />
+                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{gastoReparacionEquipoManagedBean.date3}"  />
                 </p:column>
                 <p:column>               
                     <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
                 </p:column>
                 <p:column>
                     <span>&nbsp;</span>
-                    <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_indice_promedio_gasto" />
+                    <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_comparativo_vida_util" />
                 </p:column>
             </p:panelGrid>
 
             <p:growl id="msgs" showDetail="true" />
             <br/> <br/>
 
-            <h:panelGrid columns="2" cellpadding="5" style="border: 1px red ridge">
-
-                <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
-                <p:calendar id="fhInicial" value="#{indiceDeEncarrilamientoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
-
-                <p:outputLabel for="fhFin"  value="Fecha Final:" />
-                <p:calendar id="fhFin" value="#{indiceDeEncarrilamientoManagedBean.date2}"  pattern="dd-MM-yyyy" />
-
-            </h:panelGrid>
 
             <h:panelGrid columns="4" cellpadding="5">
 
@@ -53,32 +39,24 @@
                     <p:outputLabel value="Equipo 1" for="equipo" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="equipo" value="#{comparativoDeTiempoVidaUtilManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                        <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                    <p:selectOneMenu id="equipo" value="#{gastoReparacionEquipoManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItems value="#{gastoReparacionEquipoManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:outputLabel value="Equipo 2" for="equipo" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="equipodos" value="#{comparativoDeTiempoVidaUtilManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                        <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                    <p:selectOneMenu id="equipodos" value="#{gastoReparacionEquipoManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItems value="#{gastoReparacionEquipoManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
                     </p:selectOneMenu>
-                </p:column>
-            </h:panelGrid>
-
-
-            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                <p:column>
-                    <p:selectBooleanCheckbox value="#{comparativoDeTiempoVidaUtilManagedBean.value1}" />
-                    <h:outputText value="Incluir Tasa de Reparaciones Exitosas " />
                 </p:column>
             </h:panelGrid>
             <br/> <br/>
 
 
             <br/><br/>
-            <p:commandButton value="Aceptar" update="msgs" actionListener="#{comparativoDeTiempoVidaUtilManagedBean.click}" icon="ui-icon-check"  />
+            <p:commandButton value="Aceptar" update="msgs" actionListener="#{gastoReparacionEquipoManagedBean.click}" icon="ui-icon-check"  />
             <br/><br/>
 
         </div>

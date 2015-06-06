@@ -14,6 +14,9 @@ public abstract class GenericService<T, ID extends Serializable> {
     public List<T> findAll() {
         return getDao().findAll();
     }
+   
+
+  //  public List findAlll();
 
     public T findById(ID id) {
         return getDao().findById(id);
@@ -38,12 +41,12 @@ public abstract class GenericService<T, ID extends Serializable> {
     public PagedResult getPage(int page, int pageSize, String sortProperty, String sortDirection) {
         return getDao().getPage(page, pageSize, sortProperty, sortDirection);
     }
-    
-    public PagedResult getPage(int page, int pageSize, String sortProperty, String sortDirection, List criterions){
+
+    public PagedResult getPage(int page, int pageSize, String sortProperty, String sortDirection, List criterions) {
         return getDao().getPage(page, pageSize, sortProperty, sortDirection, criterions);
     }
-    
-    public PagedResult getPageAsesoria(int page, int pageSize, String sortProperty, String sortDirection, List criterions){
+
+    public PagedResult getPageAsesoria(int page, int pageSize, String sortProperty, String sortDirection, List criterions) {
         return getDao().getPageAsesoria(page, pageSize, sortProperty, sortDirection, criterions);
     }
 }

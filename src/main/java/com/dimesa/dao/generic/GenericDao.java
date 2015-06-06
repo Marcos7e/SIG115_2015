@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.ProjectionList;
@@ -36,14 +38,33 @@ public class GenericDao<T, ID extends Serializable> {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @SuppressWarnings("rawtypes")
+    protected Class clazz;
+
     public GenericDao() {
         myclass = (Class) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
-    public List<T> findAll() {
+    public List findAll() {
         Criteria c = sessionFactory.getCurrentSession().createCriteria(myclass);
         return c.list();
+      
     }
+
+    @SuppressWarnings("rawtypes")
+    public Class getClazz() {
+        return clazz;
+    }
+//     @Override
+//    public List findAll() {
+//        List ret = null;
+//        Session session = sessionFactory.getCurrentSession();
+//        Query q = session.createQuery("from " + getClazz().getName());
+//        if (q != null) {
+//            ret = q.list();
+//        }
+//        return ret;
+//    }
 
     public T findById(ID id) {
         return (T) sessionFactory.getCurrentSession().get(myclass, id);
@@ -371,10 +392,8 @@ public class GenericDao<T, ID extends Serializable> {
         }
         return dc;
     }
-    
-    
-    
-      public PagedResult getPageAsesoria(int page, int pageSize, String sortProperty, String sortDirection, List criterions) {
+
+    public PagedResult getPageAsesoria(int page, int pageSize, String sortProperty, String sortDirection, List criterions) {
         PagedResult ret = new PagedResult();
         List<String> projectionsDistinct = new ArrayList<String>();
         ProjectionList projectionsCount = Projections.projectionList().create();
@@ -382,7 +401,7 @@ public class GenericDao<T, ID extends Serializable> {
         Criteria c = dc.getExecutableCriteria(sessionFactory.getCurrentSession());
 //        c.createAlias("idasociados","idasociados");
         c.createAlias("taId", "taId");
-        c.add(Restrictions.like("taId.taNombre","%Tele%"));
+        c.add(Restrictions.like("taId.taNombre", "%Tele%"));
         ClassMetadata meta = getSessionFactory().getClassMetadata(getMyclass());
         if (criterions != null && criterions.size() > 0) {
             for (Object o : criterions) {
@@ -523,5 +542,5 @@ public class GenericDao<T, ID extends Serializable> {
         ret.setList(c.list());
         return ret;
     }
-      
+
 }

@@ -73,7 +73,7 @@ public class Equipo implements Serializable {
     @Column(name = "Empresa_responsable", nullable = false, length = 60)
     private String empresaresponsable;
     @Column(name = "fecha_registro")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
     @OneToMany(mappedBy = "pladimesa")
     private Set<Evento> eventoSet;
