@@ -9,7 +9,7 @@
                 xmlns:composite="http://java.sun.com/jsf/composite"
 
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h1> Indice/Promedio de Gasto por Reparacion de Equipo por Area dentro de la Institucion</h1>
+    <h1> Índice/Promedio de gasto por depreciación de equipo por área dentro de la institución</h1>
 
 
     <h:form id="form">
@@ -23,7 +23,7 @@
 
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
-                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{gastoReparacionEquipoManagedBean.fecha}"   />
+                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{gastoDepreciacionEquipoManagedBean.fecha}"   />
                 </p:column>            
                 <p:column>               
                     <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
@@ -43,8 +43,8 @@
                      <span>&nbsp;</span>
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="equipo" value="#{gastoReparacionEquipoManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                        <f:selectItems value="#{gastoReparacionEquipoManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                    <p:selectOneMenu id="equipo" value="#{gastoDepreciacionEquipoManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItems value="#{gastoDepreciacionEquipoManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
                     </p:selectOneMenu>
                      <span>&nbsp;</span>
                 </p:column>
@@ -54,7 +54,7 @@
                      <span>&nbsp;</span>
                 </p:column>
                 <p:column>
-                    <p:calendar id="fhInicial" value="#{gastoReparacionEquipoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
+                    <p:calendar id="fhInicial" value="#{gastoDepreciacionEquipoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
                      <span>&nbsp;</span>
                 </p:column>
                 <p:column>
@@ -62,21 +62,21 @@
                      <span>&nbsp;</span>
                 </p:column>
                 <p:column>
-                    <p:calendar id="fhFin" value="#{gastoReparacionEquipoManagedBean.date2}"  pattern="dd-MM-yyyy" />
+                    <p:calendar id="fhFin" value="#{gastoDepreciacionEquipoManagedBean.date2}"  pattern="dd-MM-yyyy" />
                      <span>&nbsp;</span>
                 </p:column>
                 <p:column>
                     <p:outputLabel value="Promedio de Gastos :" for="gasto"/>
                 </p:column>
                 <p:column>
-                    <p:selectBooleanCheckbox value="#{gastoReparacionEquipoManagedBean.value1}" id="gasto"/>
+                    <p:selectBooleanCheckbox value="#{gastoDepreciacionEquipoManagedBean.value1}" id="gasto"/>
                 </p:column>
             </h:panelGrid>
 
             <br/> <br/>
 
             <br/><br/>
-            <p:commandButton value="Aceptar" update="msgs" actionListener="#{gastoReparacionEquipoManagedBean.click}" icon="ui-icon-check"  />
+            <p:commandButton value="Aceptar" update="msgs" actionListener="#{gastoDepreciacionEquipoManagedBean.click}" icon="ui-icon-check"  />
             <br/><br/>
 
         </div>
@@ -84,7 +84,7 @@
         <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
             <p:panelGrid id="display" columns="2" columnClasses="label,value">
                 <h:outputText value="Event:" />
-                <h:outputText value="#{gastoReparacionEquipoManagedBean.date2}">
+                <h:outputText value="#{gastoDepreciacionEquipoManagedBean.date2}">
                     <f:convertDateTime pattern="MM/dd/yyyy" />
                 </h:outputText>
             </p:panelGrid>

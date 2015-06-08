@@ -24,11 +24,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 /**
  *
- * @author HDEZ
+ * @author Joao
  */
-@Named("comparativoDeTiempoVidaUtilManagedBean")
+@Named("gastoDepreciacionEquipoManagedBean")
 @Scope(WebApplicationContext.SCOPE_SESSION)
-public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<Equipo, Integer> {
+public class IndicePromedioDeGastoDepreciacionEquipoManagedBean extends GenericManagedBean<Equipo, Integer> {
 
     @Autowired
     @Qualifier(value = "equipoService")
@@ -37,19 +37,18 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
 
     private List<Equipo> equipoList;
     private Date date3 = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     private String fecha;
     private Date date1;
     private Date date2;
     private boolean value1;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
     @PostConstruct
     public void init() {
         equipoList = new ArrayList<Equipo>();
         equipoList = equipoService.findAll();
     }
-
-    @Override
+       @Override
     public GenericService<Equipo, Integer> getService() {
         return equipoService;
     }
@@ -58,7 +57,7 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
     public LazyDataModel<Equipo> getNewLazyModel() {
         return new IndicePromedioDeGastoReparacionEquipoLazyModel(equipoService);
     }
-
+    
     public Date getDate3() {
         return date3;
     }
@@ -122,6 +121,5 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-
+    } 
 }

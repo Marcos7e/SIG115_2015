@@ -18,7 +18,7 @@
 
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
-                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{gastoReparacionEquipoManagedBean.date3}"  />
+                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{comparativoDeTiempoVidaUtilManagedBean.fecha}"  />
                 </p:column>
                 <p:column>               
                     <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
@@ -39,16 +39,16 @@
                     <p:outputLabel value="Equipo 1" for="equipo" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="equipo" value="#{gastoReparacionEquipoManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                        <f:selectItems value="#{gastoReparacionEquipoManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                    <p:selectOneMenu id="equipo" value="#{comparativoDeTiempoVidaUtilManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:outputLabel value="Equipo 2" for="equipo" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="equipodos" value="#{gastoReparacionEquipoManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                        <f:selectItems value="#{gastoReparacionEquipoManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                    <p:selectOneMenu id="equipodos" value="#{comparativoDeTiempoVidaUtilManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
                     </p:selectOneMenu>
                 </p:column>
             </h:panelGrid>
@@ -56,7 +56,7 @@
 
 
             <br/><br/>
-            <p:commandButton value="Aceptar" update="msgs" actionListener="#{gastoReparacionEquipoManagedBean.click}" icon="ui-icon-check"  />
+            <p:commandButton value="Aceptar" update="msgs" actionListener="#{comparativoDeTiempoVidaUtilManagedBean.click}" icon="ui-icon-check"  />
             <br/><br/>
 
         </div>

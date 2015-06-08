@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2015 a las 08:46:01
+-- Tiempo de generación: 09-06-2015 a las 00:31:11
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -316,7 +316,7 @@ INSERT INTO `ss_opciones` (`ID_OPCION`, `NOMBRE_OPCION`, `URL`, `VISIBLE`, `USUA
 ('3', 'Índice/Promedio de Gasto por Reparación de equipo por Area', '/dimesa/views/IndicePromedioGastoPorReparacion/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('4', 'Índice/Promedio de Gasto por Depreciación de equipo por Area', '/siapa/views/cliente/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('5', 'Comparativo de Tiempo de Vida Util entre los Equipos', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('6', 'Comparativo de Gastos en Reparación entre Equipos en un Periodos ', '/siapa/views/persona/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('6', 'Comparativo de Gastos en Reparación entre Equipos en un Periodos ', '/dimesa/views/ComparativoDeGastosReparacion/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('7', 'Tasa de Exito/Fallo en Reparaciones', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('8', 'Resumen de Reparación Efectuada por Técnicos no Subcontratados', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('9', 'Proyección Tecnico/Tiempo Requerido para Dolventar un Inconveniente', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
@@ -439,6 +439,7 @@ INSERT INTO `ss_roles_opciones` (`ID_ROL`, `ID_OPCION`) VALUES
 ('4', '5'),
 ('5', '5'),
 ('1', '6'),
+('5', '6'),
 ('4', '7'),
 ('1', '8'),
 ('2', '8'),

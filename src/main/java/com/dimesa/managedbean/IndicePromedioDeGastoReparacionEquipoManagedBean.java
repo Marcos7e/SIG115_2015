@@ -10,6 +10,7 @@ import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEquipoLaz
 import com.dimesa.model.Equipo;
 import com.dimesa.service.EquipoService;
 import com.dimesa.service.generic.GenericService;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,14 +37,18 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
 
     private List<Equipo> equipoList;
     private Date date3 = new Date();
+    private String fecha;
+    private Date date1;
+    private Date date2;
+    private boolean value1;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
     @PostConstruct
     public void init() {
-        equipoList=new ArrayList<Equipo>();
-        equipoList=equipoService.findAll();
+        equipoList = new ArrayList<Equipo>();
+        equipoList = equipoService.findAll();
     }
 
-   
     @Override
     public GenericService<Equipo, Integer> getService() {
         return equipoService;
@@ -54,7 +59,7 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
         return new IndicePromedioDeGastoReparacionEquipoLazyModel(equipoService);
     }
 
-     public Date getDate3() {
+    public Date getDate3() {
         return date3;
     }
 
@@ -86,5 +91,37 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
         this.equipo = equipo;
     }
 
-    
+    public Date getDate1() {
+        return date1;
+    }
+
+    public void setDate1(Date date1) {
+        this.date1 = date1;
+    }
+
+    public Date getDate2() {
+        return date2;
+    }
+
+    public void setDate2(Date date2) {
+        this.date2 = date2;
+    }
+
+    public boolean isValue1() {
+        return value1;
+    }
+
+    public void setValue1(boolean value1) {
+        this.value1 = value1;
+    }
+
+    public String getFecha() {
+        fecha = formatter.format(date3);
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
 }

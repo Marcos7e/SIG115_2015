@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:composite="http://java.sun.com/jsf/composite"
+
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h1>Comparativo de gastos en reparaciÃ³n entre diferentes equipos en un periodos de tiempo</h1>
+    <h:form id="form">
+        <div align="center" style="border: 1px black solid">
+            <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
+
+
+            <p:panelGrid  columns="2" columnClasses="column">
+                <p:column>
+                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{comparativoDeGastosReparacionManagedBean.fecha}"  />
+                </p:column>
+                <p:column>               
+                    <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
+                </p:column>
+                <p:column>
+                    <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_comparativo_gastos_reparaciones" />
+                </p:column>
+            </p:panelGrid>
+
+            <p:growl id="msgs" showDetail="true" />
+            <br/> <br/>
+
+
+            <h:panelGrid columns="2" cellpadding="5">
+
+                <p:column>
+                    <p:outputLabel value="Area Hospitalaria" for="area" />
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="area" value="#{comparativoDeGastosReparacionManagedBean.evento}" converter="#{eventoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItems value="#{comparativoDeGastosReparacionManagedBean.eventoList}" var="areas" itemLabel="#{areas.unidad}" itemValue="#{areas}" />       
+                    </p:selectOneMenu>
+                </p:column>
+
+                <p:column>
+                    <p:outputLabel value="Equipo 1" for="equipox" />
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="equipox" value="#{comparativoDeGastosReparacionManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItems value="#{comparativoDeGastosReparacionManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="Equipo 2" for="equipoy" />
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="equipoy" value="#{comparativoDeGastosReparacionManagedBean.equipoy}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItems value="#{comparativoDeGastosReparacionManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                    </p:selectOneMenu>
+                </p:column>
+
+                <p:column>
+                    <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
+                    <span>&nbsp;</span>
+                </p:column>
+                <p:column>
+                    <p:calendar id="fhInicial" value="#{comparativoDeGastosReparacionManagedBean.date1}"  pattern="dd-MM-yyyy"  />
+                    <span>&nbsp;</span>
+                </p:column>
+                <p:column>
+                    <p:outputLabel for="fhFin"  value="Fecha Final:" />
+                    <span>&nbsp;</span>
+                </p:column>
+                <p:column>
+                    <p:calendar id="fhFin" value="#{comparativoDeGastosReparacionManagedBean.date2}"  pattern="dd-MM-yyyy" />
+                    <span>&nbsp;</span>
+                </p:column>
+            </h:panelGrid>
+            <br/> <br/>
+
+
+            <br/><br/>
+            <p:commandButton value="Aceptar" update="msgs" actionListener="#{comparativoDeGastosReparacionManagedBean.click}" icon="ui-icon-check"  />
+            <br/><br/>
+
+        </div>
+
+        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+            <p:panelGrid id="display" columns="2" columnClasses="label,value">
+                <h:outputText value="Event:" />
+                <h:outputText value="#{indiceDeEncarrilamientoManagedBean.date2}">
+                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                </h:outputText>
+            </p:panelGrid>
+        </p:dialog>
+    </h:form>
+
+</ui:composition>
