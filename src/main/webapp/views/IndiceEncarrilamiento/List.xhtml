@@ -10,24 +10,19 @@
 
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-
+    <h2 align="center">Indice de Encarrilamiento a Mision y Vision Empresarial</h2>
+   
     <h:form id="form">
         <div align="center" style="border: 1px black solid">
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
-
-
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
-                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{indiceDeEncarrilamientoManagedBean.date3}"  />
+                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{indiceDeEncarrilamientoManagedBean.fecha}"  />
                 </p:column>
-                <p:column>
-                    <span>&nbsp;</span>
-                    <br/>
+                <p:column>                                
                     <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
                 </p:column>
                 <p:column>
-                    <span>&nbsp;</span>
-                    <br/>
                     <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_encarrilamiento" />
                 </p:column>
             </p:panelGrid>
@@ -35,13 +30,18 @@
             <p:growl id="msgs" showDetail="true" />
             <br/> <br/>
             <h:panelGrid columns="2" cellpadding="5">
-
-                <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
-                <p:calendar id="fhInicial" value="#{indiceDeEncarrilamientoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
-
-                <p:outputLabel for="fhFin"  value="Fecha Final:" />
-                <p:calendar id="fhFin" value="#{indiceDeEncarrilamientoManagedBean.date2}"  pattern="dd-MM-yyyy" />
-
+                <p:column>
+                    <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
+                </p:column>
+                <p:column>
+                    <p:calendar id="fhInicial"  value="#{indiceDeEncarrilamientoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
+                </p:column>
+                <p:column>
+                    <p:outputLabel for="fhFin"  value="Fecha Final:" />
+                </p:column>
+                <p:column>
+                    <p:calendar id="fhFin" value="#{indiceDeEncarrilamientoManagedBean.date2}"  pattern="dd-MM-yyyy" />
+                </p:column>
             </h:panelGrid>
             <br/> <br/>
 

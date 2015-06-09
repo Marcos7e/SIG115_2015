@@ -38,7 +38,8 @@
                     <p:outputLabel value="Area Hospitalaria" for="area" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="area" value="#{comparativoDeGastosReparacionManagedBean.evento}" converter="#{eventoConverter}" effect="fade"  style="width:200px" >
+                    <p:selectOneMenu id="area" value="#{comparativoDeGastosReparacionManagedBean.area}" converter="#{eventoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItem itemLabel="Seleccione" />
                         <f:selectItems value="#{comparativoDeGastosReparacionManagedBean.eventoList}" var="areas" itemLabel="#{areas.unidad}" itemValue="#{areas}" />       
                     </p:selectOneMenu>
                 </p:column>
@@ -48,6 +49,7 @@
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="equipox" value="#{comparativoDeGastosReparacionManagedBean.equipox}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItem itemLabel="Seleccione" />
                         <f:selectItems value="#{comparativoDeGastosReparacionManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
                     </p:selectOneMenu>
                 </p:column>
@@ -56,6 +58,7 @@
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="equipoy" value="#{comparativoDeGastosReparacionManagedBean.equipoy}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItem itemLabel="Seleccione" />
                         <f:selectItems value="#{comparativoDeGastosReparacionManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
                     </p:selectOneMenu>
                 </p:column>

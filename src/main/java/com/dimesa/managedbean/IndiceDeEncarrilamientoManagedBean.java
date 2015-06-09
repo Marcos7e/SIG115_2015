@@ -5,11 +5,20 @@
  */
 package com.dimesa.managedbean;
 
+import com.dimesa.jasper.Reporte;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.springframework.context.annotation.Scope;
@@ -30,11 +39,13 @@ public class IndiceDeEncarrilamientoManagedBean {
     private boolean value2;
     private boolean value3;
     private boolean value4;
+    private String fecha;
+    private String reportName;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", formatter.format(event.getObject())));
     }
 
     public void click() {
@@ -45,11 +56,34 @@ public class IndiceDeEncarrilamientoManagedBean {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin Vacia."));
         } else if (getDate2().before(getDate1())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
-        }else{
-            
+        } else {
+
             //que debe de hacer
         }
 
+    }
+
+    public void print() {
+//        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+//        List<RptComparativoDeGastosReparacion> list = new ArrayList<RptComparativoDeGastosReparacion>();
+//        for (int i = 0; i < 100; i++) {
+//            RptComparativoDeGastosReparacion prueba = new RptComparativoDeGastosReparacion();
+//            prueba.setEquipox(12.2);
+//            prueba.setEquipoy(Double.NaN);
+//            list.add(prueba);
+//        }
+//
+//        HttpServletRequest request = (HttpServletRequest) context.getRequest();
+//        HttpServletResponse response = (HttpServletResponse) context.getResponse();
+//        Reporte reporte = new Reporte("compgastosrep", "rpt_comparativo_gasto_reparaciones", request);
+//
+//        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptComparativoDeGastosReparacion>(list)));
+//        reporte.setReportInSession(request, response);
+//        reportName = reporte.getNombreLogico();
+//
+//        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
+//
+//        RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
     }
 
     public Date getDate1() {
@@ -110,6 +144,23 @@ public class IndiceDeEncarrilamientoManagedBean {
 
     public void error() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Contact admin."));
+    }
+
+    public String getFecha() {
+        fecha = formatter.format(date3);
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getReportName() {
+        return reportName;
+    }
+
+    public void setReportName(String reportName) {
+        this.reportName = reportName;
     }
 
 }

@@ -5,17 +5,29 @@
  */
 package com.dimesa.managedbean;
 
+import com.dimesa.jasper.Reporte;
 import com.dimesa.managedbean.generic.GenericManagedBean;
-import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEquipoLazyModel;
-import com.dimesa.model.Equipo;
+import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEventoLazyModel;
+import com.dimesa.model.Evento;
+import com.dimesa.pojo.rpt.RptComparativoDeGastosReparacion;
 import com.dimesa.service.EquipoService;
+import com.dimesa.service.EventoService;
 import com.dimesa.service.generic.GenericService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,35 +40,82 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @Named("gastoReparacionEquipoManagedBean")
 @Scope(WebApplicationContext.SCOPE_SESSION)
-public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericManagedBean<Equipo, Integer> {
+public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericManagedBean<Evento, Integer> {
 
     @Autowired
     @Qualifier(value = "equipoService")
     private EquipoService equipoService;
-    private Equipo equipo;
 
-    private List<Equipo> equipoList;
+    @Autowired
+    @Qualifier(value = "eventoService")
+    private EventoService eventoService;
+
+    private Evento evento;
+
+    private List<Evento> eventoList;
     private Date date3 = new Date();
     private String fecha;
+    private String area;
     private Date date1;
     private Date date2;
     private boolean value1;
+     private String reportName;
+    
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
     @PostConstruct
     public void init() {
-        equipoList = new ArrayList<Equipo>();
-        equipoList = equipoService.findAll();
+        eventoList = new ArrayList<Evento>();
+        eventoList = eventoService.findAll();
     }
 
     @Override
-    public GenericService<Equipo, Integer> getService() {
-        return equipoService;
+    public GenericService<Evento, Integer> getService() {
+        return eventoService;
     }
 
     @Override
-    public LazyDataModel<Equipo> getNewLazyModel() {
-        return new IndicePromedioDeGastoReparacionEquipoLazyModel(equipoService);
+    public LazyDataModel<Evento> getNewLazyModel() {
+        return new IndicePromedioDeGastoReparacionEventoLazyModel(eventoService);
+    }
+
+    public void click() {
+
+        if (getArea() == null || getArea().equals("")) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Seleccionar Area Hospitalaria"));
+        } else if (getDate1() == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Inicial Vacia."));
+        } else if (getDate2() == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin Vacia."));
+        } else if (getDate2().before(getDate1())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
+        } else {
+            print();
+        }
+
+    }
+
+    public void print() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        List<RptComparativoDeGastosReparacion> list = new ArrayList<RptComparativoDeGastosReparacion>();
+        for (int i = 0; i < 100; i++) {
+            RptComparativoDeGastosReparacion prueba = new RptComparativoDeGastosReparacion();
+            prueba.setEquipox(12.2);
+            prueba.setEquipoy(Double.NaN);
+            list.add(prueba);
+        }
+
+        HttpServletRequest request = (HttpServletRequest) context.getRequest();
+        HttpServletResponse response = (HttpServletResponse) context.getResponse();
+        Reporte reporte = new Reporte("compgastosrep", "rpt_comparativo_gasto_reparaciones", request);
+
+        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptComparativoDeGastosReparacion>(list)));
+        reporte.setReportInSession(request, response);
+        reportName = reporte.getNombreLogico();
+
+        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
+
+        RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
     }
 
     public Date getDate3() {
@@ -67,28 +126,12 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
         this.date3 = date3;
     }
 
-    public List<Equipo> getEquipoList() {
-        return equipoList;
-    }
-
-    public void setEquipoList(List<Equipo> equipoList) {
-        this.equipoList = equipoList;
-    }
-
     public EquipoService getEquipoService() {
         return equipoService;
     }
 
     public void setEquipoService(EquipoService equipoService) {
         this.equipoService = equipoService;
-    }
-
-    public Equipo getEquipo() {
-        return equipo;
-    }
-
-    public void setEquipo(Equipo equipo) {
-        this.equipo = equipo;
     }
 
     public Date getDate1() {
@@ -122,6 +165,38 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public List<Evento> getEventoList() {
+        return eventoList;
+    }
+
+    public void setEventoList(List<Evento> eventoList) {
+        this.eventoList = eventoList;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getReportName() {
+        return reportName;
+    }
+
+    public void setReportName(String reportName) {
+        this.reportName = reportName;
     }
 
 }
