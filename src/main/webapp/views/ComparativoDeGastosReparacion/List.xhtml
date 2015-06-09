@@ -10,7 +10,7 @@
 
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <h1>Comparativo de gastos en reparaciÃ³n entre diferentes equipos en un periodos de tiempo</h1>
+    <h1>Comparativo de Gastos en Reparacion entre Diferentes Equipos en un Periodos de Tiempo</h1>
     <h:form id="form">
         <div align="center" style="border: 1px black solid">
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
@@ -47,7 +47,7 @@
                     <p:outputLabel value="Equipo 1" for="equipox" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="equipox" value="#{comparativoDeGastosReparacionManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                    <p:selectOneMenu id="equipox" value="#{comparativoDeGastosReparacionManagedBean.equipox}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
                         <f:selectItems value="#{comparativoDeGastosReparacionManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
                     </p:selectOneMenu>
                 </p:column>

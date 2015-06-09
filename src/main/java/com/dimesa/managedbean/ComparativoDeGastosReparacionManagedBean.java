@@ -5,6 +5,7 @@
  */
 package com.dimesa.managedbean;
 
+import com.dimesa.jasper.Reporte;
 import com.dimesa.managedbean.generic.GenericManagedBean;
 import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEquipoLazyModel;
 import com.dimesa.model.Equipo;
@@ -15,11 +16,17 @@ import com.dimesa.service.generic.GenericService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,27 +44,28 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
     @Autowired
     @Qualifier(value = "equipoService")
     private EquipoService equipoService;
-    
+
     @Autowired
-    @Qualifier(value="eventoService")
+    @Qualifier(value = "eventoService")
     private EventoService eventoService;
-    
-    
+
     private Equipo equipo;
     private Evento evento;
 
     private List<Equipo> equipoList;
     private List<Evento> eventoList;
-    private Date date3 = new Date();
+
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     private String fecha;
     private Date date1;
     private Date date2;
+    private Date date3 = new Date();
     private boolean value1;
-    
+
     private String area;
     private String equipox;
     private String equipoy;
+    private String reportName;
 
     @PostConstruct
     public void init() {
@@ -76,9 +84,8 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
     public LazyDataModel<Equipo> getNewLazyModel() {
         return new IndicePromedioDeGastoReparacionEquipoLazyModel(equipoService);
     }
-    
-    
-     public void click() {
+
+    public void click() {
 
         if (getDate1() == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Inicial Vacia."));
@@ -86,14 +93,24 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin Vacia."));
         } else if (getDate2().before(getDate1())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
-        }else{
-            
-            System.out.println("pp" + getArea());
-            System.out.println("pp" + getEquipox());
-            System.out.println("pp" + getEquipoy());
-            //que debe de hacer
+        } else if (getEquipox().toString().equals(getEquipoy().toString())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Equipo 1 No Debe ser Igual a Equipo 2."));
+        } else {
+            print();
         }
 
+    }
+
+    public void print() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) context.getRequest();
+        HttpServletResponse response = (HttpServletResponse) context.getResponse();
+        Reporte reporte = new Reporte("compgastosrep", "rpt_comparativo_gasto_reparaciones", request);
+        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<Equipo>(equipoService.findAll())));
+        reporte.setReportInSession(request, response);
+        reportName = reporte.getNombreLogico();
+        RequestContext.getCurrentInstance().
+                addCallbackParam("reportName", reportName);
     }
 
     public Date getDate3() {
@@ -201,7 +218,12 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
         this.equipoy = equipoy;
     }
 
-    
-    
-    
+    public String getReportName() {
+        return reportName;
+    }
+
+    public void setReportName(String reportName) {
+        this.reportName = reportName;
+    }
+
 }
