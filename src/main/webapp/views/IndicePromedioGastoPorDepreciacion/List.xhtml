@@ -9,17 +9,11 @@
                 xmlns:composite="http://java.sun.com/jsf/composite"
 
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h1> Índice/Promedio de gasto por depreciación de equipo por área dentro de la institución</h1>
-
-
+    <h2 align="center"> Indice/Promedio de gasto por Depreciacion de equipo por Area Dentro de la Institucion</h2>
     <h:form id="form">
-
 
         <div align="center" style="border: 1px black solid">
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
-
-
-
 
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
@@ -37,33 +31,32 @@
             <br/> <br/>
 
             <h:panelGrid columns="2" >
-
-                <p:column>
-                    <p:outputLabel value="Area Hospitalaria" for="equipo" />
-                     <span>&nbsp;</span>
+                
+                 <p:column>
+                    <p:outputLabel value="Area Hospitalaria" for="area" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="equipo" value="#{gastoDepreciacionEquipoManagedBean.equipo}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                        <f:selectItems value="#{gastoDepreciacionEquipoManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                    <p:selectOneMenu id="area" value="#{comparativoDeGastosReparacionManagedBean.area}" converter="#{eventoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItem itemLabel="Seleccione" />
+                        <f:selectItems value="#{comparativoDeGastosReparacionManagedBean.eventoList}" var="areas" itemLabel="#{areas.unidad}" itemValue="#{areas}" />       
                     </p:selectOneMenu>
-                     <span>&nbsp;</span>
                 </p:column>
-
+              
                 <p:column>
                     <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
-                     <span>&nbsp;</span>
+                    <span>&nbsp;</span>
                 </p:column>
                 <p:column>
                     <p:calendar id="fhInicial" value="#{gastoDepreciacionEquipoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
-                     <span>&nbsp;</span>
+                    <span>&nbsp;</span>
                 </p:column>
                 <p:column>
                     <p:outputLabel for="fhFin"  value="Fecha Final:" />
-                     <span>&nbsp;</span>
+                    <span>&nbsp;</span>
                 </p:column>
                 <p:column>
                     <p:calendar id="fhFin" value="#{gastoDepreciacionEquipoManagedBean.date2}"  pattern="dd-MM-yyyy" />
-                     <span>&nbsp;</span>
+                    <span>&nbsp;</span>
                 </p:column>
                 <p:column>
                     <p:outputLabel value="Promedio de Gastos :" for="gasto"/>
