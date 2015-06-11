@@ -5,13 +5,23 @@
  */
 package com.dimesa.managedbean;
 
+import com.dimesa.managedbean.generic.GenericManagedBean;
+import com.dimesa.model.Evento;
+import com.dimesa.service.EventoService;
+import com.dimesa.service.generic.GenericService;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.LazyDataModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -22,14 +32,35 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @Named("tasaExitoFalloReparacionesManagedBean")
 @Scope(WebApplicationContext.SCOPE_SESSION)
-public class TasaExitoFalloReparacionesManagedBean {
-
-
- 
+public class TasaExitoFalloReparacionesManagedBean extends GenericManagedBean<Evento,Integer> {
 
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
+    @Autowired
+    @Qualifier(value = "eventoService")
+    private EventoService eventoService;
+    private Evento evento;
+    private List<Evento> eventoList;
+    
+      @PostConstruct
+    public void init() {
+        eventoList = new ArrayList<Evento>();
+        eventoList = eventoService.findAll();
+    }
+    
+     @Override
+    public GenericService<Evento, Integer> getService() {
+        return eventoService;
+    }
+
+    @Override
+    public LazyDataModel<Evento> getNewLazyModel() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     
     private Date _fechaInicial;
     private Date _fechaFinal;
@@ -129,6 +160,8 @@ public class TasaExitoFalloReparacionesManagedBean {
 
     
     
+   ///////////////////////////////////////////////
+
    
     
     

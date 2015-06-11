@@ -1,16 +1,83 @@
-<?xml version="1.0" encoding="windows-1252"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:composite="http://java.sun.com/jsf/composite"
+
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <h:form id="form">
+        <div align="center" style="border: 1px black solid">
+            <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
+            <p:panelGrid  columns="2" columnClasses="column">
+                <p:column>
+                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{tasaExitoFalloReparacionesManagedBean.fechaEmision}"  />
+                </p:column>
+                <p:column>                                
+                    <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
+                </p:column>
+                <p:column>
+                    <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_historial_reparaciones_tecnicos" />
+                </p:column>
+            </p:panelGrid>
+            
+            <h2 align="center">Resumen de historiales de reparaciones efectuadas por tecnicos no Subcontratados</h2>
+            
+              <p:panelGrid  columns="2" columnClasses="column">
+                <p:column >
+                    <h:outputLabel for="fechaActual" value="del: #{tasaExitoFalloReparacionesManagedBean.fechaEmision}"  />
+                </p:column>
+                <p:column>                                
+                    <h:outputLabel for="user" value="Al:#{currentUserSessionBean.form.sessionUser.username}" />
+                </p:column>
+             
+            </p:panelGrid>
+           
+                
+          <!--Panel-->
+          
+          <p:panelGrid columns="11" style="border: 1px black solid">
+              <f:facet name="header" >
+            <p:row>
+                <p:column colspan="2" style="border: 1px black solid" width="9%">Placa Dimesa</p:column>
+            <p:column colspan="2" style="border: 1px black solid" width="19%">Numero de Serie</p:column>
+            <p:column colspan="2" style="border: 1px black solid" width="19%"> Marca Equipo</p:column>
+            <p:column colspan="2" style="border: 1px black solid" width="19%">Modelo Equipo</p:column>
+            <p:column colspan="2" style="border: 1px black solid" width="19%">Nombre Equipo</p:column>
+            <p:column colspan="2" style="border: 1px black solid" width="19%">Unidad</p:column>
+            <p:column colspan="2" style="border: 1px black solid" width="19%">Nombre Tecnico</p:column>
+            <p:column colspan="2" style="border: 1px black solid" width="19%">Tipo reparacion</p:column>
+            <p:column colspan="2" style="border: 1px black solid" width="19%">Numero Dimesa</p:column>
+            <p:column colspan="2" style="border: 1px black solid" width="19%">Coste</p:column>
+
+ 
+        </p:row>
+              </f:facet>
+              
+              <p:row>
+                  <p:column>TOTAL:</p:column>
+                 
+              </p:row>
+              
+          </p:panelGrid>
+           
+                 
+               
+                                  
+                
+                  
+                
+                
+          
+            
+        </div>
+              
+         
+    </h:form>
+
+</ui:composition>
