@@ -21,4 +21,9 @@
         <converter-id>promocionConverter</converter-id>
         <converter-class>converter.PromocionConverter</converter-class>
     </converter>
+    <managed-bean>
+        <managed-bean-name>tasaExitoFalloManagedBean</managed-bean-name>
+        <managed-bean-class>com.dimesa.managedbean.TasaExitoFalloManagedBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>
