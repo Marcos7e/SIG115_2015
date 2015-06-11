@@ -9,6 +9,7 @@ import com.dimesa.dao.EventoDao;
 import com.dimesa.dao.generic.GenericDao;
 import com.dimesa.model.Evento;
 import com.dimesa.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,14 @@ public class EventoService extends GenericService<Evento, Integer>{
     @Override
     public GenericDao<Evento, Integer> getDao() {
       return eventoDao;
+    }
+    public List<Evento>getAllEventos(){
+        return this.eventoDao.getAllEventos();
+    
+    }
+    
+    public List<String> getUnidades(){
+    return this.eventoDao.getUnidades();
     }
     
 }

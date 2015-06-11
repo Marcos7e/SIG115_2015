@@ -7,6 +7,8 @@ package com.dimesa.dao;
 
 import com.dimesa.dao.generic.GenericDao;
 import com.dimesa.model.Equipo;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 
@@ -16,5 +18,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class EquipoDao extends GenericDao<Equipo, Integer> {
+    
+    public List<Equipo> getListadoEquipos()
+    {
+        Query q = getSessionFactory().getCurrentSession().createQuery(
+        "SELECT * FROM EQUIPO"
+        );
+         return q.list();
+    }
 
 }

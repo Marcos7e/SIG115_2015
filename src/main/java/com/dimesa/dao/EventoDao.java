@@ -7,6 +7,8 @@ package com.dimesa.dao;
 
 import com.dimesa.dao.generic.GenericDao;
 import com.dimesa.model.Evento;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,5 +17,20 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class EventoDao extends GenericDao<Evento, Integer> {
+    
+    public List<Evento> getAllEventos(){
+    Query q = getSessionFactory().getCurrentSession().createQuery(
+    "SELECT * FROM EVENTO"
+    );
+        return q.list();
+    }
+    
+    public List<String> getUnidades(){
+    Query q = getSessionFactory().getCurrentSession().createQuery(
+    "SELECT Unidad FROM Evento"
+    );
+    return q.list();
+    }
+
     
 }

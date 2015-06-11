@@ -16,7 +16,7 @@
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
-                    <h:outputLabel value="Fecha de Emision : #{TasaExitoFalloManagedBean.fechaEmision}"  />
+                    <h:outputLabel value="Fecha de Emision : #{TasaExitoFalloManagedBean.fecha}"  />
                 </p:column>
                 <p:column>                                
                     <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
@@ -33,24 +33,27 @@
             <h:panelGrid columns="2" columnClasses="column">
               
               <p:column colspan="2">
-                  <h:outputLabel value="Area Hospitalaria"/>
-                  <p:selectOneMenu id="areaHospitalaria" value="#{comparativoDeTiempoVidaUtilManagedBean.equipox}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                  <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+                  <p:outputLabel value="Area Hospitalaria" for="areaHospitalaria"/>
+                  <p:selectOneMenu id="areaHospitalaria" value="#{TasaExitoFalloManagedBean.area}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                  <f:selectItem itemLabel="Seleccione" />
+                  <f:selectItems value="#{TasaExitoFalloManagedBean.eventoList}" var="areas" itemLabel="#{areas.unidad}" itemValue="#{areas}" />       
                   </p:selectOneMenu>
               </p:column>
               
-              <p:column colspan="2">
-                  <h:outputLabel value="Fecha Inicial"  />
-                  <p:selectOneMenu id="fechaInicial" value="#{comparativoDeTiempoVidaUtilManagedBean.equipoy}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                  <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
+               <p:column colspan="2">
+                  <p:outputLabel value="Fecha Inicial" for="fechaInicial"/>
+                  <p:selectOneMenu id="fechaInicial" value="#{TasaExitoFalloManagedBean.fechaInicio}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                  <f:selectItem itemLabel="Seleccione" />
+                  <f:selectItems value="#{TasaExitoFalloManagedBean.eventoList}" var="areas" itemLabel="#{areas.fechainicio}" itemValue="#{areas}" />       
                   </p:selectOneMenu>
               </p:column>
-                <p:column>
-                     <h:outputLabel value="Fecha Final"  />
-                  <p:selectOneMenu id="fechaFinal" value="#{comparativoDeTiempoVidaUtilManagedBean.equipoy}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                  <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
-                  </p:selectOneMenu>    
-                </p:column> 
+                <p:column colspan="2">
+                  <p:outputLabel value="Area Hospitalaria" for="fechaFinal"/>
+                  <p:selectOneMenu id="fechaFinal" value="#{TasaExitoFalloManagedBean.fechaFinal}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
+                  <f:selectItem itemLabel="Seleccione" />
+                  <f:selectItems value="#{TasaExitoFalloManagedBean.eventoList}" var="areas" itemLabel="#{areas.fechafin}" itemValue="#{areas}" />       
+                  </p:selectOneMenu>
+              </p:column>
                  
                 <p:column>
                <p:button value="Aceptar"/>
