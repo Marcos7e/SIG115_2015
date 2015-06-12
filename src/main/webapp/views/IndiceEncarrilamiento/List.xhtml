@@ -10,9 +10,10 @@
 
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <h2 align="center">Indice de Encarrilamiento a Mision y Vision Empresarial</h2>
    
+
     <h:form id="form">
+         <h2 align="center">Indice de Encarrilamiento a Mision y Vision Empresarial</h2>
         <div align="center" style="border: 1px black solid">
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
             <p:panelGrid  columns="2" columnClasses="column">
@@ -64,21 +65,22 @@
                 </p:column>
 
             </h:panelGrid>
+            <h:panelGrid columns="2"  cellpadding="5">
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton value="Aceptar" update="msgs" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" icon="ui-icon-check"  />
+                        
+                        <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
+                        <p:commandButton value="Atras"  icon="ui-icon-check"  onchange="#{facesContext.externalContext.requestContextPath}/views/index.xhtml" />
+                       
+                    </div>
+                </f:facet>
+            </h:panelGrid>
 
-            <br/><br/>
-            <p:commandButton value="Aceptar" update="msgs" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" icon="ui-icon-check"  />
-            <br/><br/>
 
         </div>
 
-        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
-            <p:panelGrid id="display" columns="2" columnClasses="label,value">
-                <h:outputText value="Event:" />
-                <h:outputText value="#{indiceDeEncarrilamientoManagedBean.date2}">
-                    <f:convertDateTime pattern="MM/dd/yyyy" />
-                </h:outputText>
-            </p:panelGrid>
-        </p:dialog>
+
     </h:form>
 
 </ui:composition>

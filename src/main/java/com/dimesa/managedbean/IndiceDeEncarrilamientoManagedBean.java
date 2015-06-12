@@ -6,11 +6,16 @@
 package com.dimesa.managedbean;
 
 import com.dimesa.jasper.Reporte;
+import com.dimesa.managedbean.form.CurrentUserSessionForm;
+import com.dimesa.pojo.rpt.RptIndiceDeEncarrilamiento;
+
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -42,6 +47,10 @@ public class IndiceDeEncarrilamientoManagedBean {
     private String fecha;
     private String reportName;
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    private int millisInDay = 24 * 60 * 60 * 1000;
+    Random r = new Random();
+    
+    private CurrentUserSessionForm currentUserSessionForm;
 
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -57,33 +66,42 @@ public class IndiceDeEncarrilamientoManagedBean {
         } else if (getDate2().before(getDate1())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
         } else {
-
-            //que debe de hacer
+            print();
         }
 
     }
 
     public void print() {
-//        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-//        List<RptComparativoDeGastosReparacion> list = new ArrayList<RptComparativoDeGastosReparacion>();
-//        for (int i = 0; i < 100; i++) {
-//            RptComparativoDeGastosReparacion prueba = new RptComparativoDeGastosReparacion();
-//            prueba.setEquipox(12.2);
-//            prueba.setEquipoy(Double.NaN);
-//            list.add(prueba);
-//        }
-//
-//        HttpServletRequest request = (HttpServletRequest) context.getRequest();
-//        HttpServletResponse response = (HttpServletResponse) context.getResponse();
-//        Reporte reporte = new Reporte("compgastosrep", "rpt_comparativo_gasto_reparaciones", request);
-//
-//        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptComparativoDeGastosReparacion>(list)));
-//        reporte.setReportInSession(request, response);
-//        reportName = reporte.getNombreLogico();
-//
-//        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
-//
-//        RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
+        RptIndiceDeEncarrilamiento prueba = new RptIndiceDeEncarrilamiento();
+        
+        
+       
+        
+        for (int i = 0; i < 100; i++) {
+            prueba = new RptIndiceDeEncarrilamiento();
+            prueba.setArea("Area de prueba");
+            prueba.setEquipo("Equipo" + i);
+            prueba.setGastoDept(100 + (200 - 300) * r.nextDouble());
+            prueba.setGastoRepa(100 + (200 - 300) * r.nextDouble());
+            prueba.setTasaRep(100 + (200 - 300) * r.nextDouble());
+            Time time = new Time((long) r.nextInt(millisInDay));
+            prueba.setTiempoRe(time.toString());
+            list.add(prueba);
+        }
+        HttpServletRequest request = (HttpServletRequest) context.getRequest();
+        HttpServletResponse response = (HttpServletResponse) context.getResponse();
+        Reporte reporte = new Reporte("indicedeencarrilamiento", "rpt_encarrilamiento", request);
+        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndiceDeEncarrilamiento>(list)));
+        reporte.addParameter("fechaInicial", formatter.format(date1));
+        reporte.addParameter("fechaFinal", formatter.format(date2));
+        reporte.addParameter("usuario","usuario");
+        reporte.setReportInSession(request, response);
+        reportName = reporte.getNombreLogico();
+        RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
+
     }
 
     public Date getDate1() {
