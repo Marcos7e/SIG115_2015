@@ -16,7 +16,7 @@
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
-                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{tasaExitoFalloReparacionesManagedBean.fechaEmision}"  />
+                    <h:outputLabel for="fechaActual" value="Fecha de Emision : #{ResumenHistorialReparacionTecnicoNoSubContratado.fechaServer}"  />
                 </p:column>
                 <p:column>                                
                     <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
@@ -30,10 +30,10 @@
             
               <p:panelGrid  columns="2" columnClasses="column">
                 <p:column >
-                    <h:outputLabel for="fechaActual" value="del: #{tasaExitoFalloReparacionesManagedBean.fechaEmision}"  />
+                    <h:outputLabel  value="del: #{ResumenHistorialReparacionTecnicoNoSubContratado.fechaInicio}"  />
                 </p:column>
                 <p:column>                                
-                    <h:outputLabel for="user" value="Al:#{currentUserSessionBean.form.sessionUser.username}" />
+                    <h:outputLabel value="Al:#{ResumenHistorialReparacionTecnicoNoSubContratado.fechaFinal}" />
                 </p:column>
              
             </p:panelGrid>
@@ -41,31 +41,58 @@
                 
           <!--Panel-->
           
-          <p:panelGrid columns="11" style="border: 1px black solid">
-              <f:facet name="header" >
-            <p:row>
-                <p:column colspan="2" style="border: 1px black solid" width="9%">Placa Dimesa</p:column>
-            <p:column colspan="2" style="border: 1px black solid" width="19%">Numero de Serie</p:column>
-            <p:column colspan="2" style="border: 1px black solid" width="19%"> Marca Equipo</p:column>
-            <p:column colspan="2" style="border: 1px black solid" width="19%">Modelo Equipo</p:column>
-            <p:column colspan="2" style="border: 1px black solid" width="19%">Nombre Equipo</p:column>
-            <p:column colspan="2" style="border: 1px black solid" width="19%">Unidad</p:column>
-            <p:column colspan="2" style="border: 1px black solid" width="19%">Nombre Tecnico</p:column>
-            <p:column colspan="2" style="border: 1px black solid" width="19%">Tipo reparacion</p:column>
-            <p:column colspan="2" style="border: 1px black solid" width="19%">Numero Dimesa</p:column>
-            <p:column colspan="2" style="border: 1px black solid" width="19%">Coste</p:column>
-
+            <p:dataTable var="car" value="#{dtBasicView.cars}">
+    <p:column headerText="Placa Dimesa">
+        <h:outputText value="#{car.id}" />
+    </p:column>
  
-        </p:row>
-              </f:facet>
+    <p:column headerText="Numero de Serie">
+        <h:outputText value="#{car.year}" />
+    </p:column>
+ 
+    <p:column headerText="Marca Equipo">
+        <h:outputText value="#{car.brand}" />
+    </p:column>
+ 
+    <p:column headerText="Modelo Equipo">
+        <h:outputText value="#{car.color}" />
+    </p:column>
               
-              <p:row>
-                  <p:column>TOTAL:</p:column>
-                 
-              </p:row>
+              <p:column headerText="Nombre Equipo">
+        <h:outputText value="#{car.color}" />
+    </p:column>
               
-          </p:panelGrid>
-           
+              <p:column headerText="Unidad">
+        <h:outputText value="#{car.color}" />
+    </p:column>
+              
+              <p:column headerText="Nombre Tecnico">
+        <h:outputText value="#{car.color}" />
+    </p:column>
+              
+              <p:column headerText="Tipo reparacion">
+        <h:outputText value="#{car.color}" />
+    </p:column>
+              
+              <p:column headerText="Numero Dimesa">
+        <h:outputText value="#{car.color}" />
+    </p:column>
+              
+                    <p:column headerText="Coste">
+        <h:outputText value="#{car.color}" />
+    </p:column>
+       
+  
+</p:dataTable>
+          
+          
+   
+              
+              
+   
+</p:dataTable>
+          
+    
                  
                
                                   
