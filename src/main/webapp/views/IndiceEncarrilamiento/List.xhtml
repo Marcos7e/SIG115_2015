@@ -71,7 +71,7 @@
                         <p:commandButton value="Aceptar" update="msgs" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" icon="ui-icon-check"  />
                         
                         <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
-                        <p:commandButton value="Atras"  icon="ui-icon-check"  onchange="#{facesContext.externalContext.requestContextPath}/views/index.xhtml" />
+                        <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href='#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />
                        
                     </div>
                 </f:facet>
