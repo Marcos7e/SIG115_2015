@@ -1,8 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_comparativo_vida_util" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fc7f0ae6-31d2-4e1f-8e99-e683960c923b">
 	<property name="ireport.zoom" value="1.7715610000000017"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="1"/>
 	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="costoAnualOpreacionA" class="java.lang.Double">
+		<fieldDescription><![CDATA[costoAnualOpreacionA]]></fieldDescription>
+	</field>
+	<field name="costoAnualOpreacionB" class="java.lang.Double">
+		<fieldDescription><![CDATA[costoAnualOpreacionB]]></fieldDescription>
+	</field>
+	<field name="costoinicialA" class="java.lang.Double">
+		<fieldDescription><![CDATA[costoinicialA]]></fieldDescription>
+	</field>
+	<field name="costoinicialB" class="java.lang.Double">
+		<fieldDescription><![CDATA[costoinicialB]]></fieldDescription>
+	</field>
+	<field name="interesA" class="java.lang.Double">
+		<fieldDescription><![CDATA[interesA]]></fieldDescription>
+	</field>
+	<field name="interesB" class="java.lang.Double">
+		<fieldDescription><![CDATA[interesB]]></fieldDescription>
+	</field>
+	<field name="usuario" class="java.lang.String">
+		<fieldDescription><![CDATA[usuario]]></fieldDescription>
+	</field>
+	<field name="valorSalvamentoA" class="java.lang.Double">
+		<fieldDescription><![CDATA[valorSalvamentoA]]></fieldDescription>
+	</field>
+	<field name="valorSalvamentoB" class="java.lang.Double">
+		<fieldDescription><![CDATA[valorSalvamentoB]]></fieldDescription>
+	</field>
+	<field name="vidaUtilA" class="java.lang.Integer">
+		<fieldDescription><![CDATA[vidaUtilA]]></fieldDescription>
+	</field>
+	<field name="vidaUtilB" class="java.lang.Integer">
+		<fieldDescription><![CDATA[vidaUtilB]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -14,11 +53,6 @@
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha de Emision:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="100" y="16" width="100" height="20" uuid="063f97ab-bd04-492e-a7a5-d092a78d2f48"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[dd/MM/yyyy]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="70" width="572" height="37" uuid="3699cc50-46ba-4f73-80a4-72e78e5dc955"/>
@@ -44,7 +78,7 @@
 				<text><![CDATA[Nombre Reporte:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="100" y="40" width="472" height="20" uuid="8631dff8-8522-429e-89f3-adb2cde24100"/>
+				<reportElement x="96" y="40" width="472" height="20" uuid="8631dff8-8522-429e-89f3-adb2cde24100"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[rpt_comparativo_vida_util]]></text>
 			</staticText>
@@ -62,11 +96,16 @@
 				</textElement>
 				<text><![CDATA[Usuario:]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="458" y="144" width="100" height="20" uuid="0b9969dc-5e73-4c30-9bca-7ae5e1d461e0"/>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="96" y="16" width="100" height="20" uuid="e1eab67f-5020-421e-91e3-58b313b4ade7"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[xxxxxxxxxxxxxxxxxx]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="458" y="144" width="100" height="20" uuid="24dc39e1-b7e8-4823-8b55-a197ba7f0f6d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
@@ -124,56 +163,56 @@
 				</textElement>
 				<text><![CDATA[Vida útil (años)]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="172" y="0" width="200" height="20" uuid="66ede413-89aa-4152-bd98-9fae9ab4ed98"/>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="172" y="0" width="200" height="20" uuid="72d4ed37-fb0a-40a9-927f-bf7dca7890a0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="372" y="0" width="200" height="20" uuid="4d5e21b5-0ef5-449e-a7bf-978e460689b1"/>
+				<textFieldExpression><![CDATA[$F{costoinicialA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="372" y="0" width="200" height="20" uuid="06dcac66-05e0-4c4e-a4c3-31730c3ff72e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="172" y="20" width="200" height="20" uuid="0e3b9245-58d7-4be2-8b9c-bd5ba66f3d24"/>
+				<textFieldExpression><![CDATA[$F{costoinicialB}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="172" y="20" width="200" height="20" uuid="27b93eb7-5a33-408a-a163-9ae58aa8af1a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="172" y="40" width="200" height="20" uuid="6fe1145d-bf05-4344-b7d1-c8d38f4b2843"/>
+				<textFieldExpression><![CDATA[$F{costoAnualOpreacionA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="372" y="20" width="200" height="20" uuid="3edcaf65-22bb-49ab-a7b4-b70b613df97d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="372" y="20" width="200" height="20" uuid="7514ed7f-8ab7-4a95-a448-01aecb0e5c75"/>
+				<textFieldExpression><![CDATA[$F{costoAnualOpreacionB}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="172" y="40" width="200" height="20" uuid="d7511f00-1771-4328-b46d-fbecab5cc592"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="372" y="40" width="200" height="20" uuid="54ce4aff-b20d-4e0c-b529-8da8282b3aa6"/>
+				<textFieldExpression><![CDATA[$F{valorSalvamentoA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="372" y="40" width="200" height="20" uuid="4dad2b37-0d91-4a33-9cb5-e6910ac0f3ae"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="172" y="60" width="200" height="20" uuid="64e19ccb-5529-44cf-9804-e5f35e26842c"/>
+				<textFieldExpression><![CDATA[$F{valorSalvamentoB}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="172" y="60" width="200" height="20" uuid="96a0d788-abd1-419b-a6cf-d7408dfb5e4d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="172" y="80" width="200" height="20" uuid="789ac5f0-eddb-4a0f-8513-5dd26cc2c574"/>
+				<textFieldExpression><![CDATA[$F{interesA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="372" y="60" width="200" height="20" uuid="21d16859-0515-4842-889e-07c71023aca1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="372" y="60" width="200" height="20" uuid="8fd0921e-27bb-417c-a002-4189bc17f192"/>
+				<textFieldExpression><![CDATA[$F{interesB}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="172" y="80" width="200" height="20" uuid="87676e62-2797-4c15-a4af-04c615cc16b0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="372" y="80" width="200" height="20" uuid="328c2045-9a5c-497b-aeb3-f97dbc6167de"/>
+				<textFieldExpression><![CDATA[$F{vidaUtilA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="372" y="80" width="200" height="20" uuid="cb0ada8a-e215-4735-bd8b-837361dd73af"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[99,999,999.99]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$F{vidaUtilB}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

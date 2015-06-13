@@ -15,6 +15,7 @@ public class RptComparativoDeGastosReparacion implements Serializable{
     
     private Double equipox;
     private Double equipoy;
+    private String tipoReparacion;
 
     public Double getEquipox() {
         return equipox;
@@ -30,6 +31,14 @@ public class RptComparativoDeGastosReparacion implements Serializable{
 
     public void setEquipoy(Double equipoy) {
         this.equipoy = equipoy;
+    }
+
+    public String getTipoReparacion() {
+        return tipoReparacion;
+    }
+
+    public void setTipoReparacion(String tipoReparacion) {
+        this.tipoReparacion = tipoReparacion;
     }
     
     

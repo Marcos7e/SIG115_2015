@@ -9,17 +9,14 @@
                 xmlns:composite="http://java.sun.com/jsf/composite"
 
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h2 align="center"> Indice/Promedio de Gasto por Reparacion de Equipo por Area dentro de la Institucion</h2>
+
 
 
     <h:form id="form">
 
-
         <div align="center" style="border: 1px black solid">
+            <h2 align="center"> Indice/Promedio de Gasto por Reparacion de Equipo por Area dentro de la Institucion</h2>
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
-
-
-
 
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
@@ -29,7 +26,7 @@
                     <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
                 </p:column>
                 <p:column>                   
-                    <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_indice_promedio_gasto" />
+                    <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_indice_promedio_gasto_area " />
                 </p:column>
             </p:panelGrid>
 
@@ -76,20 +73,18 @@
 
             <br/> <br/>
 
-            <br/><br/>
-            <p:commandButton value="Aceptar" update="msgs" actionListener="#{gastoReparacionEquipoManagedBean.click}" icon="ui-icon-check"  />
-            <br/><br/>
-
+            <h:panelGrid columns="2"  cellpadding="5">
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton value="Aceptar" update="msgs" actionListener="#{gastoReparacionEquipoManagedBean.click}" icon="ui-icon-check"  />                        
+                        <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
+                        <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
+                    </div>
+                </f:facet>
+            </h:panelGrid>
         </div>
 
-        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
-            <p:panelGrid id="display" columns="2" columnClasses="label,value">
-                <h:outputText value="Event:" />
-                <h:outputText value="#{gastoReparacionEquipoManagedBean.date2}">
-                    <f:convertDateTime pattern="MM/dd/yyyy" />
-                </h:outputText>
-            </p:panelGrid>
-        </p:dialog>
+
     </h:form>
 
 </ui:composition>

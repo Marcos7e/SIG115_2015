@@ -10,6 +10,7 @@ import com.dimesa.managedbean.generic.GenericManagedBean;
 import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEventoLazyModel;
 import com.dimesa.model.Evento;
 import com.dimesa.pojo.rpt.RptComparativoDeGastosReparacion;
+import com.dimesa.pojo.rpt.RptIndicePromedioDeGastoReparacionEquipo;
 import com.dimesa.service.EquipoService;
 import com.dimesa.service.EventoService;
 import com.dimesa.service.generic.GenericService;
@@ -97,19 +98,26 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
 
     public void print() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        List<RptComparativoDeGastosReparacion> list = new ArrayList<RptComparativoDeGastosReparacion>();
+        List<RptIndicePromedioDeGastoReparacionEquipo> list = new ArrayList<RptIndicePromedioDeGastoReparacionEquipo>();
+      
+        
         for (int i = 0; i < 100; i++) {
-            RptComparativoDeGastosReparacion prueba = new RptComparativoDeGastosReparacion();
-            prueba.setEquipox(12.2);
-            prueba.setEquipoy(Double.NaN);
+            RptIndicePromedioDeGastoReparacionEquipo prueba = new RptIndicePromedioDeGastoReparacionEquipo();
+            //prueba.setEquipox(12.2);
+            //prueba.setEquipoy(Double.NaN);
             list.add(prueba);
         }
 
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
-        Reporte reporte = new Reporte("compgastosrep", "rpt_comparativo_gasto_reparaciones", request);
+        Reporte reporte = new Reporte("indicepromediogastoreparacion", "rpt_indice_promedio_gasto_area", request);
 
-        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptComparativoDeGastosReparacion>(list)));
+        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndicePromedioDeGastoReparacionEquipo>(list)));
+        reporte.addParameter("fechaInicial", formatter.format(date1));
+        reporte.addParameter("fechaFinal", formatter.format(date2));
+        reporte.addParameter("usuario","usuario");
+        reporte.addParameter("indice","usuario");//double
+        reporte.addParameter("gastoprom","usuario");//double
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
 

@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -28,12 +26,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.view.JasperViewer;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.LazyDataModel;
@@ -121,8 +114,8 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
         List<RptComparativoDeGastosReparacion> list = new ArrayList<RptComparativoDeGastosReparacion>();
         for (int i = 0; i < 100; i++) {
             RptComparativoDeGastosReparacion prueba = new RptComparativoDeGastosReparacion();
-            prueba.setEquipox(12.2);
-            prueba.setEquipoy(Double.NaN);
+       //     prueba.setEquipox(12.2);
+       //     prueba.setEquipoy(Double.NaN);
             list.add(prueba);
         }
 
@@ -131,10 +124,14 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
         Reporte reporte = new Reporte("compgastosrep", "rpt_comparativo_gasto_reparaciones", request);
 
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptComparativoDeGastosReparacion>(list)));
+        reporte.addParameter("fechaInicial", formatter.format(date1));
+        reporte.addParameter("fechaFinal", formatter.format(date2));
+        reporte.addParameter("usuario", "usuario");
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
 
         JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
+
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
     }
 

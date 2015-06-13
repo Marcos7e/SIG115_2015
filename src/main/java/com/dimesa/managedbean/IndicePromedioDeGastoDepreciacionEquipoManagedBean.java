@@ -7,12 +7,13 @@ package com.dimesa.managedbean;
 
 import com.dimesa.jasper.Reporte;
 import com.dimesa.managedbean.generic.GenericManagedBean;
-import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEquipoLazyModel;
+
 import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEventoLazyModel;
-import com.dimesa.model.Equipo;
+
 import com.dimesa.model.Evento;
-import com.dimesa.pojo.rpt.RptComparativoDeGastosReparacion;
-import com.dimesa.service.EquipoService;
+
+import com.dimesa.pojo.rpt.RptIndicePromedioDeGastoDepreciacionEquipo;
+
 import com.dimesa.service.EventoService;
 import com.dimesa.service.generic.GenericService;
 import java.text.SimpleDateFormat;
@@ -92,19 +93,24 @@ public class IndicePromedioDeGastoDepreciacionEquipoManagedBean extends GenericM
 
     public void print() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        List<RptComparativoDeGastosReparacion> list = new ArrayList<RptComparativoDeGastosReparacion>();
+        List<RptIndicePromedioDeGastoDepreciacionEquipo> list = new ArrayList<RptIndicePromedioDeGastoDepreciacionEquipo>();
         for (int i = 0; i < 100; i++) {
-            RptComparativoDeGastosReparacion prueba = new RptComparativoDeGastosReparacion();
-            prueba.setEquipox(12.2);
-            prueba.setEquipoy(Double.NaN);
+            RptIndicePromedioDeGastoDepreciacionEquipo prueba = new RptIndicePromedioDeGastoDepreciacionEquipo();
+          //  prueba.setEquipox(12.2);
+          //  prueba.setEquipoy(Double.NaN);
             list.add(prueba);
         }
 
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
-        Reporte reporte = new Reporte("compgastosrep", "rpt_comparativo_gasto_reparaciones", request);
+        Reporte reporte = new Reporte("indicepromediogastodepreciacion", "rpt_indice_promedio_gasto_depreciacion_por_area", request);
 
-        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptComparativoDeGastosReparacion>(list)));
+        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndicePromedioDeGastoDepreciacionEquipo>(list)));
+         reporte.addParameter("fechaInicial", formatter.format(date1));
+        reporte.addParameter("fechaFinal", formatter.format(date2));
+        reporte.addParameter("usuario","usuario");
+        reporte.addParameter("indice","usuario");//double
+        reporte.addParameter("gastoprom","usuario");//double
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
 
