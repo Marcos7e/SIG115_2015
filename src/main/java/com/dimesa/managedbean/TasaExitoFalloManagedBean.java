@@ -5,18 +5,15 @@
  */
 package com.dimesa.managedbean;
 
-import com.dimesa.dao.EquipoDao;
-import com.dimesa.dao.SsOpcionesDao;
+
 import com.dimesa.jasper.Reporte;
 import com.dimesa.managedbean.generic.GenericManagedBean;
 import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEquipoLazyModel;
 import com.dimesa.model.Equipo;
 import com.dimesa.model.Evento;
-import com.dimesa.pojo.rpt.RptComparativoDeGastosReparacion;
 import com.dimesa.pojo.rpt.RptTasaExitoFalloReparaciones;
 import com.dimesa.service.EquipoService;
 import com.dimesa.service.EventoService;
-import com.dimesa.service.SsOpcionesService;
 import com.dimesa.service.generic.GenericService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +22,6 @@ import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -44,62 +40,41 @@ import org.springframework.web.context.WebApplicationContext;
  *
  * @author RAUL
  */
-@Named("TasaExitoFalloManagedBean")
+@Named("tasaExitoFalloManagedBean")/*aqui la primera letra es en minuscula*/
 @Scope(WebApplicationContext.SCOPE_SESSION)
-public class TasaExitoFalloManagedBean extends GenericManagedBean<Equipo, Integer>  {
+public class TasaExitoFalloManagedBean  {
     
-  @Autowired
-    @Qualifier(value = "equipoService")
-    private EquipoService equipoService;
-
+  
     @Autowired
     @Qualifier(value = "eventoService")
     private EventoService eventoService;
 
-    private Equipo equipo;
-    private Evento evento;
-
-    private List<Equipo> equipoList;
-    private List<Evento> eventoList;
+ 
+    private Evento evento;/*area hospitalaria*/
+    private List<Evento> eventoList;/*area hospitalaria*/
     
     private String fechaInicio;
     private String fechaFinal;
 
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     private String fecha;
-    private Date date1;
-    private Date date2;
-    private Date date3 = new Date();
-    private boolean value1;
+    private Date date1;/*fecaha inicial seleccionada*/
+    private Date date2;/*fecaha final seleccionada*/
+    private Date date3 = new Date();/*fecha solo sirve para pintarla en la principal*/
+  
 
     private String area;
     private String reportName;
 
     @PostConstruct
     public void init() {
-        equipoList = new ArrayList<Equipo>();
-        eventoList = new ArrayList<Evento>();
-        equipoList = equipoService.findAll();
-        eventoList = eventoService.findAll();
+        
+        eventoList = new ArrayList<Evento>();   
+        eventoList = eventoService.findAll();/*llenado area hospitalaria utilizo findALL del dao generico
+        porque no necesito una consulta espefica.... si necesitara una espeficica la haria dentro de EventoDao */
     }
 
-    @Override
-    public GenericService<Equipo, Integer> getService() {
-        return equipoService;
-    }
-
-    @Override
-    public LazyDataModel<Equipo> getNewLazyModel() {
-        return new IndicePromedioDeGastoReparacionEquipoLazyModel(equipoService);
-    }
-
-    public EquipoService getEquipoService() {
-        return equipoService;
-    }
-
-    public void setEquipoService(EquipoService equipoService) {
-        this.equipoService = equipoService;
-    }
+   
 
     public EventoService getEventoService() {
         return eventoService;
@@ -109,13 +84,7 @@ public class TasaExitoFalloManagedBean extends GenericManagedBean<Equipo, Intege
         this.eventoService = eventoService;
     }
 
-    public Equipo getEquipo() {
-        return equipo;
-    }
-
-    public void setEquipo(Equipo equipo) {
-        this.equipo = equipo;
-    }
+  
 
     public Evento getEvento() {
         return evento;
@@ -123,14 +92,6 @@ public class TasaExitoFalloManagedBean extends GenericManagedBean<Equipo, Intege
 
     public void setEvento(Evento evento) {
         this.evento = evento;
-    }
-
-    public List<Equipo> getEquipoList() {
-        return equipoList;
-    }
-
-    public void setEquipoList(List<Equipo> equipoList) {
-        this.equipoList = equipoList;
     }
 
     public List<Evento> getEventoList() {
@@ -182,13 +143,7 @@ public class TasaExitoFalloManagedBean extends GenericManagedBean<Equipo, Intege
         this.date3 = date3;
     }
 
-    public boolean isValue1() {
-        return value1;
-    }
-
-    public void setValue1(boolean value1) {
-        this.value1 = value1;
-    }
+   
 
     public String getArea() {
         return area;

@@ -13,8 +13,8 @@
    
 
     <h:form id="form">
-         <h2 align="center">Indice de Encarrilamiento a Mision y Vision Empresarial</h2>
         <div align="center" style="border: 1px black solid">
+             <h2 align="center">Indice de Encarrilamiento a Mision y Vision Empresarial</h2>
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
             <p:panelGrid  columns="2" columnClasses="column">
                 <p:column>
@@ -63,24 +63,17 @@
                     <p:selectBooleanCheckbox value="#{indiceDeEncarrilamientoManagedBean.value4}" />
                     <h:outputText value="Incluir Gastos por Depreciacion " />
                 </p:column>
-
             </h:panelGrid>
+            
             <h:panelGrid columns="2"  cellpadding="5">
                 <f:facet name="footer">
                     <div class="footer-section">
-                        <p:commandButton value="Aceptar" update="msgs" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" icon="ui-icon-check"  />
-                        
+                        <p:commandButton value="Aceptar" update="msgs" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" icon="ui-icon-check"  />                        
                         <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
-                        <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href='#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />
-                       
+                        <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href='#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
                     </div>
                 </f:facet>
             </h:panelGrid>
-
-
         </div>
-
-
     </h:form>
-
 </ui:composition>

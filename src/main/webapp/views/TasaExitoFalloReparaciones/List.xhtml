@@ -10,13 +10,16 @@
 
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-
     <h:form id="form">
+
+
         <div align="center" style="border: 1px black solid">
+            <h2 align="center">Tasa de Exito / Fallo en Reparaciones</h2>
+
             <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
-            <p:panelGrid  columns="2" columnClasses="column">
+            <p:panelGrid  columns="2" columnClasses="column" >
                 <p:column>
-                    <h:outputLabel value="Fecha de Emision : #{TasaExitoFalloManagedBean.fecha}"  />
+                    <h:outputLabel value="Fecha de Emision : #{tasaExitoFalloManagedBean.fecha}"  />
                 </p:column>
                 <p:column>                                
                     <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
@@ -25,49 +28,48 @@
                     <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_tasaExito/fallo" />
                 </p:column>
             </p:panelGrid>
-            
-            <h2 align="center">Tasa de Exito / Fallo en Reparaciones</h2>
-            
-           
-                
-            <h:panelGrid columns="2" columnClasses="column">
-              
-              <p:column colspan="2">
-                  <p:outputLabel value="Area Hospitalaria" for="areaHospitalaria"/>
-                  <p:selectOneMenu id="areaHospitalaria" value="#{TasaExitoFalloManagedBean.area}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                  <f:selectItem itemLabel="Seleccione" />
-                  <f:selectItems value="#{TasaExitoFalloManagedBean.eventoList}" var="areas" itemLabel="#{areas.unidad}" itemValue="#{areas}" />       
-                  </p:selectOneMenu>
-              </p:column>
-              
-               <p:column colspan="2">
-                  <p:outputLabel value="Fecha Inicial" for="fechaInicial"/>
-                  <p:selectOneMenu id="fechaInicial" value="#{TasaExitoFalloManagedBean.fechaInicio}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                  <f:selectItem itemLabel="Seleccione" />
-                  <f:selectItems value="#{TasaExitoFalloManagedBean.eventoList}" var="areas" itemLabel="#{areas.fechainicio}" itemValue="#{areas}" />       
-                  </p:selectOneMenu>
-              </p:column>
-                <p:column colspan="2">
-                  <p:outputLabel value="Area Hospitalaria" for="fechaFinal"/>
-                  <p:selectOneMenu id="fechaFinal" value="#{TasaExitoFalloManagedBean.fechaFinal}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                  <f:selectItem itemLabel="Seleccione" />
-                  <f:selectItems value="#{TasaExitoFalloManagedBean.eventoList}" var="areas" itemLabel="#{areas.fechafin}" itemValue="#{areas}" />       
-                  </p:selectOneMenu>
-              </p:column>
-                 
-                <p:column>
-               <p:button value="Aceptar"/>
-               <p:button value="Limpiar"/>
-               <p:button value="Volver Atras"/>
-              </p:column>
-              
-             
-               
-            </h:panelGrid>
-    
-        </div>
-              
-         
-    </h:form>
 
+            <p:growl id="msgs" showDetail="true" />
+
+            <h:panelGrid columns="2" cellpadding="5" columnClasses="column">
+                <p:column >
+                    <p:outputLabel value="Area Hospitalaria" for="areaHospitalaria"/>
+                </p:column>
+                <p:column><!-- otro error aqui es eventoConverter si no existe el converter tenes hacerlo dentro com.dimesa.model.managedbean.crud.converter ahi hay ejemplos --> 
+                    <p:selectOneMenu id="areaHospitalaria" value="#{tasaExitoFalloManagedBean.area}" converter="#{eventoConverter}" effect="fade"  style="width:200px" >
+                        <f:selectItem itemLabel="Seleccione" />
+                        <f:selectItems value="#{tasaExitoFalloManagedBean.eventoList}" var="areas" itemLabel="#{areas.unidad}" itemValue="#{areas}" />       
+                    </p:selectOneMenu> <!--viejo aqui se pinta la lista evento / unidad -->
+                </p:column>
+
+                <p:column>  <!-- tenias mal las fecha asi deben de ser ojo en el for=id-->
+                    <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
+                    <span>&nbsp;</span>
+                </p:column>
+                <p:column>
+                    <p:calendar id="fhInicial" value="#{gastoDepreciacionEquipoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
+                    <span>&nbsp;</span>
+                </p:column>
+                <p:column>
+                    <p:outputLabel for="fhFin"  value="Fecha Final:" />
+                    <span>&nbsp;</span>
+                </p:column>
+                <p:column>
+                    <p:calendar id="fhFin" value="#{gastoDepreciacionEquipoManagedBean.date2}"  pattern="dd-MM-yyyy" />
+                    <span>&nbsp;</span>
+                </p:column>
+            </h:panelGrid>
+
+
+            <h:panelGrid columns="2"  cellpadding="5">
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton value="Aceptar" update="msgs" actionListener="#{gastoDepreciacionEquipoManagedBean.click}" icon="ui-icon-check"  />
+                        <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
+                        <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />
+                    </div>
+                </f:facet>
+            </h:panelGrid>
+        </div>
+    </h:form>
 </ui:composition>
