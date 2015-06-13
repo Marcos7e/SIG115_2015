@@ -33,18 +33,23 @@
             <h:panelGrid  columnClasses="column">
               
              
-                  <h:outputLabel value="Fecha Inicial"/>
-                  <p:selectOneMenu id="areaHospitalaria" value="#{comparativoDeTiempoVidaUtilManagedBean.equipox}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                  <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
-                  </p:selectOneMenu>
-             
-              
-           
-                  <h:outputLabel value="Fecha Final"  />
-                  <p:selectOneMenu id="fechaInicial" value="#{comparativoDeTiempoVidaUtilManagedBean.equipoy}" converter="#{equipoConverter}" effect="fade"  style="width:200px" >
-                  <f:selectItems value="#{comparativoDeTiempoVidaUtilManagedBean.equipoList}" var="categorias" itemLabel="#{categorias.nombequipo}" itemValue="#{categorias}" />       
-                  </p:selectOneMenu>
-             
+                <p:column>  <!-- tenias mal las fecha asi deben de ser ojo en el for=id-->
+                    <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
+                    <span>&nbsp;</span>
+                </p:column>
+                <p:column>
+                    <p:calendar id="fhInicial" value="#{gastoDepreciacionEquipoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
+                    <span>&nbsp;</span>
+                </p:column>
+                <p:column>
+                    <p:outputLabel for="fhFin"  value="Fecha Final:" />
+                    <span>&nbsp;</span>
+                </p:column>
+                <p:column>
+                    <p:calendar id="fhFin" value="#{gastoDepreciacionEquipoManagedBean.date2}"  pattern="dd-MM-yyyy" />
+                    <span>&nbsp;</span>
+                </p:column>
+                    
               <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                    <p:selectBooleanCheckbox value="" />
                    <h:outputText value="Reparaciones Finalizadas" />
