@@ -129,9 +129,6 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
         reporte.addParameter("usuario", "usuario");
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
-
-        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
-
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
     }
 

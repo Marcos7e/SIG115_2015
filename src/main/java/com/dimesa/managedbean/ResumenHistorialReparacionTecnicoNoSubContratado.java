@@ -6,8 +6,10 @@
 package com.dimesa.managedbean;
 
 import com.dimesa.managedbean.generic.GenericManagedBean;
+import com.dimesa.managedbean.lazymodel.ResumenHistorialReparacionTecnicoNoSubContratadoLazyModel;
 import com.dimesa.model.CostoEquipo;
 import com.dimesa.model.Empleado;
+import com.dimesa.model.Equipo;
 import com.dimesa.model.Evento;
 import com.dimesa.service.CostoEquipoService;
 import com.dimesa.service.EmpleadoService;
@@ -23,78 +25,73 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 
 /**
  *
  * @author RAUL
  */
-@Named("ResumenHistorialReparacionTecnicoNoSubContratado")
+@Named("resumenHistorialReparacionTecnicoNoSubContratado")
 @Scope(WebApplicationContext.SCOPE_SESSION)
-public class ResumenHistorialReparacionTecnicoNoSubContratado extends GenericManagedBean<Evento,Integer> implements Serializable {
-    
+public class ResumenHistorialReparacionTecnicoNoSubContratado extends GenericManagedBean<Equipo, Integer> {
+
     @Autowired
-    @Qualifier(value = "costoEquipoService")
-    private CostoEquipoService costoEquipoService;
+    @Qualifier(value = "equipoService")
+    private EquipoService equipoService;
+
+    @Autowired
+    @Qualifier(value = "empleadoService")
+    private EmpleadoService empleadoService;
 
     @Autowired
     @Qualifier(value = "eventoService")
     private EventoService eventoService;
-    
+
     @Autowired
-    @Qualifier(value = "empleadoService")
-    private EmpleadoService empleadoService;
-    
+    @Qualifier(value = "costoEquipoService")
+    private CostoEquipoService costoEquipoService;
+
+    private List<Equipo> equipoList;
+    private List<Empleado> empleadoList;
+    private List<Evento> eventodoList;/*tipo de reporte*/
+
     private CostoEquipo costoEquipo;
     private Evento evento;
     private Empleado empleado;
-    
-    private Date dateServer = new Date();   
-    private Date dateInicio = new Date();
+    private Equipo equipo;
+    private String equipox;
+    private String tecnico;
+    private String tiporeporte;
+    private String fecha;
+
+    private Date date1;
+    private Date date2;
+
     private Date dateFinal = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-    private String fechaServer;
-    private String fechaInicio;
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
     private String fechaFinal;
 
-    /**
-     * Creates a new instance of
-     * ResumenHistorialReparacionTecnicoNoSubContratado
-     */
-    public ResumenHistorialReparacionTecnicoNoSubContratado() {
+    @PostConstruct
+    public void init() {
+        equipoList = new ArrayList<Equipo>();
+        empleadoList = new ArrayList<Empleado>();
+        eventodoList = new ArrayList<Evento>();
+        equipoList = equipoService.findAll();
+        empleadoList = empleadoService.getTecnicosExterno();
+        eventodoList = eventoService.findAll();
     }
 
     @Override
-    public GenericService getService() {
-       return eventoService;
+    public GenericService<Equipo, Integer> getService() {
+        return equipoService;
     }
 
     @Override
-    public LazyDataModel getNewLazyModel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public CostoEquipoService getCostoEquipoService() {
-        return costoEquipoService;
-    }
-
-    public void setCostoEquipoService(CostoEquipoService costoEquipoService) {
-        this.costoEquipoService = costoEquipoService;
-    }
-
-    public EventoService getEventoService() {
-        return eventoService;
-    }
-
-    public void setEventoService(EventoService eventoService) {
-        this.eventoService = eventoService;
-    }
-
-    public EmpleadoService getEmpleadoService() {
-        return empleadoService;
-    }
-
-    public void setEmpleadoService(EmpleadoService empleadoService) {
-        this.empleadoService = empleadoService;
+    public LazyDataModel<Equipo> getNewLazyModel() {
+        return new ResumenHistorialReparacionTecnicoNoSubContratadoLazyModel(equipoService);
     }
 
     public CostoEquipo getCostoEquipo() {
@@ -106,7 +103,7 @@ public class ResumenHistorialReparacionTecnicoNoSubContratado extends GenericMan
     }
 
     public Evento getEvento() {
-        
+
         return evento;
     }
 
@@ -122,46 +119,12 @@ public class ResumenHistorialReparacionTecnicoNoSubContratado extends GenericMan
         this.empleado = empleado;
     }
 
-    public Date getDateServer() {
-        return dateServer;
-    }
-
-    public void setDateServer(Date dateServer) {
-        this.dateServer = dateServer;
-    }
-
-    public String getFechaServer() {
-        fechaServer = formatter.format(dateServer);
-        return fechaServer;
-    }
-
-    public void setFechaServer(String fechaServer) {
-        this.fechaServer = fechaServer;
-    }
-
-    public Date getDateInicio() {
-        return dateInicio;
-    }
-
-    public void setDateInicio(Date dateInicio) {
-        this.dateInicio = dateInicio;
-    }
-
     public Date getDateFinal() {
         return dateFinal;
     }
 
     public void setDateFinal(Date dateFinal) {
         this.dateFinal = dateFinal;
-    }
-
-    public String getFechaInicio() {
-        fechaInicio = formatter.format(dateInicio);
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(String fechaInicio) {
-        this.fechaInicio = fechaInicio;
     }
 
     public String getFechaFinal() {
@@ -172,6 +135,118 @@ public class ResumenHistorialReparacionTecnicoNoSubContratado extends GenericMan
     public void setFechaFinal(String fechaFinal) {
         this.fechaFinal = fechaFinal;
     }
-    
-    
+
+    public SimpleDateFormat getFormatter() {
+        return formatter;
+    }
+
+    public void setFormatter(SimpleDateFormat formatter) {
+        this.formatter = formatter;
+    }
+
+    public Date getDate1() {
+        return date1;
+    }
+
+    public void setDate1(Date date1) {
+        this.date1 = date1;
+    }
+
+    public Date getDate2() {
+        return date2;
+    }
+
+    public void setDate2(Date date2) {
+        this.date2 = date2;
+    }
+
+    public List<Equipo> getEquipoList() {
+        return equipoList;
+    }
+
+    public void setEquipoList(List<Equipo> equipoList) {
+        this.equipoList = equipoList;
+    }
+
+    public Equipo getEquipo() {
+        return equipo;
+    }
+
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
+    }
+
+    public EquipoService getEquipoService() {
+        return equipoService;
+    }
+
+    public void setEquipoService(EquipoService equipoService) {
+        this.equipoService = equipoService;
+    }
+
+    public String getEquipox() {
+        return equipox;
+    }
+
+    public void setEquipox(String equipox) {
+        this.equipox = equipox;
+    }
+
+    public EmpleadoService getEmpleadoService() {
+        return empleadoService;
+    }
+
+    public void setEmpleadoService(EmpleadoService empleadoService) {
+        this.empleadoService = empleadoService;
+    }
+
+    public List<Empleado> getEmpleadoList() {
+        return empleadoList;
+    }
+
+    public void setEmpleadoList(List<Empleado> empleadoList) {
+        this.empleadoList = empleadoList;
+    }
+
+    public String getTecnico() {
+        return tecnico;
+    }
+
+    public void setTecnico(String tecnico) {
+        this.tecnico = tecnico;
+    }
+
+    public EventoService getEventoService() {
+        return eventoService;
+    }
+
+    public void setEventoService(EventoService eventoService) {
+        this.eventoService = eventoService;
+    }
+
+    public List<Evento> getEventodoList() {
+        return eventodoList;
+    }
+
+    public void setEventodoList(List<Evento> eventodoList) {
+        this.eventodoList = eventodoList;
+    }
+
+    public String getTiporeporte() {
+        return tiporeporte;
+    }
+
+    public void setTiporeporte(String tiporeporte) {
+        this.tiporeporte = tiporeporte;
+    }
+
+    public String getFecha() {
+        fecha = formatter.format(dateFinal);
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
 }

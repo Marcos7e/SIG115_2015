@@ -11,10 +11,8 @@
     <ui:define name="content">
         <ui:include src="../common/Print.xhtml"/>
         <h:form id="form">
-            <p:fieldset legend="Parametros de busqueda." style="width: 70%; margin: auto;">
-
                 <div align="center" style="border: 1px black solid">
-                    <h2 align="center">ExportaciÃ³n de los Procesos de Proyeccion y Tazas a Formato Matriz</h2>
+                    <h3 align="center">Exportaci&oacute;n de los Procesos de Proyeccion y Tazas a Formato Matriz</h3>
                     <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
 
                     <p:panelGrid  columns="2" columnClasses="column">
@@ -32,7 +30,7 @@
                     <br/>
                     <p:growl id="msgs" showDetail="true" />
                     <h:outputLabel value="Indices" />
-                    <div align="center" style="border: 1px black dashed" class="w50 h30"  >
+                    <div align="center" style="border: 1px black dashed" class="w50 h50"  >
                         <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="10">
                             <p:column>
                                 <p:selectBooleanCheckbox value="#{exportacionDeProcesosProyeccionTazasManagedBean.value1}" />
@@ -93,8 +91,7 @@
                             </div>
                         </f:facet>
                     </h:panelGrid>
-                </div>
-            </p:fieldset>
+                </div>         
         </h:form>
     </ui:define>
 </ui:composition>

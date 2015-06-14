@@ -7,11 +7,12 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+
     <ui:define name="content">
-        <ui:include src="../common/Print.xhtml"/>
+           <ui:include src="../common/Print.xhtml"/>
 
         <h:form id="form">
-            <p:fieldset legend="Parametros de busqueda." style="width: 70%; margin: auto;">
+           
                 <div align="center" style="border: 1px black solid">
                     <h2 align="center">Comparativo de Tiempo de Vida Util Entre los Diferentes Equipos</h2>
                     <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
@@ -60,7 +61,7 @@
                         <f:facet name="footer">
                             <div class="footer-section">
                                 <p:commandButton value="Aceptar" update="msgs" actionListener="#{comparativoDeTiempoVidaUtilManagedBean.click}" icon="ui-icon-check"  />                        
-                                <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" oncomplete="print(xhr, status, args)"/>                     
+                                <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" actionListener="#{comparativoDeTiempoVidaUtilManagedBean.click}" oncomplete="print(xhr, status, args)"/>                     
 
                                 <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
                                 <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
@@ -68,7 +69,9 @@
                         </f:facet>
                     </h:panelGrid>
                 </div>
-            </p:fieldset>
+
         </h:form>
-</ui:define>
+    </ui:define>
 </ui:composition>
+
+

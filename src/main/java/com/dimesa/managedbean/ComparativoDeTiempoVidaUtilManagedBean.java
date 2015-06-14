@@ -103,8 +103,6 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
 
-        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
-
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
     }
 

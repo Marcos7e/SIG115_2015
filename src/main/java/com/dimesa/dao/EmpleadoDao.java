@@ -7,6 +7,8 @@ package com.dimesa.dao;
 
 import com.dimesa.dao.generic.GenericDao;
 import com.dimesa.model.Empleado;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,5 +17,19 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class EmpleadoDao extends GenericDao<Empleado, Integer> {
+    
+      public List<Empleado> getTecnicosExterno() {
+        Query q = getSessionFactory().getCurrentSession().createQuery("SELECT e FROM Empleado e WHERE e.cargo like 'Externo' ");
+        return q.list();
+    }
+//     public List<Cuentacontable> findAllActives() {
+//        Query q = getSessionFactory().getCurrentSession().createQuery("SELECT c  FROM Cuentacontable c  WHERE c.activo='SI'");
+//        return q.list();
+//    }
+      public List<Empleado> getTecnicos() {
+        Query q = getSessionFactory().getCurrentSession().createQuery("SLECT e FROM Empleado e WHERE e.cargo like 'Tecnico' ");
+        return q.list();
+    }
+    
     
 }

@@ -9,6 +9,7 @@ import com.dimesa.dao.EmpleadoDao;
 import com.dimesa.dao.generic.GenericDao;
 import com.dimesa.model.Empleado;
 import com.dimesa.service.generic.GenericService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,14 @@ public class EmpleadoService extends GenericService<Empleado, Integer> {
     @Override
     public GenericDao<Empleado, Integer> getDao() {
         return empleadoDao;
+    }
+
+    public List<Empleado> getTecnicosExterno() {
+        return empleadoDao.getTecnicosExterno();
+    }
+
+    public List<Empleado> getTecnicos() {
+        return empleadoDao.getTecnicosExterno();
     }
 
 }
