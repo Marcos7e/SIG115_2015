@@ -64,8 +64,11 @@ public class IndiceDeEncarrilamientoManagedBean {
         } else if (getDate2() == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin Vacia."));
         } else if (getDate2().before(getDate1())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));        
+        } else if (getDate2().equals(getDate1())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Inicio es Igual que Fecha Fin."));
         } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Procesado Reporte."));
             print();
         }
 
@@ -76,9 +79,7 @@ public class IndiceDeEncarrilamientoManagedBean {
         List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
         RptIndiceDeEncarrilamiento prueba = new RptIndiceDeEncarrilamiento();
         
-        
        
-        
         for (int i = 0; i < 100; i++) {
             prueba = new RptIndiceDeEncarrilamiento();
             prueba.setArea("Area de prueba");
@@ -100,7 +101,6 @@ public class IndiceDeEncarrilamientoManagedBean {
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
-        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
 
     }
 
