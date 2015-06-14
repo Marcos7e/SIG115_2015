@@ -5,16 +5,11 @@
  */
 package com.dimesa.managedbean;
 
-
 import com.dimesa.jasper.Reporte;
-import com.dimesa.managedbean.generic.GenericManagedBean;
-import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEquipoLazyModel;
-import com.dimesa.model.Equipo;
+
 import com.dimesa.model.Evento;
 import com.dimesa.pojo.rpt.RptTasaExitoFalloReparaciones;
-import com.dimesa.service.EquipoService;
 import com.dimesa.service.EventoService;
-import com.dimesa.service.generic.GenericService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,17 +37,16 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @Named("tasaExitoFalloManagedBean")/*aqui la primera letra es en minuscula*/
 @Scope(WebApplicationContext.SCOPE_SESSION)
-public class TasaExitoFalloManagedBean  {
-    
-  
+public class TasaExitoFalloManagedBean {
+
     @Autowired
     @Qualifier(value = "eventoService")
     private EventoService eventoService;
 
- 
     private Evento evento;/*area hospitalaria*/
+
     private List<Evento> eventoList;/*area hospitalaria*/
-    
+
     private String fechaInicio;
     private String fechaFinal;
 
@@ -61,20 +55,61 @@ public class TasaExitoFalloManagedBean  {
     private Date date1;/*fecaha inicial seleccionada*/
     private Date date2;/*fecaha final seleccionada*/
     private Date date3 = new Date();/*fecha solo sirve para pintarla en la principal*/
-  
+
 
     private String area;
     private String reportName;
 
     @PostConstruct
     public void init() {
-        
-        eventoList = new ArrayList<Evento>();   
+
+        eventoList = new ArrayList<Evento>();
         eventoList = eventoService.findAll();/*llenado area hospitalaria utilizo findALL del dao generico
-        porque no necesito una consulta espefica.... si necesitara una espeficica la haria dentro de EventoDao */
+         porque no necesito una consulta espefica.... si necesitara una espeficica la haria dentro de EventoDao */
+
     }
 
-   
+    public void click() {
+
+        if (getArea() == null || getArea().equals("")) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Seleccionar Area Hospitalaria"));
+        } else if (getDate1() == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Inicial Vacia."));
+        } else if (getDate2() == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin Vacia."));
+        } else if (getDate2().before(getDate1())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
+        } else if (getDate2().equals(getDate1())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
+        } else if (area.equals("")) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Seleccionado Area."));
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Procesado Reporte."));
+            print();
+        }
+
+    }
+
+    public void print() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        List<RptTasaExitoFalloReparaciones> list = new ArrayList<RptTasaExitoFalloReparaciones>();
+        for (int i = 0; i < 100; i++) {
+            RptTasaExitoFalloReparaciones prueba = new RptTasaExitoFalloReparaciones("10-10-1992", "12-12-2015", "CIPediatrico");
+            list.add(prueba);
+        }
+
+        HttpServletRequest request = (HttpServletRequest) context.getRequest();
+        HttpServletResponse response = (HttpServletResponse) context.getResponse();
+        Reporte reporte = new Reporte("tasaexitofallorep", "rpt_tasaExito/fallo", request);
+
+        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptTasaExitoFalloReparaciones>(list)));
+        reporte.setReportInSession(request, response);
+        reportName = reporte.getNombreLogico();
+
+        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
+
+        RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+    }
 
     public EventoService getEventoService() {
         return eventoService;
@@ -83,8 +118,6 @@ public class TasaExitoFalloManagedBean  {
     public void setEventoService(EventoService eventoService) {
         this.eventoService = eventoService;
     }
-
-  
 
     public Evento getEvento() {
         return evento;
@@ -143,8 +176,6 @@ public class TasaExitoFalloManagedBean  {
         this.date3 = date3;
     }
 
-   
-
     public String getArea() {
         return area;
     }
@@ -152,8 +183,6 @@ public class TasaExitoFalloManagedBean  {
     public void setArea(String area) {
         this.area = area;
     }
-
-  
 
     public String getReportName() {
         return reportName;
@@ -178,44 +207,4 @@ public class TasaExitoFalloManagedBean  {
     public void setFechaFinal(String fechaFinal) {
         this.fechaFinal = fechaFinal;
     }
-    
-    
-       public void click() {
-
-        if (getArea() == null || getArea().equals("")) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Seleccionar Area Hospitalaria"));
-        } else if (getDate1() == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Inicial Vacia."));
-        } else if (getDate2() == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin Vacia."));
-        } else if (getDate2().before(getDate1())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
-        }  else {
-            print();
-        }
-
-    }
-       
-       public void print() {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        List<RptTasaExitoFalloReparaciones> list = new ArrayList<RptTasaExitoFalloReparaciones>();
-        for (int i = 0; i < 100; i++) {
-            RptTasaExitoFalloReparaciones prueba = new RptTasaExitoFalloReparaciones("10-10-1992","12-12-2015","CIPediatrico");
-            list.add(prueba);
-        }
-
-        HttpServletRequest request = (HttpServletRequest) context.getRequest();
-        HttpServletResponse response = (HttpServletResponse) context.getResponse();
-        Reporte reporte = new Reporte("tasaexitofallorep", "rpt_tasaExito/fallo", request);
-
-        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptTasaExitoFalloReparaciones>(list)));
-        reporte.setReportInSession(request, response);
-        reportName = reporte.getNombreLogico();
-
-        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
-        RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
-    }
-
-
-    
 }

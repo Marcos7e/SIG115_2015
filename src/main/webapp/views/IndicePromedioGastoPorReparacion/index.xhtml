@@ -12,81 +12,80 @@
         <ui:include src="../common/Print.xhtml"/>
 
         <h:form id="form">
-            <p:fieldset legend="Parametros de busqueda." style="width: 70%; margin: auto;">
 
-                <div align="center" style="border: 1px black solid">
-                    <h2 align="center"> Indice/Promedio de Gasto por Reparacion de Equipo por Area dentro de la Institucion</h2>
-                    <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
 
-                    <p:panelGrid  columns="2" columnClasses="column">
-                        <p:column>
-                            <h:outputLabel for="fechaActual" value="Fecha de Emision : #{gastoReparacionEquipoManagedBean.fecha}"   />
-                        </p:column>            
-                        <p:column>               
-                            <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
-                        </p:column>
-                        <p:column>                   
-                            <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_indice_promedio_gasto_area " />
-                        </p:column>
-                    </p:panelGrid>
+            <div align="center" style="border: 1px black solid">
+                <h3 align="center"> Indice/Promedio de Gasto por Reparacion de Equipo por Area dentro de la Institucion</h3>
+                <h1 class="title ui-widget-header ui-corner-all" align="center">DIMESA S.A de C.V</h1>
 
-                    <p:growl id="msgs" showDetail="true" />
-                    <br/> <br/>
+                <p:panelGrid  columns="2" columnClasses="column">
+                    <p:column>
+                        <h:outputLabel for="fechaActual" value="Fecha de Emision : #{gastoReparacionEquipoManagedBean.fecha}"   />
+                    </p:column>            
+                    <p:column>               
+                        <h:outputLabel for="user" value="Usuario :#{currentUserSessionBean.form.sessionUser.username}" />
+                    </p:column>
+                    <p:column>                   
+                        <h:outputLabel for="rpt" value="Nombre de Reporte : rpt_indice_promedio_gasto_area " />
+                    </p:column>
+                </p:panelGrid>
 
-                    <h:panelGrid columns="2" >
+                <p:growl id="msgs" showDetail="true" />
+                <br/> <br/>
 
-                        <p:column>
-                            <p:outputLabel value="Area Hospitalaria" for="area" />
-                            <span>&nbsp;</span>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="area" value="#{gastoReparacionEquipoManagedBean.area}" converter="#{eventoConverter}" effect="fade"  style="width:200px" >
-                                <f:selectItem itemLabel="Seleccione" />
-                                <f:selectItems value="#{gastoReparacionEquipoManagedBean.eventoList}" var="areas" itemLabel="#{areas.unidad}" itemValue="#{areas}" />       
-                            </p:selectOneMenu>
-                            <span>&nbsp;</span>
-                        </p:column>
+                <h:panelGrid columns="2" cellpadding="5" >
 
-                        <p:column>
-                            <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
-                            <span>&nbsp;</span>
-                        </p:column>
-                        <p:column>
-                            <p:calendar id="fhInicial" value="#{gastoReparacionEquipoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
-                            <span>&nbsp;</span>
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel for="fhFin"  value="Fecha Final:" />
-                            <span>&nbsp;</span>
-                        </p:column>
-                        <p:column>
-                            <p:calendar id="fhFin" value="#{gastoReparacionEquipoManagedBean.date2}"  pattern="dd-MM-yyyy" />
-                            <span>&nbsp;</span>
-                        </p:column>
-                        <p:column>
-                            <p:outputLabel value="Promedio de Gastos :" for="gasto"/>
-                        </p:column>
-                        <p:column>
-                            <p:selectBooleanCheckbox value="#{gastoReparacionEquipoManagedBean.value1}" id="gasto"/>
-                        </p:column>
-                    </h:panelGrid>
+                    <p:column>
+                        <p:outputLabel value="Area Hospitalaria" for="area" />
+                        <span>&nbsp;</span>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="area" value="#{gastoReparacionEquipoManagedBean.area}" converter="#{eventoConverter}" effect="fade"  style="width:200px" >
+                            <f:selectItem itemLabel="Seleccione" />
+                            <f:selectItems value="#{gastoReparacionEquipoManagedBean.eventoList}" var="areas" itemLabel="#{areas.unidad}" itemValue="#{areas}" />       
+                        </p:selectOneMenu>
+                        <span>&nbsp;</span>
+                    </p:column>
 
-                    <br/> <br/>
+                    <p:column>
+                        <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
+                        <span>&nbsp;</span>
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="fhInicial" value="#{gastoReparacionEquipoManagedBean.date1}"  pattern="dd-MM-yyyy"  />
+                        <span>&nbsp;</span>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="fhFin"  value="Fecha Final:" />
+                        <span>&nbsp;</span>
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="fhFin" value="#{gastoReparacionEquipoManagedBean.date2}"  pattern="dd-MM-yyyy" />
+                        <span>&nbsp;</span>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="Promedio de Gastos :" for="gasto"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectBooleanCheckbox value="#{gastoReparacionEquipoManagedBean.value1}" id="gasto"/>
+                    </p:column>
+                </h:panelGrid>
 
-                    <h:panelGrid columns="2"  cellpadding="5">
-                        <f:facet name="footer">
-                            <div class="footer-section">
-                                <p:commandButton value="Aceptar" update="msgs" actionListener="#{gastoReparacionEquipoManagedBean.click}" icon="ui-icon-check"  />                        
-                                <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" oncomplete="print(xhr, status, args)"/>                     
+                <br/> <br/>
 
-                                <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
-                                <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
-                            </div>
-                        </f:facet>
-                    </h:panelGrid>
-                </div>
+                <h:panelGrid columns="2"  cellpadding="5">
+                    <f:facet name="footer">
+                        <div class="footer-section">
+                            <p:commandButton value="Aceptar" update="msgs" actionListener="#{gastoReparacionEquipoManagedBean.click}" icon="ui-icon-check"  />                        
+                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" oncomplete="print(xhr, status, args)"/>                     
 
-            </p:fieldset>
+                            <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
+                            <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
+                        </div>
+                    </f:facet>
+                </h:panelGrid>
+            </div>
+
         </h:form>
     </ui:define>
 </ui:composition>

@@ -90,6 +90,8 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin Vacia."));
         } else if (getDate2().before(getDate1())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
+        } else if (getDate2().equals(getDate1())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fechas no pueden ser iguales."));
         } else {
             print();
         }

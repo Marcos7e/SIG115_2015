@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -43,6 +44,21 @@ public class ExportacionDeProcesosProyeccionTazasManagedBean {
     private String reportName;
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
+    
+    
+     public void click() {
+
+        if (!value1 && !value2 && !value3 && !value4 && !value5 && !value6) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha seleccionado opcion."));
+        } else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Procesado Reporte."));
+            print();
+        }
+
+    }
+
+    
+    
     public void print() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
