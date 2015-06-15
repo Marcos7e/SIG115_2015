@@ -5,6 +5,8 @@
  */
 package com.dimesa.managedbean;
 
+import com.dimesa.jasper.Reporte;
+import com.dimesa.managedbean.form.CurrentUserSessionForm;
 import com.dimesa.managedbean.generic.GenericManagedBean;
 import com.dimesa.managedbean.lazymodel.ResumenHistorialReparacionTecnicoNoSubContratadoLazyModel;
 import com.dimesa.model.CostoEquipo;
@@ -25,9 +27,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -71,8 +83,34 @@ public class ResumenHistorialReparacionTecnicoNoSubContratado extends GenericMan
 
     private Date dateFinal = new Date();
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-
+    private int millisInDay = 24 * 60 * 60 * 1000;
+    Random r = new Random();
     private String fechaFinal;
+    private String reportName;
+
+    public CostoEquipoService getCostoEquipoService() {
+        return costoEquipoService;
+    }
+
+    public void setCostoEquipoService(CostoEquipoService costoEquipoService) {
+        this.costoEquipoService = costoEquipoService;
+    }
+
+    public String getReportName() {
+        return reportName;
+    }
+
+    public void setReportName(String reportName) {
+        this.reportName = reportName;
+    }
+
+    private CurrentUserSessionBean user;
+    private CurrentUserSessionForm sessionForm;
+
+    public ResumenHistorialReparacionTecnicoNoSubContratado() {
+        user = new CurrentUserSessionBean();
+        sessionForm = user.getForm();
+    }
 
     @PostConstruct
     public void init() {
@@ -92,6 +130,53 @@ public class ResumenHistorialReparacionTecnicoNoSubContratado extends GenericMan
     @Override
     public LazyDataModel<Equipo> getNewLazyModel() {
         return new ResumenHistorialReparacionTecnicoNoSubContratadoLazyModel(equipoService);
+    }
+
+    public void click() {
+
+        if (getDate1() == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Inicial Vacia."));
+        } else if (getDate2() == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin Vacia."));
+        } else if (getDate2().before(getDate1())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
+        } else if (getDate2().equals(getDate1())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Inicio es Igual que Fecha Fin."));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Procesado Reporte."));
+            print();
+        }
+
+    }
+
+    public void print() {
+//        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+//        List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
+//        RptIndiceDeEncarrilamiento prueba = new RptIndiceDeEncarrilamiento();
+//
+//        for (int i = 0; i < 100; i++) {
+//            prueba = new RptIndiceDeEncarrilamiento();
+//            prueba.setArea("Area de prueba");
+//            prueba.setEquipo("Equipo" + i);
+//            prueba.setGastoDept(100 + (200 - 300) * r.nextDouble());
+//            prueba.setGastoRepa(100 + (200 - 300) * r.nextDouble());
+//            prueba.setTasaRep(100 + (200 - 300) * r.nextDouble());
+//            Time time = new Time((long) r.nextInt(millisInDay));
+//            prueba.setTiempoRe(time.toString());
+//            list.add(prueba);
+//        }
+//        HttpServletRequest request = (HttpServletRequest) context.getRequest();
+//        HttpServletResponse response = (HttpServletResponse) context.getResponse();
+//        Reporte reporte = new Reporte("indicedeencarrilamiento", "rpt_encarrilamiento", request);
+//        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndiceDeEncarrilamiento>(list)));
+//        reporte.addParameter("fechaInicial", formatter.format(date1));
+//        reporte.addParameter("fechaFinal", formatter.format(date2));
+//        reporte.addParameter("usuario", user.getSessionUser().getUsername());
+//
+//        reporte.setReportInSession(request, response);
+//        reportName = reporte.getNombreLogico();
+//        RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
+
     }
 
     public CostoEquipo getCostoEquipo() {

@@ -6,6 +6,7 @@
 package com.dimesa.managedbean;
 
 import com.dimesa.jasper.Reporte;
+import com.dimesa.managedbean.form.CurrentUserSessionForm;
 import com.dimesa.managedbean.generic.GenericManagedBean;
 import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEventoLazyModel;
 import com.dimesa.model.Evento;
@@ -60,9 +61,17 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
     private Date date1;
     private Date date2;
     private boolean value1;
-     private String reportName;
-    
+    private String reportName;
+
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+    private CurrentUserSessionBean user;
+    private CurrentUserSessionForm sessionForm;
+
+    public IndicePromedioDeGastoReparacionEquipoManagedBean() {
+        user = new CurrentUserSessionBean();
+        sessionForm = user.getForm();
+    }
 
     @PostConstruct
     public void init() {
@@ -101,8 +110,7 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
     public void print() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         List<RptIndicePromedioDeGastoReparacionEquipo> list = new ArrayList<RptIndicePromedioDeGastoReparacionEquipo>();
-      
-        
+
         for (int i = 0; i < 100; i++) {
             RptIndicePromedioDeGastoReparacionEquipo prueba = new RptIndicePromedioDeGastoReparacionEquipo();
             //prueba.setEquipox(12.2);
@@ -117,9 +125,9 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndicePromedioDeGastoReparacionEquipo>(list)));
         reporte.addParameter("fechaInicial", formatter.format(date1));
         reporte.addParameter("fechaFinal", formatter.format(date2));
-        reporte.addParameter("usuario","usuario");
-        reporte.addParameter("indice","usuario");//double
-        reporte.addParameter("gastoprom","usuario");//double
+        reporte.addParameter("usuario", user.getSessionUser().getUsername());
+        reporte.addParameter("indice", "usuario");//double
+        reporte.addParameter("gastoprom", "usuario");//double
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
 

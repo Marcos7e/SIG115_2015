@@ -6,6 +6,7 @@
 package com.dimesa.managedbean;
 
 import com.dimesa.jasper.Reporte;
+import com.dimesa.managedbean.form.CurrentUserSessionForm;
 import com.dimesa.managedbean.generic.GenericManagedBean;
 
 import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEventoLazyModel;
@@ -60,6 +61,13 @@ public class IndicePromedioDeGastoDepreciacionEquipoManagedBean extends GenericM
     private String area;
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
+    private CurrentUserSessionBean user;
+    private CurrentUserSessionForm sessionForm;
+    
+    public IndicePromedioDeGastoDepreciacionEquipoManagedBean() {
+        user = new CurrentUserSessionBean();
+        sessionForm = user.getForm();
+    }
     @PostConstruct
     public void init() {
         eventoList = new ArrayList<Evento>();
@@ -108,7 +116,7 @@ public class IndicePromedioDeGastoDepreciacionEquipoManagedBean extends GenericM
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndicePromedioDeGastoDepreciacionEquipo>(list)));
          reporte.addParameter("fechaInicial", formatter.format(date1));
         reporte.addParameter("fechaFinal", formatter.format(date2));
-        reporte.addParameter("usuario","usuario");
+        reporte.addParameter("usuario", user.getSessionUser().getUsername());       
         reporte.addParameter("indice","usuario");//double
         reporte.addParameter("gastoprom","usuario");//double
         reporte.setReportInSession(request, response);

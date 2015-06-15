@@ -6,6 +6,7 @@
 package com.dimesa.managedbean;
 
 import com.dimesa.jasper.Reporte;
+import com.dimesa.managedbean.form.CurrentUserSessionForm;
 
 import com.dimesa.model.Evento;
 import com.dimesa.pojo.rpt.RptTasaExitoFalloReparaciones;
@@ -60,6 +61,14 @@ public class TasaExitoFalloManagedBean {
     private String area;
     private String reportName;
 
+    private CurrentUserSessionBean user;
+    private CurrentUserSessionForm sessionForm;
+    
+    public TasaExitoFalloManagedBean() {
+        user = new CurrentUserSessionBean();
+        sessionForm = user.getForm();
+    }
+    
     @PostConstruct
     public void init() {
 
@@ -104,6 +113,7 @@ public class TasaExitoFalloManagedBean {
 
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptTasaExitoFalloReparaciones>(list)));
         reporte.setReportInSession(request, response);
+        reporte.addParameter("usuario", user.getSessionUser().getUsername());
         reportName = reporte.getNombreLogico();
 
         JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/

@@ -49,8 +49,13 @@ public class IndiceDeEncarrilamientoManagedBean {
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     private int millisInDay = 24 * 60 * 60 * 1000;
     Random r = new Random();
+    private CurrentUserSessionBean user;
+    private CurrentUserSessionForm sessionForm;
     
-    private CurrentUserSessionForm currentUserSessionForm;
+    public IndiceDeEncarrilamientoManagedBean() {
+        user = new CurrentUserSessionBean();
+        sessionForm = user.getForm();
+    }
 
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -97,7 +102,9 @@ public class IndiceDeEncarrilamientoManagedBean {
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndiceDeEncarrilamiento>(list)));
         reporte.addParameter("fechaInicial", formatter.format(date1));
         reporte.addParameter("fechaFinal", formatter.format(date2));
-        reporte.addParameter("usuario","usuario");
+        reporte.addParameter("usuario", user.getSessionUser().getUsername());
+        
+        
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);

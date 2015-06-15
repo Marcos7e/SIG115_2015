@@ -6,6 +6,7 @@
 package com.dimesa.managedbean;
 
 import com.dimesa.jasper.Reporte;
+import com.dimesa.managedbean.form.CurrentUserSessionForm;
 import com.dimesa.pojo.rpt.RptIndiceDeEncarrilamiento;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -44,21 +45,25 @@ public class ExportacionDeProcesosProyeccionTazasManagedBean {
     private String reportName;
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
-    
-    
-     public void click() {
+    private CurrentUserSessionBean user;
+    private CurrentUserSessionForm sessionForm;
+
+    public ExportacionDeProcesosProyeccionTazasManagedBean() {
+        user = new CurrentUserSessionBean();
+        sessionForm = user.getForm();
+    }
+
+    public void click() {
 
         if (!value1 && !value2 && !value3 && !value4 && !value5 && !value6) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha seleccionado opcion."));
-        } else{
+        } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Procesado Reporte."));
             print();
         }
 
     }
 
-    
-    
     public void print() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
@@ -72,7 +77,7 @@ public class ExportacionDeProcesosProyeccionTazasManagedBean {
 //            prueba.setGastoRepa(100 + (200 - 300) * r.nextDouble());
 //            prueba.setTasaRep(100 + (200 - 300) * r.nextDouble());
             // Time time = new Time((long) r.nextInt(millisInDay));
- //           prueba.setTiempoRe(time.toString());
+            //           prueba.setTiempoRe(time.toString());
             list.add(prueba);
         }
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
@@ -81,7 +86,7 @@ public class ExportacionDeProcesosProyeccionTazasManagedBean {
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndiceDeEncarrilamiento>(list)));
 //        reporte.addParameter("fechaInicial", formatter.format(date1));
 //        reporte.addParameter("fechaFinal", formatter.format(date2));
-        reporte.addParameter("usuario", "usuario");
+        reporte.addParameter("usuario", user.getSessionUser().getUsername());
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);

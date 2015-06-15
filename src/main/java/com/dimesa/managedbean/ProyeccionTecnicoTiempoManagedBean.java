@@ -6,6 +6,7 @@
 package com.dimesa.managedbean;
 
 import com.dimesa.jasper.Reporte;
+import com.dimesa.managedbean.form.CurrentUserSessionForm;
 import com.dimesa.managedbean.generic.GenericManagedBean;
 import com.dimesa.managedbean.lazymodel.EmpleadoLazyModel;
 import com.dimesa.model.Empleado;
@@ -60,6 +61,14 @@ public class ProyeccionTecnicoTiempoManagedBean extends GenericManagedBean<Emple
 
     private String fecha;
 
+    private CurrentUserSessionBean user;
+    private CurrentUserSessionForm sessionForm;
+
+    public ProyeccionTecnicoTiempoManagedBean() {
+        user = new CurrentUserSessionBean();
+        sessionForm = user.getForm();
+    }
+
     @PostConstruct
     public void init() {
         empleadoList = new ArrayList<Empleado>();
@@ -99,6 +108,8 @@ public class ProyeccionTecnicoTiempoManagedBean extends GenericManagedBean<Emple
         Reporte reporte = new Reporte("vidautil", "rpt_comparativo_vida_util", request);
 
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptProyeccionTecnicoTiempo>(list)));
+        reporte.addParameter("usuario", user.getSessionUser().getUsername());
+
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);

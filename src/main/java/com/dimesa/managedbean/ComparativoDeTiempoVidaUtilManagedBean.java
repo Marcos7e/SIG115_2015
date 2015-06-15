@@ -6,6 +6,7 @@
 package com.dimesa.managedbean;
 
 import com.dimesa.jasper.Reporte;
+import com.dimesa.managedbean.form.CurrentUserSessionForm;
 import com.dimesa.managedbean.generic.GenericManagedBean;
 import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEquipoLazyModel;
 import com.dimesa.model.Equipo;
@@ -55,6 +56,15 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
     private boolean value1;
     private String reportName;
 
+    private CurrentUserSessionBean user;
+    private CurrentUserSessionForm sessionForm;
+    
+    public ComparativoDeTiempoVidaUtilManagedBean() {
+        user = new CurrentUserSessionBean();
+        sessionForm = user.getForm();
+    }
+    
+    
     @PostConstruct
     public void init() {
         equipoList = new ArrayList<Equipo>();
@@ -100,6 +110,8 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
         Reporte reporte = new Reporte("vidautil", "rpt_comparativo_vida_util", request);
 
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptComparativoDeTiempoVidaUtil>(list)));
+        reporte.addParameter("usuario", user.getSessionUser().getUsername());
+        
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
 
