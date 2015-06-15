@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-06-2015 a las 22:31:27
+-- Tiempo de generación: 15-06-2015 a las 07:46:49
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -10252,9 +10252,9 @@ INSERT INTO `ss_opciones` (`ID_OPCION`, `NOMBRE_OPCION`, `URL`, `VISIBLE`, `USUA
 ('6', 'Comparativo de Gastos en Reparación entre Equipos en un Periodos ', '/dimesa/views/comparativodegastosreparacion/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('7', 'Tasa de Exito/Fallo en Reparaciones', '/dimesa/views/TasaExitoFalloReparacion/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('8', 'Resumen de Reparación Efectuada por Técnicos no Subcontratados', '/dimesa/views/ResumenHistorialReparacionTecnicoNoSubcontratados/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('9', 'Proyección Tecnico/Tiempo Requerido para Dolventar un Inconveniente', '/siapa/views/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('10', 'Proyección de Efectividad de Reparación vrs Tiempo', '/siapa/views/jaula/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
-('11', 'Proyección y Programación de Mantenimientos Preventivos', '/siapa/views/alimento/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('9', 'Proyección Tecnico/Tiempo Requerido para Dolventar un Inconveniente', '/dimesa/views/ProyeccionTecnicoTiempo/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('10', 'Proyección de Efectividad de Reparación vrs Tiempo', '/dimesa/views/ProyeccionEfectividadReparacionTiempo/index.xhtml  ', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
+('11', 'Proyección y Programación de Mantenimientos Preventivos', '/dimesa/views/ProyeccionProgramacionMantenimientosPreventivos/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('12', 'Exportación de Procesos de Proyección y Tazas a Formato Matriz', '/dimesa/views/ExportacionDeProcesos/index.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('13', 'pantalla12', '/dimesa/views/common/Print.xhtml', 'S', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL),
 ('14', 'pantalla13', '/siapa/views/alimento/index.xhtml', 'S', 'desarrollo', '2014-11-01 00:00:00', NULL, NULL, NULL),
@@ -10289,7 +10289,12 @@ INSERT INTO `ss_roles` (`ID_ROL`, `CODIGO_ROL`, `NOMBRE_ROL`, `DESCRIPCION`, `US
 ('3', 'VEN', 'Vendedor', 'Encargado de registrar las ventas ', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
 ('4', 'OPE', 'Operario', 'Encargado de Realizar ...', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
 ('5', 'ADM', 'Administrador del Sistema', 'Tiene todos los provilegios de gestion de usuario y otras tareas de adminitracion del sistema', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
-('6', 'ASC', 'Asociado', 'puede ver los reportes que se generan desde el sistema', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL);
+('6', 'ASC', 'Asociado', 'puede ver los reportes que se generan desde el sistema', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL),
+('7', 'RT_ESTRA', 'Usuario Estrategico', 'Usuario Estrategico', 'desa', '2015-06-01 00:00:00', NULL, NULL),
+('8', 'RS_TACT', 'Usuario Tactico', 'Usuario Tactico', 'desa', '2015-06-01 00:00:00', NULL, NULL),
+('10', 'joao.funes', 'Joao Funes', 'desarrollo', 'desa', '2015-06-01 00:00:00', NULL, NULL),
+('11', 'henry.cortez', 'Henry Cortez', 'desarrollo', 'desa', '2015-06-01 00:00:00', NULL, NULL),
+('12', 'marcos.barrera', 'Marcos Barrera', 'desarrollo', 'desa', '2015-06-01 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -10382,7 +10387,9 @@ INSERT INTO `ss_roles_opciones` (`ID_ROL`, `ID_OPCION`) VALUES
 ('5', '9'),
 ('1', '10'),
 ('2', '10'),
+('5', '10'),
 ('1', '11'),
+('5', '11'),
 ('1', '12'),
 ('5', '12'),
 ('3', '13'),
@@ -10415,7 +10422,12 @@ INSERT INTO `ss_roles_usuarios` (`ID_ROL`, `ID_USUARIO`) VALUES
 ('3', '3'),
 ('4', '4'),
 ('5', '5'),
-('6', '6');
+('6', '6'),
+('7', '7'),
+('8', '8'),
+('10', '10'),
+('11', '11'),
+('12', '12');
 
 -- --------------------------------------------------------
 
@@ -10456,7 +10468,12 @@ INSERT INTO `ss_usuarios` (`ID_USUARIO`, `CODIGO_USUARIO`, `NOMBRE_USUARIO`, `TE
 ('3', 'VEN', 'Vendedor', '78421829', 'siapa@gmail.com', 'Vendedor', NULL, 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('4', 'OPE', 'Operario', '78421829', 'siapa@gmail.com', 'Operario', NULL, 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('5', 'ADM', 'Administrador del Sistema', '78421829', 'siapa@gmail.com', 'Administrador del Sistema', NULL, 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('6', 'ASC', 'Asociado', '78421829', 'siapa@gmail.com', 'Asociado', NULL, 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+('6', 'ASC', 'Asociado', '78421829', 'siapa@gmail.com', 'Asociado', NULL, 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desarrollo', '2014-10-30 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('7', 'RT_ESTRA', 'Usuario Estrategico', '7892-2310', 'estrar@dimesa.com', 'Gerente', 'Usuario Estrategico solamnete podra ver pantallas para su rol', 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desa', '2015-06-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('8', 'RS_TACT', 'Usuario Tactico', '7498-2356', 'tactico@dimesa.com', 'Gerente Tactico', 'Gerente Tactico', 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desa', '2015-06-02 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('10', 'joao.funes', 'Joao Funes', '7689-5896', 'joao@gmail.com', 'desarrollo', 'implemetacion SIG', 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desa', '2015-06-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('11', 'henry.cortez', 'Henry Cortez', '7171-2589', 'henry@gmail.com', 'desarrollo', 'implementacion SIG', 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desa', '2015-06-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('12', 'marcos.barrera', 'Marcos Barrera ', '7589-9632', 'marcos@gmail.com', 'desarrollo', 'desarrollo', 'N', 'e10adc3949ba59abbe56e057f20f883e', '0', 'desa', '2015-06-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
