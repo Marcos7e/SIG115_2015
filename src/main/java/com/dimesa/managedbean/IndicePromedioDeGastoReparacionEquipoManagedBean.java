@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -52,16 +53,17 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
     @Qualifier(value = "eventoService")
     private EventoService eventoService;
 
-    private Evento evento;
-
     private List<Evento> eventoList;
     private Date date3 = new Date();
     private String fecha;
-    private String area;
     private Date date1;
     private Date date2;
     private boolean value1;
     private String reportName;
+    private Evento area;
+    private Double promedio = 0.0;
+    private Double indice = 0.0;
+    Random r = new Random();
 
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -102,37 +104,70 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
         } else if (getDate2().equals(getDate1())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fechas no pueden ser iguales."));
         } else {
-            print();
-        }
+            if (value1) {
+                llenarPromedio();
+            } else {
+                llenarReporte();
+            }
 
+        }
     }
 
-    public void print() {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+    private void llenarReporte() {
         List<RptIndicePromedioDeGastoReparacionEquipo> list = new ArrayList<RptIndicePromedioDeGastoReparacionEquipo>();
 
-        for (int i = 0; i < 100; i++) {
-            RptIndicePromedioDeGastoReparacionEquipo prueba = new RptIndicePromedioDeGastoReparacionEquipo();
-            //prueba.setEquipox(12.2);
-            //prueba.setEquipoy(Double.NaN);
+        List<Evento> comparativoReparacionesDos = eventoService.getComparativoReparacionesDos(getArea().getUnidad(), date1, date2);
+        RptIndicePromedioDeGastoReparacionEquipo prueba = new RptIndicePromedioDeGastoReparacionEquipo();
+
+        for (Evento item : comparativoReparacionesDos) {
+            prueba = new RptIndicePromedioDeGastoReparacionEquipo();
+            prueba.setArea(item.getUnidad());
+            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setFechaRep(item.getFechainicio().toString());
+            prueba.setGasto(100 + (200 - 100) * r.nextDouble());
+            list.add(prueba);
+        }
+        promedio = 0.0;
+        indice = 0.0;
+        print(list);
+    }
+
+    private void llenarPromedio() {
+        List<RptIndicePromedioDeGastoReparacionEquipo> list = new ArrayList<RptIndicePromedioDeGastoReparacionEquipo>();
+
+        List<Evento> comparativoReparacionesDos = eventoService.getComparativoReparacionesDos(getArea().getUnidad(), date1, date2);
+        RptIndicePromedioDeGastoReparacionEquipo prueba = new RptIndicePromedioDeGastoReparacionEquipo();
+
+        for (Evento item : comparativoReparacionesDos) {
+            prueba = new RptIndicePromedioDeGastoReparacionEquipo();
+            prueba.setArea(item.getUnidad());
+            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setFechaRep(item.getFechainicio().toString());
+            prueba.setGasto(100 + (300 - 100) * r.nextDouble());
             list.add(prueba);
         }
 
+        for (RptIndicePromedioDeGastoReparacionEquipo itr : list) {
+            promedio = promedio + itr.getGasto();
+        }
+        indice = (((promedio / list.size()) * 100) / promedio);
+        promedio = promedio / list.size();
+        print(list);
+    }
+
+    public void print(List<RptIndicePromedioDeGastoReparacionEquipo> list) {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
         Reporte reporte = new Reporte("indicepromediogastoreparacion", "rpt_indice_promedio_gasto_area", request);
-
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndicePromedioDeGastoReparacionEquipo>(list)));
         reporte.addParameter("fechaInicial", formatter.format(date1));
         reporte.addParameter("fechaFinal", formatter.format(date2));
         reporte.addParameter("usuario", user.getSessionUser().getUsername());
-        reporte.addParameter("indice", "usuario");//double
-        reporte.addParameter("gastoprom", "usuario");//double
+        reporte.addParameter("indice", indice);//double
+        reporte.addParameter("gastoprom", promedio);//double
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
-
-        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
-
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
     }
 
@@ -185,14 +220,6 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
         this.fecha = fecha;
     }
 
-    public Evento getEvento() {
-        return evento;
-    }
-
-    public void setEvento(Evento evento) {
-        this.evento = evento;
-    }
-
     public List<Evento> getEventoList() {
         return eventoList;
     }
@@ -201,20 +228,20 @@ public class IndicePromedioDeGastoReparacionEquipoManagedBean extends GenericMan
         this.eventoList = eventoList;
     }
 
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
     public String getReportName() {
         return reportName;
     }
 
     public void setReportName(String reportName) {
         this.reportName = reportName;
+    }
+
+    public Evento getArea() {
+        return area;
+    }
+
+    public void setArea(Evento area) {
+        this.area = area;
     }
 
 }

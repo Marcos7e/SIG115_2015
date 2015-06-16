@@ -66,8 +66,8 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
     private Date date3 = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     private String fecha;
-    private String equipox;
-    private String equipoy;
+    private Equipo equipox;
+    private Equipo equipoy;
     private boolean value1;
     private String reportName;
     Random r = new Random();
@@ -115,7 +115,8 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
 
     private void llenar() {
         List<RptComparativoDeTiempoVidaUtil> list = new ArrayList<RptComparativoDeTiempoVidaUtil>();
-        List<Evento> listadoFallos = eventoService.getListadoVidaUtil(5,7);
+
+        List<Evento> listadoFallos = eventoService.getListadoVidaUtil(getEquipox().getPladimesa(),getEquipoy().getPladimesa());
         RptComparativoDeTiempoVidaUtil prueba = new RptComparativoDeTiempoVidaUtil();      
         prueba = new RptComparativoDeTiempoVidaUtil();
         prueba.setCostoinicialA(listadoFallos.get(0).getServicio().equals("INSTALACION") ? listadoFallos.get(0).getIdcostoequipo().getCosto() : Double.parseDouble("0.0"));
@@ -194,21 +195,7 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
         this.fecha = fecha;
     }
 
-    public String getEquipox() {
-        return equipox;
-    }
-
-    public void setEquipox(String equipox) {
-        this.equipox = equipox;
-    }
-
-    public String getEquipoy() {
-        return equipoy;
-    }
-
-    public void setEquipoy(String equipoy) {
-        this.equipoy = equipoy;
-    }
+ 
 
     public String getReportName() {
         return reportName;
@@ -216,6 +203,22 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
 
     public void setReportName(String reportName) {
         this.reportName = reportName;
+    }
+
+    public Equipo getEquipox() {
+        return equipox;
+    }
+
+    public void setEquipox(Equipo equipox) {
+        this.equipox = equipox;
+    }
+
+    public Equipo getEquipoy() {
+        return equipoy;
+    }
+
+    public void setEquipoy(Equipo equipoy) {
+        this.equipoy = equipoy;
     }
 
 }

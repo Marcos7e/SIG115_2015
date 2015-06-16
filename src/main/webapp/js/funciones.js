@@ -4,6 +4,15 @@
  * and open the template in the editor.
  */
 
+   
+  
+        function b() {alert(document.getElementById("form:j_idt64_input").checked)
+            if (document.getElementById("form:j_idt64_input").checked) {
+                document.getElementById("form:j_idt68_input").checked=true
+                document.getElementById("form:j_idt72_input").checked=true
+                
+            }
+        }
 
 
 function validateDates() {  

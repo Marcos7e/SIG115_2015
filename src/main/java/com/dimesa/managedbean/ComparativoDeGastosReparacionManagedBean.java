@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -52,9 +53,6 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
     @Qualifier(value = "eventoService")
     private EventoService eventoService;
 
-    private Equipo equipo;
-    private Evento evento;
-
     private List<Equipo> equipoList;
     private List<Evento> eventoList;
 
@@ -65,10 +63,11 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
     private Date date3 = new Date();
     private boolean value1;
 
-    private String area;
-    private String equipox;
-    private String equipoy;
+    private Evento area;
+    private Equipo equipox;
+    private Equipo equipoy;
     private String reportName;
+    Random r = new Random();
 
     private CurrentUserSessionBean user;
     private CurrentUserSessionForm sessionForm;
@@ -113,29 +112,41 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
         } else if (getEquipox().toString().equals(getEquipoy().toString())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Equipo 1 No Debe ser Igual a Equipo 2."));
         } else {
-            print();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Procesado Reporte."));
+            llenarReporte();
+
         }
 
     }
 
-    public void print() {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+    private void llenarReporte() {
         List<RptComparativoDeGastosReparacion> list = new ArrayList<RptComparativoDeGastosReparacion>();
-        for (int i = 0; i < 100; i++) {
-            RptComparativoDeGastosReparacion prueba = new RptComparativoDeGastosReparacion();
-       //     prueba.setEquipox(12.2);
-            //     prueba.setEquipoy(Double.NaN);
+
+        List<Evento> comparativoReparacionesDos = eventoService.getComparativoReparacionesDos(getArea().getUnidad(), date1, date2);
+        RptComparativoDeGastosReparacion prueba = new RptComparativoDeGastosReparacion();
+
+        for (Evento item : comparativoReparacionesDos) {
+            prueba = new RptComparativoDeGastosReparacion();
+            prueba.setEquipox(100 + (1000 - 100) * r.nextDouble());
+            prueba.setEquipoy(100 + (1000 - 100) * r.nextDouble());
+            prueba.setTipoReparacion(item.getUnidad());
             list.add(prueba);
         }
 
+        print(list);
+    }
+
+    public void print(List<RptComparativoDeGastosReparacion> list) {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
         Reporte reporte = new Reporte("compgastosrep", "rpt_comparativo_gasto_reparaciones", request);
-
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptComparativoDeGastosReparacion>(list)));
         reporte.addParameter("fechaInicial", formatter.format(date1));
         reporte.addParameter("fechaFinal", formatter.format(date2));
         reporte.addParameter("usuario", user.getSessionUser().getUsername());
+        reporte.addParameter("equipox", getEquipox().getNombequipo());
+        reporte.addParameter("equipoy", getEquipoy().getNombequipo());
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
@@ -163,14 +174,6 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
 
     public void setEquipoService(EquipoService equipoService) {
         this.equipoService = equipoService;
-    }
-
-    public Equipo getEquipo() {
-        return equipo;
-    }
-
-    public void setEquipo(Equipo equipo) {
-        this.equipo = equipo;
     }
 
     public Date getDate1() {
@@ -206,14 +209,6 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
         this.fecha = fecha;
     }
 
-    public Evento getEvento() {
-        return evento;
-    }
-
-    public void setEvento(Evento evento) {
-        this.evento = evento;
-    }
-
     public List<Evento> getEventoList() {
         return eventoList;
     }
@@ -222,36 +217,44 @@ public class ComparativoDeGastosReparacionManagedBean extends GenericManagedBean
         this.eventoList = eventoList;
     }
 
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getEquipox() {
-        return equipox;
-    }
-
-    public void setEquipox(String equipox) {
-        this.equipox = equipox;
-    }
-
-    public String getEquipoy() {
-        return equipoy;
-    }
-
-    public void setEquipoy(String equipoy) {
-        this.equipoy = equipoy;
-    }
-
     public String getReportName() {
         return reportName;
     }
 
     public void setReportName(String reportName) {
         this.reportName = reportName;
+    }
+
+    public EventoService getEventoService() {
+        return eventoService;
+    }
+
+    public void setEventoService(EventoService eventoService) {
+        this.eventoService = eventoService;
+    }
+
+    public Equipo getEquipox() {
+        return equipox;
+    }
+
+    public void setEquipox(Equipo equipox) {
+        this.equipox = equipox;
+    }
+
+    public Equipo getEquipoy() {
+        return equipoy;
+    }
+
+    public void setEquipoy(Equipo equipoy) {
+        this.equipoy = equipoy;
+    }
+
+    public Evento getArea() {
+        return area;
+    }
+
+    public void setArea(Evento area) {
+        this.area = area;
     }
 
 }

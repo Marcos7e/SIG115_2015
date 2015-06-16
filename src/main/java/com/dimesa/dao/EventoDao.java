@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class EventoDao extends GenericDao<Evento, Integer> {
-    
+
     SimpleDateFormat formStr = new SimpleDateFormat("yyyy-MM-dd");
 
     public List<Evento> getAllEventos() {
@@ -64,8 +64,8 @@ public class EventoDao extends GenericDao<Evento, Integer> {
     }
 
     public List<Evento> getListadoFallos(Date fechainicio, Date fechafin) {
-        
-        try {           
+
+        try {
             Query q = getSessionFactory().getCurrentSession().createQuery(
                     "SELECT e FROM Evento e WHERE  e.servicio ='FALLA' AND e.fechainicio BETWEEN :fechainicio and :fechafin ORDER BY e.servicio"
             );
@@ -78,10 +78,10 @@ public class EventoDao extends GenericDao<Evento, Integer> {
             return null;
         }
     }
-    
+
     public List<Evento> getListadoFallosReparacion(Date fechainicio, Date fechafin) {
-        
-        try {           
+
+        try {
             Query q = getSessionFactory().getCurrentSession().createQuery(
                     "SELECT e FROM Evento e WHERE  e.servicio ='FALLA' OR e.servicio ='REPARACION' AND e.fechainicio BETWEEN :fechainicio and :fechafin ORDER BY e.servicio"
             );
@@ -94,8 +94,8 @@ public class EventoDao extends GenericDao<Evento, Integer> {
             return null;
         }
     }
-    
-       public List<Evento> getDepreciaciones(Date fechainicio, Date fechafin) {
+
+    public List<Evento> getDepreciaciones(Date fechainicio, Date fechafin) {
         Query q = getSessionFactory().getCurrentSession().createQuery(
                 "SELECT e FROM Evento e WHERE  e.servicio = 'DEPRECIACION' and e.fechainicio=: fechainicio BETWEEN e.fechafin=:fechafin"
         );
@@ -103,15 +103,36 @@ public class EventoDao extends GenericDao<Evento, Integer> {
         q.setParameter("fechafin", fechafin);
         return q.list();
     }
-       
+
     public List<Evento> getTiempoVidaUtil(int idA, int idB) {
         Query q = getSessionFactory().getCurrentSession().createQuery(
-                "SELECT e FROM Evento e WHERE  e.pladimesa = :idA OR e.pladimesa = :idB"
+                "SELECT e FROM Evento e WHERE  e.pladimesa.pladimesa = :idA OR e.pladimesa.pladimesa = :idB"
         );
-         q.setParameter("idA", idA);
-         q.setParameter("idB", idB);
-       
+        q.setParameter("idA", idA);
+        q.setParameter("idB", idB);
         return q.list();
     }
-           
+
+    public List<Evento> getComparativoReparaciones(String unidad, int idMaquina, Date fechainicio, Date fechafin) {
+        Query q = getSessionFactory().getCurrentSession().createQuery(
+                "SELECT e FROM Evento e WHERE  e.unidad=:unidad  AND e.pladimesa=: id AND e.fechainicio=: fechainicio BETWEEN e.fechafin=:fechafin"
+        );
+        q.setParameter("unidad", unidad);
+        q.setParameter("fechainicio", fechainicio);
+        q.setParameter("fechafin", fechafin);
+        q.setParameter("id", idMaquina);
+        return q.list();
+    }
+    public List<Evento> getComparativoReparacionesDos(String unidad, Date fechainicio, Date fechafin) {
+        Query q = getSessionFactory().getCurrentSession().createQuery(
+                "SELECT e FROM Evento e WHERE  e.unidad=:unidad  AND e.fechainicio BETWEEN :fechainicio AND :fechafin"
+        );
+        q.setParameter("unidad", unidad);
+        q.setParameter("fechainicio", fechainicio);
+        q.setParameter("fechafin", fechafin);
+        return q.list();
+    }
+    
+    
+
 }

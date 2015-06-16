@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -58,16 +59,20 @@ public class IndicePromedioDeGastoDepreciacionEquipoManagedBean extends GenericM
     private Date date2;
     private boolean value1;
     private String reportName;
-    private String area;
+    private Evento area;
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    private Double promedio = 0.0;
+    private Double indice = 0.0;
+    Random r = new Random();
 
     private CurrentUserSessionBean user;
     private CurrentUserSessionForm sessionForm;
-    
+
     public IndicePromedioDeGastoDepreciacionEquipoManagedBean() {
         user = new CurrentUserSessionBean();
         sessionForm = user.getForm();
     }
+
     @PostConstruct
     public void init() {
         eventoList = new ArrayList<Evento>();
@@ -95,34 +100,69 @@ public class IndicePromedioDeGastoDepreciacionEquipoManagedBean extends GenericM
         } else if (getDate2().before(getDate1())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
         } else {
-            print();
+            if (value1) {
+                llenarPromedio();
+            } else {
+                llenarReporte();
+            }
+
         }
     }
 
-    public void print() {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+    private void llenarReporte() {
         List<RptIndicePromedioDeGastoDepreciacionEquipo> list = new ArrayList<RptIndicePromedioDeGastoDepreciacionEquipo>();
-        for (int i = 0; i < 100; i++) {
-            RptIndicePromedioDeGastoDepreciacionEquipo prueba = new RptIndicePromedioDeGastoDepreciacionEquipo();
-          //  prueba.setEquipox(12.2);
-          //  prueba.setEquipoy(Double.NaN);
+
+        List<Evento> comparativoReparacionesDos = eventoService.getComparativoReparacionesDos(getArea().getUnidad(), date1, date2);
+        RptIndicePromedioDeGastoDepreciacionEquipo prueba = new RptIndicePromedioDeGastoDepreciacionEquipo();
+
+        for (Evento item : comparativoReparacionesDos) {
+            prueba = new RptIndicePromedioDeGastoDepreciacionEquipo();
+            prueba.setArea(item.getUnidad());
+            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setFechaRep(item.getFechainicio().toString());
+            prueba.setGasto(50 + (100 - 50) * r.nextDouble());
             list.add(prueba);
         }
+        promedio = 0.0;
+        indice = 0.0;
+        print(list);
+    }
 
+    private void llenarPromedio() {
+        List<RptIndicePromedioDeGastoDepreciacionEquipo> list = new ArrayList<RptIndicePromedioDeGastoDepreciacionEquipo>();
+
+        List<Evento> comparativoReparacionesDos = eventoService.getComparativoReparacionesDos(getArea().getUnidad(), date1, date2);
+        RptIndicePromedioDeGastoDepreciacionEquipo prueba = new RptIndicePromedioDeGastoDepreciacionEquipo();
+
+        for (Evento item : comparativoReparacionesDos) {
+            prueba = new RptIndicePromedioDeGastoDepreciacionEquipo();
+            prueba.setArea(item.getUnidad());
+            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setFechaRep(item.getFechainicio().toString());
+            prueba.setGasto(50 + (100 - 50) * r.nextDouble());
+            list.add(prueba);
+        }
+        for (RptIndicePromedioDeGastoDepreciacionEquipo itr : list) {
+            promedio = promedio + itr.getGasto();
+        }
+        indice = (((promedio / list.size()) * 100) / promedio);
+        promedio = promedio / list.size();
+        print(list);
+    }
+
+    public void print(List<RptIndicePromedioDeGastoDepreciacionEquipo> list) {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
         Reporte reporte = new Reporte("indicepromediogastodepreciacion", "rpt_indice_promedio_gasto_depreciacion_por_area", request);
-
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndicePromedioDeGastoDepreciacionEquipo>(list)));
-         reporte.addParameter("fechaInicial", formatter.format(date1));
+        reporte.addParameter("fechaInicial", formatter.format(date1));
         reporte.addParameter("fechaFinal", formatter.format(date2));
-        reporte.addParameter("usuario", user.getSessionUser().getUsername());       
-        reporte.addParameter("indice","usuario");//double
-        reporte.addParameter("gastoprom","usuario");//double
+        reporte.addParameter("usuario", user.getSessionUser().getUsername());
+        reporte.addParameter("indice", indice);//double
+        reporte.addParameter("gastoprom", promedio);//double
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
-
-        JasperViewer.viewReport(reporte.getJasperPrint());/*quitar si funciona*/
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
     }
 
@@ -191,12 +231,36 @@ public class IndicePromedioDeGastoDepreciacionEquipoManagedBean extends GenericM
         this.reportName = reportName;
     }
 
-    public String getArea() {
+    public EventoService getEventoService() {
+        return eventoService;
+    }
+
+    public void setEventoService(EventoService eventoService) {
+        this.eventoService = eventoService;
+    }
+
+    public Evento getArea() {
         return area;
     }
 
-    public void setArea(String area) {
+    public void setArea(Evento area) {
         this.area = area;
+    }
+
+    public Double getPromedio() {
+        return promedio;
+    }
+
+    public void setPromedio(Double promedio) {
+        this.promedio = promedio;
+    }
+
+    public Double getIndice() {
+        return indice;
+    }
+
+    public void setIndice(Double indice) {
+        this.indice = indice;
     }
 
 }
