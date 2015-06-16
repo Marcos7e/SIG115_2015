@@ -31,6 +31,10 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Evento.findAll", query = "SELECT e FROM Evento e")})
 public class Evento implements Serializable {
+
+    @Size(max = 30)
+    @Column(name = "Servicio", length = 30)
+    private String servicio;
     private static final long serialVersionUID = 1L;
 //    @Id
 //    @Basic(optional = false)
@@ -38,17 +42,15 @@ public class Evento implements Serializable {
 //    @Size(min = 1, max = 10)
 //    @Column(name = "num_dimesa", nullable = false, length = 10)
 //    private String numDimesa;
-    
-     @Id
+
+    @Id
     @GeneratedValue
     @Column(name = "num_dimesa", nullable = true)
     private Integer numDimesa;
-    
+
     @Size(max = 10)
     @Column(name = "Tbl_equipo_pla_dimesa", length = 10)
     private String tblequipopladimesa;
-    @Column(name = "Servicio")
-    private Integer servicio;
     @Column(name = "Fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechainicio;
@@ -89,14 +91,6 @@ public class Evento implements Serializable {
 
     public void setTblequipopladimesa(String tblequipopladimesa) {
         this.tblequipopladimesa = tblequipopladimesa;
-    }
-
-    public Integer getServicio() {
-        return servicio;
-    }
-
-    public void setServicio(Integer servicio) {
-        this.servicio = servicio;
     }
 
     public Date getFechainicio() {
@@ -171,5 +165,13 @@ public class Evento implements Serializable {
     public String toString() {
         return "com.dimesa.model.Evento[ numDimesa=" + numDimesa + " ]";
     }
-    
+
+    public String getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(String servicio) {
+        this.servicio = servicio;
+    }
+
 }

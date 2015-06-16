@@ -7,7 +7,9 @@ package com.dimesa.managedbean;
 
 import com.dimesa.jasper.Reporte;
 import com.dimesa.managedbean.form.CurrentUserSessionForm;
+import com.dimesa.model.Evento;
 import com.dimesa.pojo.rpt.RptIndiceDeEncarrilamiento;
+import com.dimesa.service.EventoService;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -23,9 +25,10 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.view.JasperViewer;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -47,11 +50,24 @@ public class IndiceDeEncarrilamientoManagedBean {
     private String fecha;
     private String reportName;
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
     private int millisInDay = 24 * 60 * 60 * 1000;
     Random r = new Random();
     private CurrentUserSessionBean user;
     private CurrentUserSessionForm sessionForm;
-    
+
+    @Autowired
+    @Qualifier(value = "eventoService")
+    private EventoService eventoService;
+
+    public EventoService getEventoService() {
+        return eventoService;
+    }
+
+    public void setEventoService(EventoService eventoService) {
+        this.eventoService = eventoService;
+    }
+
     public IndiceDeEncarrilamientoManagedBean() {
         user = new CurrentUserSessionBean();
         sessionForm = user.getForm();
@@ -69,33 +85,121 @@ public class IndiceDeEncarrilamientoManagedBean {
         } else if (getDate2() == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin Vacia."));
         } else if (getDate2().before(getDate1())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));        
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Fin es Menor que Fecha Inicio."));
         } else if (getDate2().equals(getDate1())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fecha Inicio es Igual que Fecha Fin."));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Procesado Reporte."));
-            print();
+
+            if (!value1 && !value2 && !value3 && !value4) {
+                fallas();
+            } else if (value1 && !value2 && !value3 && !value4) {
+                fallasReparaciones();
+            } else if (value1 && !value2 && value3 && !value4) {
+                tasaTiempoReparacion();
+            } else if (value1 && value2 && value3 && !value4) {
+                tasaTiempoGastoReparacion();
+            } else if (!value1 && !value2 && !value3 && value4) {
+                gastoDepreciacion();
+            }
+
         }
 
     }
 
-    public void print() {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+    private void fallas() {
         List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
+        List<Evento> listadoFallos = eventoService.getListadoFallos(date1, date2);
         RptIndiceDeEncarrilamiento prueba = new RptIndiceDeEncarrilamiento();
-        
-       
-        for (int i = 0; i < 100; i++) {
+        for (Evento item : listadoFallos) {
             prueba = new RptIndiceDeEncarrilamiento();
-            prueba.setArea("Area de prueba");
-            prueba.setEquipo("Equipo" + i);
-            prueba.setGastoDept(100 + (200 - 300) * r.nextDouble());
-            prueba.setGastoRepa(100 + (200 - 300) * r.nextDouble());
-            prueba.setTasaRep(100 + (200 - 300) * r.nextDouble());
+            prueba.setArea(item.getUnidad());
+            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
+            prueba.setTasaRep(0.0);
             Time time = new Time((long) r.nextInt(millisInDay));
             prueba.setTiempoRe(time.toString());
+            prueba.setGastoRepa(0.0);
             list.add(prueba);
         }
+
+        print(list);
+    }
+
+    private void fallasReparaciones() {
+        List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
+
+        List<Evento> listadoFallos = eventoService.getListadoFallosReparacion(date1, date2);
+        RptIndiceDeEncarrilamiento prueba = new RptIndiceDeEncarrilamiento();
+
+        for (Evento item : listadoFallos) {
+            prueba = new RptIndiceDeEncarrilamiento();
+            prueba.setArea(item.getUnidad());
+            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
+            prueba.setTasaRep(item.getServicio().equals("REPARACION") ? 100 : 0.0);
+            Time time = new Time((long) r.nextInt(millisInDay));
+            prueba.setTiempoRe(time.toString());
+            prueba.setGastoRepa(0.0);
+            list.add(prueba);
+        }
+
+        print(list);
+    }
+
+    private void tasaTiempoReparacion() {
+        List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
+        List<Evento> listadoFallos = eventoService.getListadoFallosReparacion(date1, date2);
+        RptIndiceDeEncarrilamiento prueba = new RptIndiceDeEncarrilamiento();
+        for (Evento item : listadoFallos) {
+            prueba = new RptIndiceDeEncarrilamiento();
+            prueba.setArea(item.getUnidad());
+            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
+            prueba.setTasaRep(item.getServicio().equals("REPARACION") ? 100 : 0.0);
+            prueba.setTiempoRe(item.getServicio().equals("REPARACION") ? item.getFechainicio().toString() : "No Reparacion");
+            prueba.setGastoRepa(0.0);
+            list.add(prueba);
+        }
+        print(list);
+    }
+
+    private void tasaTiempoGastoReparacion() {
+        List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
+        List<Evento> listadoFallos = eventoService.getListadoFallosReparacion(date1, date2);
+        RptIndiceDeEncarrilamiento prueba = new RptIndiceDeEncarrilamiento();
+        for (Evento item : listadoFallos) {
+            prueba = new RptIndiceDeEncarrilamiento();
+            prueba.setArea(item.getUnidad());
+            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
+            prueba.setTasaRep(item.getServicio().equals("REPARACION") ? 100 : 0.0);
+            prueba.setTiempoRe(item.getServicio().equals("REPARACION") ? item.getFechainicio().toString() : "No Reparacion");
+            prueba.setGastoRepa(item.getServicio().equals("REPARACION") ? item.getIdcostoequipo().getCosto().doubleValue() : 0.0);
+            list.add(prueba);
+        }
+        print(list);
+    }
+
+    private void gastoDepreciacion() {
+        List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
+        List<Evento> listadoFallos = eventoService.getDepreciaciones(date1, date2);
+        RptIndiceDeEncarrilamiento prueba = new RptIndiceDeEncarrilamiento();
+        for (Evento item : listadoFallos) {
+            prueba = new RptIndiceDeEncarrilamiento();
+            prueba.setArea(item.getUnidad());
+            prueba.setEquipo(item.getPladimesa().getNombequipo());
+            prueba.setGastoDept(item.getIdcostoequipo().getCosto().doubleValue());
+            prueba.setTasaRep(0.0);
+            prueba.setTiempoRe("No Reparacion");
+            prueba.setGastoRepa(0.0);
+            list.add(prueba);
+        }
+        print(list);
+    }
+
+    public void print(List<RptIndiceDeEncarrilamiento> list) {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
         Reporte reporte = new Reporte("indicedeencarrilamiento", "rpt_encarrilamiento", request);
@@ -103,12 +207,9 @@ public class IndiceDeEncarrilamientoManagedBean {
         reporte.addParameter("fechaInicial", formatter.format(date1));
         reporte.addParameter("fechaFinal", formatter.format(date2));
         reporte.addParameter("usuario", user.getSessionUser().getUsername());
-        
-        
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
-
     }
 
     public Date getDate1() {
