@@ -60,9 +60,7 @@
                     <h:panelGrid columns="2"  cellpadding="5">
                         <f:facet name="footer">
                             <div class="footer-section">
-                                <p:commandButton value="Aceptar" update="msgs" actionListener="#{comparativoDeTiempoVidaUtilManagedBean.click}" icon="ui-icon-check"  />                        
-                                <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" actionListener="#{comparativoDeTiempoVidaUtilManagedBean.click}" oncomplete="print(xhr, status, args)"/>                     
-
+                               <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" update="msgs" actionListener="#{comparativoDeTiempoVidaUtilManagedBean.click}"  oncomplete="print(xhr, status, args)" />                                              
                                 <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
                                 <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
                             </div>

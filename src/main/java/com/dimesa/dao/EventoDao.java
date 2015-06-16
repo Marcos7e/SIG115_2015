@@ -103,5 +103,15 @@ public class EventoDao extends GenericDao<Evento, Integer> {
         q.setParameter("fechafin", fechafin);
         return q.list();
     }
-
+       
+    public List<Evento> getTiempoVidaUtil(int idA, int idB) {
+        Query q = getSessionFactory().getCurrentSession().createQuery(
+                "SELECT e FROM Evento e WHERE  e.pladimesa = :idA OR e.pladimesa = :idB"
+        );
+         q.setParameter("idA", idA);
+         q.setParameter("idB", idB);
+       
+        return q.list();
+    }
+           
 }

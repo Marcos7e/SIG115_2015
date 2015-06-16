@@ -10,14 +10,17 @@ import com.dimesa.managedbean.form.CurrentUserSessionForm;
 import com.dimesa.managedbean.generic.GenericManagedBean;
 import com.dimesa.managedbean.lazymodel.IndicePromedioDeGastoReparacionEquipoLazyModel;
 import com.dimesa.model.Equipo;
+import com.dimesa.model.Evento;
 import com.dimesa.pojo.rpt.RptComparativoDeTiempoVidaUtil;
 import com.dimesa.service.EquipoService;
+import com.dimesa.service.EventoService;
 import com.dimesa.service.generic.GenericService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -47,6 +50,18 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
     private EquipoService equipoService;
     private Equipo equipo;
 
+    @Autowired
+    @Qualifier(value = "eventoService")
+    private EventoService eventoService;
+
+    public EventoService getEventoService() {
+        return eventoService;
+    }
+
+    public void setEventoService(EventoService eventoService) {
+        this.eventoService = eventoService;
+    }
+
     private List<Equipo> equipoList;
     private Date date3 = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -55,16 +70,16 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
     private String equipoy;
     private boolean value1;
     private String reportName;
+    Random r = new Random();
 
     private CurrentUserSessionBean user;
     private CurrentUserSessionForm sessionForm;
-    
+
     public ComparativoDeTiempoVidaUtilManagedBean() {
         user = new CurrentUserSessionBean();
         sessionForm = user.getForm();
     }
-    
-    
+
     @PostConstruct
     public void init() {
         equipoList = new ArrayList<Equipo>();
@@ -90,34 +105,46 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
         } else if (getEquipox().toString().equals(getEquipoy().toString())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Equipo 1 No Debe ser Igual a Equipo 2."));
         } else {
-            print();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Procesado Reporte."));
+
+            llenar();
+
         }
 
     }
 
-    public void print() {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+    private void llenar() {
         List<RptComparativoDeTiempoVidaUtil> list = new ArrayList<RptComparativoDeTiempoVidaUtil>();
-        for (int i = 0; i < 100; i++) {
-            RptComparativoDeTiempoVidaUtil prueba = new RptComparativoDeTiempoVidaUtil();
-       //     prueba.setEquipox(12.2);
-       //     prueba.setEquipoy(Double.NaN);
-            list.add(prueba);
-        }
+        List<Evento> listadoFallos = eventoService.getListadoVidaUtil(5,7);
+        RptComparativoDeTiempoVidaUtil prueba = new RptComparativoDeTiempoVidaUtil();      
+        prueba = new RptComparativoDeTiempoVidaUtil();
+        prueba.setCostoinicialA(listadoFallos.get(0).getServicio().equals("INSTALACION") ? listadoFallos.get(0).getIdcostoequipo().getCosto() : Double.parseDouble("0.0"));
+        prueba.setCostoinicialB(listadoFallos.get(1).getServicio().equals("INSTALACION") ? listadoFallos.get(1).getIdcostoequipo().getCosto() : Double.parseDouble("0.0"));
+        prueba.setCostoAnualOpreacionA(100 + (1000 - 100) * r.nextDouble());
+        prueba.setCostoAnualOpreacionB(100 + (1000 - 100) * r.nextDouble());
+        prueba.setInteresA(10.0);
+        prueba.setInteresB(10.0);
+        prueba.setValorSalvamentoA(0.1 * listadoFallos.get(0).getIdcostoequipo().getCosto());
+        prueba.setValorSalvamentoB(0.1 * listadoFallos.get(1).getIdcostoequipo().getCosto());
+        prueba.setVidaUtilA(5);
+        prueba.setVidaUtilB(5);
+        prueba.setUsuario(user.getSessionUser().getUsername());
+        list.add(prueba);
+        print(list);
+    }
 
+    public void print(List<RptComparativoDeTiempoVidaUtil> list) {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
         Reporte reporte = new Reporte("vidautil", "rpt_comparativo_vida_util", request);
-
         reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptComparativoDeTiempoVidaUtil>(list)));
-        reporte.addParameter("usuario", user.getSessionUser().getUsername());
-        
         reporte.setReportInSession(request, response);
         reportName = reporte.getNombreLogico();
-
         RequestContext.getCurrentInstance().addCallbackParam("reportName", reportName);
     }
 
+  
     public Date getDate3() {
         return date3;
     }
@@ -190,6 +217,5 @@ public class ComparativoDeTiempoVidaUtilManagedBean extends GenericManagedBean<E
     public void setReportName(String reportName) {
         this.reportName = reportName;
     }
-    
 
 }

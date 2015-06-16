@@ -37,6 +37,11 @@ public class EventoService extends GenericService<Evento, Integer> {
     public List<String> getUnidades() {
         return this.eventoDao.getUnidades();
     }
+    
+    public List<Evento> getListadoVidaUtil(int idA, int idB)
+    {
+        return this.eventoDao.getTiempoVidaUtil(idA,idB);
+    }
 
     public List<Evento> getListadoEventoRFD(Date fechainicio, Date fechafin) {
         return this.eventoDao.getListadoEventoRFD(fechainicio, fechafin);
