@@ -32,12 +32,12 @@
                 <h:outputLabel value="Indices" />
                 <div align="center" style="border: 1px black dashed" class="w50 h50"  >
                     <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="10">
-                        <p:column>
-                            <p:selectBooleanCheckbox styleClass="aaa1" onchange="b()" value="#{exportacionDeProcesosProyeccionTazasManagedBean.value1}" />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="&Iacute;ndice de Encarrilamiento a Mis&iacute;on y Visi&oacute;n Empresarial" />
-                        </p:column>
+                        <!--   <p:column>
+                               <p:selectBooleanCheckbox styleClass="aaa1" onchange="b()" value="#{exportacionDeProcesosProyeccionTazasManagedBean.value1}" />
+                           </p:column>
+                           <p:column>
+                               <h:outputText value="&Iacute;ndice de Encarrilamiento a Mis&iacute;on y Visi&oacute;n Empresarial" />
+                           </p:column>-->
                         <p:column>
                             <p:selectBooleanCheckbox styleClass="aaa"  value="#{exportacionDeProcesosProyeccionTazasManagedBean.value2}" />
                         </p:column>
@@ -79,18 +79,32 @@
 
                     </h:panelGrid>
                 </div>
-
+                <br/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:column>
+                        <p:outputLabel for="fhInicial" value="Fecha Inicial:" />
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="fhInicial"  value="#{exportacionDeProcesosProyeccionTazasManagedBean.date1}"  pattern="dd-MM-yyyy"  />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel for="fhFin"  value="Fecha Final:" />
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="fhFin" value="#{exportacionDeProcesosProyeccionTazasManagedBean.date2}"  pattern="dd-MM-yyyy" />
+                    </p:column>
+                </h:panelGrid>
+                <br/>
                 <h:panelGrid columns="2"  cellpadding="5">
                     <f:facet name="footer">
                         <div class="footer-section">
-                            <p:commandButton value="Aceptar" update="msgs" actionListener="#{exportacionDeProcesosProyeccionTazasManagedBean.click}" icon="ui-icon-check"  />                        
-                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" actionListener="#{indiceDeEncarrilamientoManagedBean.click}" oncomplete="print(xhr, status, args)"/>                     
-
+                            <p:commandButton id="reportButton" icon="ui-icon-print"  value="#{crudbundle.Print}" update="msgs" actionListener="#{exportacionDeProcesosProyeccionTazasManagedBean.click}"  oncomplete="print(xhr, status, args)" />                                               
                             <p:commandButton value="Cancelar" update="msgs"  icon="ui-icon-trash"    />
                             <p:commandButton type="buton" value="Atras"  icon="ui-icon-check"  onclick="window.location.href = '#{facesContext.externalContext.requestContextPath}/views/index.xhtml'" />                      
                         </div>
                     </f:facet>
                 </h:panelGrid>
+                <br/>
             </div>         
         </h:form>
     </ui:define>

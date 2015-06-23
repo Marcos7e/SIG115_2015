@@ -67,5 +67,9 @@ public class EventoService extends GenericService<Evento, Integer> {
      public List<Evento> getComparativoReparacionesDos(String unidad, Date fechainicio, Date fechafin) {
           return this.eventoDao.getComparativoReparacionesDos(unidad, fechainicio, fechafin);
      }
+     
+     public List<Evento> getComparativoReparacionesAllUnidad( Date fechainicio, Date fechafin) {
+           return this.eventoDao.getComparativoReparacionesAllUnidad(fechainicio, fechafin);
+     }
     
 }

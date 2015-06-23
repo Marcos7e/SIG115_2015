@@ -133,6 +133,15 @@ public class EventoDao extends GenericDao<Evento, Integer> {
         return q.list();
     }
     
-    
+     public List<Evento> getComparativoReparacionesAllUnidad( Date fechainicio, Date fechafin) {
+         
+         
+        Query q = getSessionFactory().getCurrentSession().createQuery(
+                "SELECT e FROM Evento e WHERE  e.fechainicio BETWEEN :fechainicio AND :fechafin"
+        );
+        q.setParameter("fechainicio", fechainicio);
+        q.setParameter("fechafin", fechafin);
+        return q.list();
+    }
 
 }
