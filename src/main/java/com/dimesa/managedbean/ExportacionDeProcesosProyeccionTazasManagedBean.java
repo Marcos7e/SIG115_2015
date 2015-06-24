@@ -8,6 +8,7 @@ package com.dimesa.managedbean;
 import com.dimesa.jasper.Reporte;
 import com.dimesa.managedbean.form.CurrentUserSessionForm;
 import com.dimesa.model.Evento;
+import com.dimesa.pojo.rpt.RptExportacionDeProcesosProyeccionTazas;
 import com.dimesa.pojo.rpt.RptIndiceDeEncarrilamiento;
 import com.dimesa.pojo.rpt.RptIndicePromedioDeGastoDepreciacionEquipo;
 import com.dimesa.pojo.rpt.RptIndicePromedioDeGastoReparacionEquipo;
@@ -53,6 +54,7 @@ public class ExportacionDeProcesosProyeccionTazasManagedBean {
     private String fecha;
     private String reportName;
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    private int millisInDay = 24 * 60 * 60 * 1000;
     Random r = new Random();
     private Double promediod = 0.0;
     private Double indiced = 0.0;
@@ -86,7 +88,7 @@ public class ExportacionDeProcesosProyeccionTazasManagedBean {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito!", "Procesado Reporte."));
             llenarPromedio();
-           
+
         }
 
     }
@@ -138,24 +140,39 @@ public class ExportacionDeProcesosProyeccionTazasManagedBean {
 
     public void print() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-//        List<RptIndiceDeEncarrilamiento> list = new ArrayList<RptIndiceDeEncarrilamiento>();
-//        RptIndiceDeEncarrilamiento prueba = new RptIndiceDeEncarrilamiento();
-//
-//        for (int i = 0; i < 100; i++) {
-//            prueba = new RptIndiceDeEncarrilamiento();
-//            prueba.setArea("Area de prueba");
-//            prueba.setEquipo("Equipo" + i);
-////            prueba.setGastoDept(100 + (200 - 300) * r.nextDouble());
-////            prueba.setGastoRepa(100 + (200 - 300) * r.nextDouble());
-////            prueba.setTasaRep(100 + (200 - 300) * r.nextDouble());
-//            // Time time = new Time((long) r.nextInt(millisInDay));
-//            //           prueba.setTiempoRe(time.toString());
-//            list.add(prueba);
-//        }
+        List<RptExportacionDeProcesosProyeccionTazas> list = new ArrayList<RptExportacionDeProcesosProyeccionTazas>();
+        RptExportacionDeProcesosProyeccionTazas prueba = new RptExportacionDeProcesosProyeccionTazas();
+        Time time = new Time((long) r.nextInt(millisInDay));
+        if (value4) {
+            prueba.setT(1);
+            prueba.setTiempoFalla(time.toString());
+            time = new Time((long) r.nextInt(millisInDay));
+            prueba.setTiempoInstalacion(time.toString());
+            time = new Time((long) r.nextInt(millisInDay));
+            prueba.setTiempoReparacion(time.toString());
+
+        }
+
+        if (value5) {
+            prueba.setR(1);
+            List<Evento> listadoExitoso = eventoService.getListadoExitoso(date1, date2);
+            int size = listadoExitoso.size();
+            prueba.setNumeroReparaciones(size);
+            time = new Time((long) r.nextInt(millisInDay));
+        }
+
+        if (value6) {
+            prueba.setP(1);
+            List<Evento> listadoPreventivo = eventoService.getListadoPreventivo(date1, date2);
+            prueba.setNumeroPreventivoActual(listadoPreventivo.size());
+            prueba.setNumeroPreventivo(r.nextInt(listadoPreventivo.size()));
+        }
+        list.add(prueba);
+
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
         Reporte reporte = new Reporte("archivodeexportacion", "rpt_archivo_exportacion", request);
-       // reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptIndiceDeEncarrilamiento>(list)));
+        reporte.setDataSource(new JRBeanCollectionDataSource(new HashSet<RptExportacionDeProcesosProyeccionTazas>(list)));
         reporte.addParameter("fechaInicial", formatter.format(date1));
         reporte.addParameter("fechaFinal", formatter.format(date2));
         reporte.addParameter("usuario", user.getSessionUser().getUsername());

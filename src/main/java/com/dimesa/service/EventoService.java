@@ -37,39 +37,47 @@ public class EventoService extends GenericService<Evento, Integer> {
     public List<String> getUnidades() {
         return this.eventoDao.getUnidades();
     }
-    
-    public List<Evento> getListadoVidaUtil(int idA, int idB)
-    {
-        return this.eventoDao.getTiempoVidaUtil(idA,idB);
+
+    public List<Evento> getListadoVidaUtil(int idA, int idB) {
+        return this.eventoDao.getTiempoVidaUtil(idA, idB);
     }
 
     public List<Evento> getListadoEventoRFD(Date fechainicio, Date fechafin) {
         return this.eventoDao.getListadoEventoRFD(fechainicio, fechafin);
 
     }
+
     public List<Evento> getListadoFallos(Date fechainicio, Date fechafin) {
         return this.eventoDao.getListadoFallos(fechainicio, fechafin);
 
     }
-    
-    public List<Evento> getListadoFallosReparacion(Date fechainicio, Date fechafin) {
-         return this.eventoDao.getListadoFallosReparacion(fechainicio, fechafin);
-    }
-    
-     public List<Evento> getDepreciaciones(Date fechainicio, Date fechafin) {
-          return this.eventoDao.getDepreciaciones(fechainicio, fechafin);
-     }
 
-     public List<Evento> getComparativoReparaciones(String unidad, int idMaquina, Date fechainicio, Date fechafin) {
-          return this.eventoDao.getComparativoReparaciones(unidad, idMaquina, fechainicio, fechafin);
-     }
-    
-     public List<Evento> getComparativoReparacionesDos(String unidad, Date fechainicio, Date fechafin) {
-          return this.eventoDao.getComparativoReparacionesDos(unidad, fechainicio, fechafin);
-     }
-     
-     public List<Evento> getComparativoReparacionesAllUnidad( Date fechainicio, Date fechafin) {
-           return this.eventoDao.getComparativoReparacionesAllUnidad(fechainicio, fechafin);
-     }
-    
+    public List<Evento> getListadoFallosReparacion(Date fechainicio, Date fechafin) {
+        return this.eventoDao.getListadoFallosReparacion(fechainicio, fechafin);
+    }
+
+    public List<Evento> getDepreciaciones(Date fechainicio, Date fechafin) {
+        return this.eventoDao.getDepreciaciones(fechainicio, fechafin);
+    }
+
+    public List<Evento> getComparativoReparaciones(String unidad, int idMaquina, Date fechainicio, Date fechafin) {
+        return this.eventoDao.getComparativoReparaciones(unidad, idMaquina, fechainicio, fechafin);
+    }
+
+    public List<Evento> getComparativoReparacionesDos(String unidad, Date fechainicio, Date fechafin) {
+        return this.eventoDao.getComparativoReparacionesDos(unidad, fechainicio, fechafin);
+    }
+
+    public List<Evento> getComparativoReparacionesAllUnidad(Date fechainicio, Date fechafin) {
+        return this.eventoDao.getComparativoReparacionesAllUnidad(fechainicio, fechafin);
+    }
+
+    public List<Evento> getListadoExitoso(Date fechainicio, Date fechafin) {
+        return this.eventoDao.getListadoExitoso(fechainicio, fechafin);
+    }
+
+    public List<Evento> getListadoPreventivo(Date fechainicio, Date fechafin) {
+        return this.eventoDao.getListadoPreventivo(fechainicio, fechafin);
+    }
+
 }

@@ -7,9 +7,12 @@ package com.dimesa.dao;
 
 import com.dimesa.dao.generic.GenericDao;
 import com.dimesa.model.Evento;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -37,30 +40,67 @@ public class EventoDao extends GenericDao<Evento, Integer> {
     }
 
     public List<Evento> getListadoEventoRFD(Date fechainicio, Date fechafin) {
-        Query q = getSessionFactory().getCurrentSession().createQuery(
-                "SELECT e FROM Evento e WHERE  e.servicio = 'REPARACION' OR e.servicio = 'FALLA' OR e.servicio = 'DEPRECIACION' BETWEEN e.fechainicio=: fechainicio and e.fechafin=:fechafin"
-        );
-        q.setParameter("fechainicio", fechainicio);
-        q.setParameter("fechafin", fechafin);
-        return q.list();
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery(
+                    "SELECT e FROM Evento e WHERE  e.servicio = 'REPARACION' OR e.servicio = 'FALLA' OR e.servicio = 'DEPRECIACION' BETWEEN e.fechainicio=: fechainicio and e.fechafin=:fechafin"
+            );
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
+            return q.list();
+        } catch (ParseException ex) {
+            Logger.getLogger(EventoDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     public List<Evento> getListadoExitoso(Date fechainicio, Date fechafin) {
-        Query q = getSessionFactory().getCurrentSession().createQuery(
-                "SELECT e FROM Evento e WHERE  e.servicio = 'REPARACION' and e.fechainicio=: fechainicio BETWEEN e.fechafin=:fechafin"
-        );
-        q.setParameter("fechainicio", fechainicio);
-        q.setParameter("fechafin", fechafin);
-        return q.list();
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery(
+                    "SELECT e FROM Evento e WHERE  e.servicio = 'REPARACION' and  e.fechainicio BETWEEN :fechainicio AND :fechafin"
+            );
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
+            return q.list();
+        } catch (ParseException ex) {
+            Logger.getLogger(EventoDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public List<Evento> getListadoPreventivo(Date fechainicio, Date fechafin) {
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery(
+                    "SELECT e FROM Evento e WHERE  e.servicio = 'PREVENTIVO' and  e.fechainicio BETWEEN :fechainicio AND :fechafin"
+            );
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
+            return q.list();
+        } catch (ParseException ex) {
+            Logger.getLogger(EventoDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     public List<Evento> getListadoDepreciacion(Date fechainicio, Date fechafin) {
-        Query q = getSessionFactory().getCurrentSession().createQuery(
-                "SELECT e FROM Evento e WHERE  e.servicio = 'DEPRECIACION' and e.fechainicio=: fechainicio BETWEEN e.fechafin=:fechafin"
-        );
-        q.setParameter("fechainicio", fechainicio);
-        q.setParameter("fechafin", fechafin);
-        return q.list();
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery(
+                    "SELECT e FROM Evento e WHERE  e.servicio = 'DEPRECIACION' and e.fechainicio=: fechainicio BETWEEN e.fechafin=:fechafin"
+            );
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
+            return q.list();
+        } catch (ParseException ex) {
+            Logger.getLogger(EventoDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     public List<Evento> getListadoFallos(Date fechainicio, Date fechafin) {
@@ -69,8 +109,10 @@ public class EventoDao extends GenericDao<Evento, Integer> {
             Query q = getSessionFactory().getCurrentSession().createQuery(
                     "SELECT e FROM Evento e WHERE  e.servicio ='FALLA' AND e.fechainicio BETWEEN :fechainicio and :fechafin ORDER BY e.servicio"
             );
-            q.setParameter("fechainicio", fechainicio);
-            q.setParameter("fechafin", fechafin);
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
             return q.list();
 
         } catch (Exception e) {
@@ -85,8 +127,10 @@ public class EventoDao extends GenericDao<Evento, Integer> {
             Query q = getSessionFactory().getCurrentSession().createQuery(
                     "SELECT e FROM Evento e WHERE  e.servicio ='FALLA' OR e.servicio ='REPARACION' AND e.fechainicio BETWEEN :fechainicio and :fechafin ORDER BY e.servicio"
             );
-            q.setParameter("fechainicio", fechainicio);
-            q.setParameter("fechafin", fechafin);
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
             return q.list();
 
         } catch (Exception e) {
@@ -96,12 +140,19 @@ public class EventoDao extends GenericDao<Evento, Integer> {
     }
 
     public List<Evento> getDepreciaciones(Date fechainicio, Date fechafin) {
-        Query q = getSessionFactory().getCurrentSession().createQuery(
-                "SELECT e FROM Evento e WHERE  e.servicio = 'DEPRECIACION' and e.fechainicio=: fechainicio BETWEEN e.fechafin=:fechafin"
-        );
-        q.setParameter("fechainicio", fechainicio);
-        q.setParameter("fechafin", fechafin);
-        return q.list();
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery(
+                    "SELECT e FROM Evento e WHERE  e.servicio = 'DEPRECIACION' and e.fechainicio=: fechainicio BETWEEN e.fechafin=:fechafin"
+            );
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
+            return q.list();
+        } catch (ParseException ex) {
+            Logger.getLogger(EventoDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     public List<Evento> getTiempoVidaUtil(int idA, int idB) {
@@ -114,34 +165,54 @@ public class EventoDao extends GenericDao<Evento, Integer> {
     }
 
     public List<Evento> getComparativoReparaciones(String unidad, int idMaquina, Date fechainicio, Date fechafin) {
-        Query q = getSessionFactory().getCurrentSession().createQuery(
-                "SELECT e FROM Evento e WHERE  e.unidad=:unidad  AND e.pladimesa=: id AND e.fechainicio=: fechainicio BETWEEN e.fechafin=:fechafin"
-        );
-        q.setParameter("unidad", unidad);
-        q.setParameter("fechainicio", fechainicio);
-        q.setParameter("fechafin", fechafin);
-        q.setParameter("id", idMaquina);
-        return q.list();
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery(
+                    "SELECT e FROM Evento e WHERE  e.unidad=:unidad  AND e.pladimesa=: id AND e.fechainicio=: fechainicio BETWEEN e.fechafin=:fechafin"
+            );
+            q.setParameter("unidad", unidad);
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
+            q.setParameter("id", idMaquina);
+            return q.list();
+        } catch (ParseException ex) {
+            Logger.getLogger(EventoDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
+
     public List<Evento> getComparativoReparacionesDos(String unidad, Date fechainicio, Date fechafin) {
-        Query q = getSessionFactory().getCurrentSession().createQuery(
-                "SELECT e FROM Evento e WHERE  e.unidad=:unidad  AND e.fechainicio BETWEEN :fechainicio AND :fechafin"
-        );
-        q.setParameter("unidad", unidad);
-        q.setParameter("fechainicio", fechainicio);
-        q.setParameter("fechafin", fechafin);
-        return q.list();
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery(
+                    "SELECT e FROM Evento e WHERE  e.unidad=:unidad  AND e.fechainicio BETWEEN :fechainicio AND :fechafin"
+            );
+            q.setParameter("unidad", unidad);
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
+            return q.list();
+        } catch (ParseException ex) {
+            Logger.getLogger(EventoDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
-    
-     public List<Evento> getComparativoReparacionesAllUnidad( Date fechainicio, Date fechafin) {
-         
-         
-        Query q = getSessionFactory().getCurrentSession().createQuery(
-                "SELECT e FROM Evento e WHERE  e.fechainicio BETWEEN :fechainicio AND :fechafin"
-        );
-        q.setParameter("fechainicio", fechainicio);
-        q.setParameter("fechafin", fechafin);
-        return q.list();
+
+    public List<Evento> getComparativoReparacionesAllUnidad(Date fechainicio, Date fechafin) {
+
+        try {
+            Query q = getSessionFactory().getCurrentSession().createQuery(
+                    "SELECT e FROM Evento e WHERE  e.fechainicio BETWEEN :fechainicio AND :fechafin");
+            String fecha1 = formStr.format(fechainicio);
+            String fecha2 = formStr.format(fechafin);
+            q.setParameter("fechainicio", formStr.parse(fecha1));
+            q.setParameter("fechafin", formStr.parse(fecha2));
+            return q.list();
+        } catch (ParseException ex) {
+            Logger.getLogger(EventoDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
 }
